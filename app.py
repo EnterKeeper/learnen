@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from configparser import ConfigParser
-from datetime import datetime, timedelta, timezone
 
 from flask import Flask, redirect, make_response
-from flask_jwt_extended import JWTManager, current_user, get_jwt, get_jwt_identity, create_access_token, set_access_cookies, unset_jwt_cookies
+from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
 
 from data import db_session
 from data import users_api
@@ -50,29 +49,29 @@ def app_errors_handler(error):
 
 
 @jwt.unauthorized_loader
-def unauthorized_callback(callback):
+def unauthorized_callback(*args):
     return redirect("/login")
 
 
 @jwt.invalid_token_loader
-def invalid_token_callback(callback):
+def invalid_token_callback(*args):
     response = make_response(redirect("/login"))
     unset_jwt_cookies(response)
     return response
 
 
-@app.after_request
-def refresh_expiring_jwts(response):
-    try:
-        exp_timestamp = get_jwt()["exp"]
-        now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
-        if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
-            set_access_cookies(response, access_token)
-        return response
-    except (RuntimeError, KeyError):
-        return response
+@jwt.expired_token_loader
+def expired_token_callback(*args):
+    response = make_response(redirect("/token/refresh"))
+    unset_access_cookies(response)
+    return response
+
+
+@jwt.user_lookup_error_loader
+def callback(*args):
+    response = make_response(redirect("/login"))
+    unset_jwt_cookies(response)
+    return response
 
 
 def main():

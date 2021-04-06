@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, redirect, make_response
-from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies
+from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
+    get_jwt_identity, create_access_token
 
-from tools.api_requests import api_post
-
-from forms.user import RegisterForm, LoginForm
 from data import api_errors
-
+from forms.user import RegisterForm, LoginForm
+from tools.api_requests import api_post
 
 blueprint = Blueprint(
     "users_blueprint",
@@ -42,10 +41,10 @@ def register():
 
             return render_template("register.html", title=title, form=form, message=message)
 
-        resp = redirect("/login")
+        resp = redirect("/")
         access_token, refresh_token = (response.json()[field] for field in ("access_token", "refresh_token"))
-        set_access_cookies(response, access_token)
-        set_refresh_cookies(response, refresh_token)
+        set_access_cookies(resp, access_token)
+        set_refresh_cookies(resp, refresh_token)
         return resp
 
     return render_template("register.html", title=title, form=form)
@@ -93,4 +92,14 @@ def login():
 def logout():
     resp = redirect("/")
     unset_jwt_cookies(resp)
+    return resp
+
+
+@blueprint.route("/token/refresh", methods=['GET'])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    resp = make_response(redirect("/"))
+    set_access_cookies(resp, access_token)
     return resp

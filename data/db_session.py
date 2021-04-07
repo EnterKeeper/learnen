@@ -17,11 +17,13 @@ def global_init(db_file):
     if not db_file or not db_file.strip():
         raise Exception("No database file specified.")
 
-    conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'
+    conn_str = f"sqlite:///{db_file.strip()}?check_same_thread=False"
     print(f"Connecting to the database at {conn_str}")
 
     engine = sa.create_engine(conn_str, echo=False)
     __factory = orm.sessionmaker(bind=engine)
+
+    from data import __all_models
 
     SqlAlchemyBase.metadata.create_all(engine)
 

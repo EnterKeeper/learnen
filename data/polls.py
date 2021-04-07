@@ -4,6 +4,7 @@ import sqlalchemy
 from sqlalchemy import orm
 
 from data.db_session import SqlAlchemyBase
+from data.users import User
 
 
 class Poll(SqlAlchemyBase):
@@ -12,11 +13,11 @@ class Poll(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, index=True, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    author = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    author = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id))
     completed = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
 
-    author_obj = orm.relation("User")
+    author_obj = orm.relation(User)
 
     def __repr__(self):
         return f"<Poll> {self.id} {self.title}"
@@ -32,4 +33,18 @@ class Option(SqlAlchemyBase):
     poll_obj = orm.relation(Poll)
 
     def __repr__(self):
-        return f"<Option> {self.id} {self.title}"
+        return f"<Option> {self.id} {self.title} ({self.poll_obj.title})"
+
+
+class Vote(SqlAlchemyBase):
+    __tablename__ = "votes"
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
+    user = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id))
+    option = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Option.id))
+
+    user_obj = orm.relation(User)
+    option_obj = orm.relation(Option)
+
+    def __repr__(self):
+        return f"<Vote> {self.id} {self.user_obj.username} {self.option_obj.title} ({self.option_obj.poll_obj.title})"

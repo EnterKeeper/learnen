@@ -9,7 +9,7 @@ from data import api_errors
 from data import db_session
 from data.users import User, generate_password
 from tools.response import make_success_message
-from tools.api_decorators import api_jwt_required
+from tools.api_decorators import user_required, moderator_required, admin_required
 
 blueprint = Blueprint(
     "users_resource",
@@ -35,7 +35,7 @@ def get_user_tokens(user_data):
 
 
 class UserResource(Resource):
-    @api_jwt_required()
+    @admin_required()
     def get(self, username):
         session = db_session.create_session()
         user = session.query(User).filter(User.username == username).first()
@@ -44,7 +44,7 @@ class UserResource(Resource):
         data = UserSchema().dump(user)
         return jsonify({"user": data})
 
-    @api_jwt_required()
+    @admin_required()
     def put(self, username):
         data = request.get_json()
         try:
@@ -68,7 +68,7 @@ class UserResource(Resource):
 
 
 class UsersListResource(Resource):
-    @api_jwt_required()
+    @admin_required()
     def get(self):
         session = db_session.create_session()
         users = session.query(User).all()
@@ -76,7 +76,7 @@ class UsersListResource(Resource):
             "users": UserSchema().dump(users, many=True)
         })
 
-    @api_jwt_required()
+    @admin_required()
     def post(self):
         data = request.get_json()
         try:

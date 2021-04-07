@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import sqlalchemy
 from sqlalchemy import orm
 
@@ -12,6 +14,7 @@ class Poll(SqlAlchemyBase):
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     author = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     completed = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
 
     author_obj = orm.relation("User")
 

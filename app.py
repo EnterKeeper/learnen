@@ -68,7 +68,7 @@ def expired_token_callback(*args):
 
 
 @jwt.user_lookup_error_loader
-def callback(*args):
+def user_lookup_callback(*args):
     response = make_response(redirect("/login"))
     unset_jwt_cookies(response)
     return response

@@ -19,9 +19,9 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = config["App"]["SecretKey"]
 app.config["JWT_SECRET_KEY"] = config["App"]["JWTSecretKey"]
 app.config["PROPAGATE_EXCEPTIONS"] = True
-app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
-app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-app.config['JWT_CSRF_CHECK_FORM'] = True
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True
+app.config["JWT_CSRF_CHECK_FORM"] = True
 
 jwt = JWTManager(app)
 

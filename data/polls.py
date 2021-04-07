@@ -13,7 +13,7 @@ class Poll(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, index=True, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    author = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id))
+    author = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
     completed = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
 
@@ -28,7 +28,7 @@ class Option(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    poll = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Poll.id))
+    poll = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Poll.id), nullable=False)
 
     poll_obj = orm.relation(Poll)
 
@@ -40,11 +40,26 @@ class Vote(SqlAlchemyBase):
     __tablename__ = "votes"
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
-    user = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id))
-    option = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Option.id))
+    user = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
+    option = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Option.id), nullable=False)
 
     user_obj = orm.relation(User)
     option_obj = orm.relation(Option)
 
     def __repr__(self):
         return f"<Vote> {self.id} {self.user_obj.username} {self.option_obj.title} ({self.option_obj.poll_obj.title})"
+
+
+class Comment(SqlAlchemyBase):
+    __tablename__ = "comments"
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
+    user = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
+    poll = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Poll.id), nullable=False)
+    text = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+
+    user_obj = orm.relation(User)
+    poll_obj = orm.relation(Poll)
+
+    def __repr__(self):
+        return f"<Comment> {self.id} {self.user_obj.username})"

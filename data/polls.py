@@ -18,6 +18,8 @@ class Poll(SqlAlchemyBase):
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
 
     author_obj = orm.relation(User)
+    options = orm.relation("Option", back_populates="poll_obj")
+    comments = orm.relation("Comment", back_populates="poll_obj")
 
     def __repr__(self):
         return f"<Poll> {self.id} {self.title}"
@@ -31,6 +33,7 @@ class Option(SqlAlchemyBase):
     poll = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Poll.id), nullable=False)
 
     poll_obj = orm.relation(Poll)
+    users = orm.relation(User, secondary="votes")
 
     def __repr__(self):
         return f"<Option> {self.id} {self.title} ({self.poll_obj.title})"

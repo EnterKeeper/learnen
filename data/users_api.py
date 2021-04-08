@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from sqlalchemy.exc import IntegrityError
 
 from data import api_errors
@@ -10,21 +9,13 @@ from data import db_session
 from data.users import User, generate_password
 from tools.response import make_success_message
 from tools.api_decorators import user_required, moderator_required, admin_required
+from schemas.users import UserSchema
 
 blueprint = Blueprint(
     "users_resource",
     __name__,
 )
 api = Api(blueprint)
-
-
-class UserSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-        exclude = ("hashed_password",)
-        load_only = ("password",)
-
-    password = auto_field("hashed_password")
 
 
 def get_user_tokens(user_data):

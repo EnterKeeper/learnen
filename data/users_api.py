@@ -57,6 +57,20 @@ class UserResource(Resource):
             raise api_errors.DatabaseError
         return make_success_message()
 
+    @admin_required()
+    def delete(self, username):
+        session = db_session.create_session()
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise api_errors.UserNotFoundError
+
+        session.delete(user)
+        try:
+            session.commit()
+        except IntegrityError as e:
+            raise api_errors.DatabaseError
+        return make_success_message()
+
 
 class UsersListResource(Resource):
     @admin_required()

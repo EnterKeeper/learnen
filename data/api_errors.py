@@ -69,6 +69,12 @@ class UserNotFoundError(AppError):
     message = "User not found."
 
 
+class PollNotFoundError(AppError):
+    status_code = 404
+    sub_code = 110
+    message = "Poll not found"
+
+
 class UserAlreadyExistsError(AppError):
     status_code = 404
     sub_code = 101

@@ -7,6 +7,7 @@ from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unse
 
 from data import db_session
 from data import users_api
+from data import polls_api
 from data.api_errors import AppError
 from data.users import User
 from views import default as default_blueprint
@@ -22,6 +23,7 @@ app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # CHANGE IN PROD
 app.config["JWT_CSRF_CHECK_FORM"] = False  # CHANGE IN PROD
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False  # DELETE IN PROD
 
 jwt = JWTManager(app)
 
@@ -83,6 +85,7 @@ def main():
 
     # API
     app.register_blueprint(users_api.blueprint)
+    app.register_blueprint(polls_api.blueprint)
 
     app.run()
 

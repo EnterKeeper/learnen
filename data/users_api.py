@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
-from sqlalchemy.exc import IntegrityError
 
 from data import api_errors
 from data import db_session
@@ -51,10 +50,7 @@ class UserResource(Resource):
         if "password" in data:
             data["hashed_password"] = generate_password(data.pop("password"))
         session.query(User).filter(User.username == username).update(data)
-        try:
-            session.commit()
-        except IntegrityError as e:
-            raise api_errors.DatabaseError
+        session.commit()
         return make_success_message()
 
     @admin_required()
@@ -65,10 +61,7 @@ class UserResource(Resource):
             raise api_errors.UserNotFoundError
 
         session.delete(user)
-        try:
-            session.commit()
-        except IntegrityError as e:
-            raise api_errors.DatabaseError
+        session.commit()
         return make_success_message()
 
 
@@ -99,10 +92,7 @@ class UsersListResource(Resource):
         user = User(**data)
         user.set_password(password)
         session.add(user)
-        try:
-            session.commit()
-        except IntegrityError as e:
-            raise api_errors.DatabaseError
+        session.commit()
 
         return make_success_message({"user": UserSchema().dump(user)})
 
@@ -125,10 +115,7 @@ class UserRegisterResource(Resource):
         user = User(**data)
         user.set_password(password)
         session.add(user)
-        try:
-            session.commit()
-        except IntegrityError as e:
-            raise api_errors.DatabaseError
+        session.commit()
 
         return jsonify(get_user_tokens(user.id))
 

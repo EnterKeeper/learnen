@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
-from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import get_jwt_identity, current_user
 
 from data import api_errors

@@ -3,13 +3,12 @@ from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
 from flask_jwt_extended import get_jwt_identity, current_user
 
-from data import api_errors
-from data import db_session
-from data.polls import Poll, Option
-from data.groups import ModeratorGroup
-from tools.response import make_success_message
-from tools.api_decorators import user_required
-from schemas.polls import PollSchema
+from ..data import db_session, api_errors
+from ..data.polls import Poll, Option
+from ..data.groups import ModeratorGroup
+from ..tools.response import make_success_message
+from ..tools.api_decorators import user_required
+from ..schemas.polls import PollSchema
 
 blueprint = Blueprint(
     "polls_resource",

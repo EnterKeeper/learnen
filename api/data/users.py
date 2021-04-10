@@ -3,7 +3,7 @@ from datetime import datetime
 import sqlalchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from data.db_session import SqlAlchemyBase
+from .db_session import SqlAlchemyBase
 
 
 def generate_password(password):

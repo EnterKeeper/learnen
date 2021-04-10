@@ -2,8 +2,8 @@ from functools import wraps
 
 from flask_jwt_extended import verify_jwt_in_request, get_current_user
 
-from data import api_errors
-from data.groups import ModeratorGroup, AdminGroup
+from ..data import api_errors
+from ..data.groups import ModeratorGroup, AdminGroup
 
 
 def user_required():

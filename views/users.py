@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, make_response
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
     get_jwt_identity, create_access_token
 
-from data import api_errors
+from api.data import api_errors
 from forms.user import RegisterForm, LoginForm
 from tools.api_requests import api_post
 

@@ -3,12 +3,11 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
 
-from data import api_errors
-from data import db_session
-from data.users import User, generate_password
-from tools.response import make_success_message
-from tools.api_decorators import user_required, moderator_required, admin_required
-from schemas.users import UserSchema
+from ..data import db_session, api_errors
+from ..data.users import User, generate_password
+from ..tools.response import make_success_message
+from ..tools.api_decorators import admin_required
+from ..schemas.users import UserSchema
 
 blueprint = Blueprint(
     "users_resource",

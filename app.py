@@ -4,13 +4,10 @@ from configparser import ConfigParser
 
 from flask import Flask, redirect, make_response
 from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
-from sqlalchemy.exc import IntegrityError
 
-from data import db_session
-from data import users_api
-from data import polls_api
-from data.api_errors import AppError, DatabaseError
-from data.users import User
+from api.data import db_session
+from api.handlers import polls, users, errors
+from api.data.users import User
 from views import default as default_blueprint
 from views import users as users_blueprint
 
@@ -44,16 +41,6 @@ def user_lookup_callback(_jwt_header, jwt_data):
     user_id = jwt_data["sub"]
     session = db_session.create_session()
     return session.query(User).get(user_id)
-
-
-@app.errorhandler(AppError)
-def app_errors_handler(error):
-    return error.create_response()
-
-
-@app.errorhandler(IntegrityError)
-def database_errors_handler(error):
-    return DatabaseError().create_response()
 
 
 @jwt.unauthorized_loader
@@ -90,8 +77,9 @@ def main():
     app.register_blueprint(users_blueprint.blueprint)
 
     # API
-    app.register_blueprint(users_api.blueprint)
-    app.register_blueprint(polls_api.blueprint)
+    app.register_blueprint(errors.blueprint)
+    app.register_blueprint(users.blueprint)
+    app.register_blueprint(polls.blueprint)
 
     app.run()
 

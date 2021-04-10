@@ -1,7 +1,7 @@
 from flask import jsonify
 
 
-class AppError(Exception):
+class ApiError(Exception):
     status_code = 500
     sub_code = 0
     message = "Error."
@@ -29,19 +29,19 @@ class AppError(Exception):
         return f"[{self.sub_code}] {self.__class__.__name__}: {self.message}"
 
 
-class UnknownError(AppError):
+class UnknownError(ApiError):
     status_code = 500
     sub_code = 1
     message = "Unknown error."
 
 
-class DatabaseError(AppError):
+class DatabaseError(ApiError):
     status_code = 500
     sub_code = 2
     message = "Database error."
 
 
-class InvalidRequestError(AppError):
+class InvalidRequestError(ApiError):
     status_code = 400
     sub_code = 3
     message = "Invalid request."
@@ -51,37 +51,37 @@ class InvalidRequestError(AppError):
         self.payload = {"fields": fields}
 
 
-class AccessDeniedError(AppError):
+class AccessDeniedError(ApiError):
     status_code = 403
     sub_code = 4
     message = "Access denied."
 
 
-class NoAuthError(AppError):
+class NoAuthError(ApiError):
     status_code = 401
     sub_code = 10
     message = "You are not authorized."
 
 
-class UserNotFoundError(AppError):
+class UserNotFoundError(ApiError):
     status_code = 404
     sub_code = 100
     message = "User not found."
 
 
-class PollNotFoundError(AppError):
+class PollNotFoundError(ApiError):
     status_code = 404
     sub_code = 110
     message = "Poll not found"
 
 
-class UserAlreadyExistsError(AppError):
+class UserAlreadyExistsError(ApiError):
     status_code = 404
     sub_code = 101
     message = "User already exists."
 
 
-class WrongCredentialsError(AppError):
+class WrongCredentialsError(ApiError):
     status_code = 404
     sub_code = 102
     message = "Wrong credentials."

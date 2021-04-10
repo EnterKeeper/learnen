@@ -3,8 +3,8 @@ from datetime import datetime
 import sqlalchemy
 from sqlalchemy import orm
 
-from data.db_session import SqlAlchemyBase
-from data.users import User
+from .db_session import SqlAlchemyBase
+from .users import User
 
 
 class Poll(SqlAlchemyBase):

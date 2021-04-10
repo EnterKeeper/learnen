@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, make_response
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
     get_jwt_identity, create_access_token
 
-from api.data import api_errors
+from api.tools import errors
 from forms.user import RegisterForm, LoginForm
 from tools.api_requests import api_post
 
@@ -29,12 +29,12 @@ def register():
             code = error["code"]
 
             message = ""
-            if api_errors.InvalidRequestError.sub_code_match(code):
+            if errors.InvalidRequestError.sub_code_match(code):
                 fields = error["fields"]
                 for field in fields:
                     if field in form:
                         form[field].errors += fields[field]
-            elif api_errors.UserAlreadyExistsError.sub_code_match(code):
+            elif errors.UserAlreadyExistsError.sub_code_match(code):
                 message = "User already exists."
             else:
                 message = "Internal error. Try again."
@@ -65,14 +65,14 @@ def login():
             code = error["code"]
 
             message = ""
-            if api_errors.InvalidRequestError.sub_code_match(code):
+            if errors.InvalidRequestError.sub_code_match(code):
                 fields = error["fields"]
                 for field in fields:
                     if field in form:
                         form[field].errors += fields[field]
-            elif api_errors.UserNotFoundError.sub_code_match(code):
+            elif errors.UserNotFoundError.sub_code_match(code):
                 message = "User not found."
-            elif api_errors.WrongCredentialsError.sub_code_match(code):
+            elif errors.WrongCredentialsError.sub_code_match(code):
                 message = "Wrong password."
             else:
                 message = "Internal error. Try again."

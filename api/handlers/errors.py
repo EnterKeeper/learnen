@@ -1,7 +1,7 @@
 from flask import Blueprint
 from sqlalchemy.exc import IntegrityError
 
-from ..data.api_errors import ApiError, DatabaseError
+from ..tools.errors import ApiError, DatabaseError
 
 blueprint = Blueprint(
     "api_errors",

@@ -3,11 +3,12 @@ from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
 from flask_jwt_extended import get_jwt_identity, current_user
 
-from ..data import db_session, api_errors
-from ..data.polls import Poll, Option
-from ..data.groups import ModeratorGroup
+from ..database import db_session
+from ..tools import errors
+from ..models.polls import Poll, Option
+from ..models.users import ModeratorGroup
 from ..tools.response import make_success_message
-from ..tools.api_decorators import user_required
+from ..tools.decorators import user_required
 from ..schemas.polls import PollSchema
 
 blueprint = Blueprint(
@@ -24,7 +25,7 @@ class PollResource(Resource):
 
         poll = session.query(Poll).get(poll_id)
         if not poll:
-            raise api_errors.PollNotFoundError
+            raise errors.PollNotFoundError
 
         data = PollSchema().dump(poll)
         return jsonify({"poll": data})
@@ -35,16 +36,16 @@ class PollResource(Resource):
         try:
             PollSchema(exclude=("options",)).load(data)
         except ValidationError as e:
-            raise api_errors.InvalidRequestError(e.messages)
+            raise errors.InvalidRequestError(e.messages)
 
         session = db_session.create_session()
         poll = session.query(Poll).get(poll_id)
         if not poll:
-            raise api_errors.PollNotFoundError
+            raise errors.PollNotFoundError
 
         user = current_user
         if poll.author_id != user.id and not ModeratorGroup.is_allowed(user.group):
-            raise api_errors.AccessDeniedError
+            raise errors.AccessDeniedError
 
         session.query(Poll).filter(Poll.id == user.id).update(data)
         session.commit()
@@ -56,11 +57,11 @@ class PollResource(Resource):
         session = db_session.create_session()
         poll = session.query(Poll).get(poll_id)
         if not poll:
-            raise api_errors.PollNotFoundError
+            raise errors.PollNotFoundError
 
         user = current_user
         if poll.author_id != user.id and not ModeratorGroup.is_allowed(user.group):
-            raise api_errors.AccessDeniedError
+            raise errors.AccessDeniedError
 
         session.delete(poll)
         session.commit()
@@ -83,7 +84,7 @@ class PollListResource(Resource):
         try:
             PollSchema().load(data)
         except ValidationError as e:
-            raise api_errors.InvalidRequestError(e.messages)
+            raise errors.InvalidRequestError(e.messages)
 
         session = db_session.create_session()
 

@@ -3,10 +3,11 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
 
-from ..data import db_session, api_errors
-from ..data.users import User, generate_password
+from ..database import db_session
+from ..tools import errors
+from ..models.users import User, generate_password
 from ..tools.response import make_success_message
-from ..tools.api_decorators import admin_required
+from ..tools.decorators import admin_required
 from ..schemas.users import UserSchema
 
 blueprint = Blueprint(
@@ -29,7 +30,7 @@ class UserResource(Resource):
         session = db_session.create_session()
         user = session.query(User).filter(User.username == username).first()
         if not user:
-            raise api_errors.UserNotFoundError
+            raise errors.UserNotFoundError
         data = UserSchema().dump(user)
         return jsonify({"user": data})
 
@@ -39,12 +40,12 @@ class UserResource(Resource):
         try:
             UserSchema(partial=True).load(data)
         except ValidationError as e:
-            raise api_errors.InvalidRequestError(e.messages)
+            raise errors.InvalidRequestError(e.messages)
 
         session = db_session.create_session()
         user = session.query(User).filter(User.username == username).first()
         if not user:
-            raise api_errors.UserNotFoundError
+            raise errors.UserNotFoundError
 
         if "password" in data:
             data["hashed_password"] = generate_password(data.pop("password"))
@@ -57,7 +58,7 @@ class UserResource(Resource):
         session = db_session.create_session()
         user = session.query(User).filter(User.username == username).first()
         if not user:
-            raise api_errors.UserNotFoundError
+            raise errors.UserNotFoundError
 
         session.delete(user)
         session.commit()
@@ -79,13 +80,13 @@ class UsersListResource(Resource):
         try:
             UserSchema().load(data)
         except ValidationError as e:
-            raise api_errors.InvalidRequestError(e.messages)
+            raise errors.InvalidRequestError(e.messages)
 
         session = db_session.create_session()
 
         result = session.query(User).filter((User.username == data["username"]) | (User.email == data["email"])).first()
         if result is not None:
-            raise api_errors.UserAlreadyExistsError
+            raise errors.UserAlreadyExistsError
 
         password = data.pop("password")
         user = User(**data)
@@ -102,13 +103,13 @@ class UserRegisterResource(Resource):
         try:
             UserSchema(only=("email", "username", "password")).load(data)
         except ValidationError as e:
-            raise api_errors.InvalidRequestError(e.messages)
+            raise errors.InvalidRequestError(e.messages)
 
         session = db_session.create_session()
 
         result = session.query(User).filter((User.username == data["username"]) | (User.email == data["email"])).first()
         if result is not None:
-            raise api_errors.UserAlreadyExistsError
+            raise errors.UserAlreadyExistsError
 
         password = data.pop("password")
         user = User(**data)
@@ -125,14 +126,14 @@ class UserLoginResource(Resource):
         try:
             UserSchema(only=("email", "password")).load(data)
         except ValidationError as e:
-            raise api_errors.InvalidRequestError(e.messages)
+            raise errors.InvalidRequestError(e.messages)
 
         session = db_session.create_session()
         user = session.query(User).filter(User.email == data["email"]).first()
         if not user:
-            raise api_errors.UserNotFoundError
+            raise errors.UserNotFoundError
         if not user.check_password(data["password"]):
-            raise api_errors.WrongCredentialsError
+            raise errors.WrongCredentialsError
 
         return jsonify(get_user_tokens(user.id))
 

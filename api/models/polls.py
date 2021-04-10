@@ -3,7 +3,7 @@ from datetime import datetime
 import sqlalchemy
 from sqlalchemy import orm
 
-from .db_session import SqlAlchemyBase
+from ..database.db_session import SqlAlchemyBase
 from .users import User
 
 

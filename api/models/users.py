@@ -3,7 +3,7 @@ from datetime import datetime
 import sqlalchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .db_session import SqlAlchemyBase
+from ..database.db_session import SqlAlchemyBase
 
 
 def generate_password(password):
@@ -28,3 +28,32 @@ class User(SqlAlchemyBase):
 
     def __repr__(self):
         return f"<User> {self.id} {self.username}"
+
+
+class UserGroup:
+    id = 0
+    title = "User"
+
+    @classmethod
+    def is_allowed(cls, user_group_id):
+        return user_group_id >= cls.id
+
+
+class ModeratorGroup(UserGroup):
+    id = 1
+    title = "Moderator"
+
+
+class AdminGroup(UserGroup):
+    id = 10
+    title = "Admin"
+
+
+groups = (UserGroup, ModeratorGroup, AdminGroup)
+
+
+def get_group(id=None, title=None):
+    for group in groups:
+        if group.id == id or group.title == title:
+            return group
+    return None

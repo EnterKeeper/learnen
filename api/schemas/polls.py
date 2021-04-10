@@ -1,7 +1,7 @@
 from marshmallow import validate
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field, fields
 
-from ..data.polls import Poll, Option, Comment
+from ..models.polls import Poll, Option, Comment
 from ..schemas.users import UserSchema
 
 

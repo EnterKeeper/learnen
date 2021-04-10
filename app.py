@@ -5,9 +5,9 @@ from configparser import ConfigParser
 from flask import Flask, redirect, make_response
 from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
 
-from api.data import db_session
+from api.database import db_session
 from api.handlers import polls, users, errors
-from api.data.users import User
+from api.models.users import User
 from views import default as default_blueprint
 from views import users as users_blueprint
 

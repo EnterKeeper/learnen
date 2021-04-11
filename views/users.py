@@ -103,3 +103,8 @@ def refresh():
     resp = make_response(redirect("/"))
     set_access_cookies(resp, access_token)
     return resp
+
+
+@blueprint.route("/user/<username>")
+def user_info(username):
+    pass

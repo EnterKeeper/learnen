@@ -43,7 +43,7 @@ class PollResource(Resource):
             raise errors.PollNotFoundError
 
         user = current_user
-        if poll.author_id != user.id and not ModeratorGroup.is_allowed(user.group):
+        if poll.author_id != user.id and not ModeratorGroup.is_belong(user.group):
             raise errors.AccessDeniedError
 
         session.query(Poll).filter(Poll.id == user.id).update(data)
@@ -59,7 +59,7 @@ class PollResource(Resource):
             raise errors.PollNotFoundError
 
         user = current_user
-        if poll.author_id != user.id and not ModeratorGroup.is_allowed(user.group):
+        if poll.author_id != user.id and not ModeratorGroup.is_belong(user.group):
             raise errors.AccessDeniedError
 
         session.delete(poll)

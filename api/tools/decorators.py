@@ -30,7 +30,7 @@ def moderator_required():
             except Exception:
                 raise errors.NoAuthError
             user = get_current_user()
-            if not ModeratorGroup.is_allowed(user.group):
+            if not ModeratorGroup.is_belong(user.group):
                 raise errors.AccessDeniedError
             return func(*args, **kwargs)
 
@@ -48,7 +48,7 @@ def admin_required():
             except Exception:
                 raise errors.NoAuthError
             user = get_current_user()
-            if not AdminGroup.is_allowed(user.group):
+            if not AdminGroup.is_belong(user.group):
                 raise errors.AccessDeniedError
             return func(*args, **kwargs)
 

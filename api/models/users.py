@@ -40,7 +40,7 @@ class UserGroup:
     title = "User"
 
     @classmethod
-    def is_allowed(cls, user_group_id):
+    def is_belong(cls, user_group_id):
         return user_group_id >= cls.id
 
 

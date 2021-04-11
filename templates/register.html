@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Registration</h2>
-    <form method="post" novalidate>
-        {{ form.hidden_tag() }}
-        {% if message %}
-            <div class="alert alert-danger mt-1" role="alert">
-                {{ message }}
-            </div>
-        {% endif %}
-        {% for field in form if field.name not in ("csrf_token", "submit") %}
-            <div class="">
-                {% set mark_field_class = "text-danger" if field.errors else "" %}
-                {{ field.label(class="form-label " + mark_field_class) }}
-                {{ field(class="form-control") }}
-            </div>
-        {% endfor %}
-        {{ form.submit(class="btn btn-primary") }}
-    </form>
+    <div class="card p-4 classic-form">
+        <h2 class="text-center">Sign up</h2>
+        <form method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {% if message %}
+                <div class="alert alert-danger mt-1" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            {% for field in form if field.name not in ("csrf_token", "submit") %}
+                <div>
+                    {% set mark_field_class = "text-danger" if field.errors else "" %}
+                    {{ field.label(class="form-label mb-1 " + mark_field_class) }}
+                    {{ field(class="form-control mb-2") }}
+                </div>
+            {% endfor %}
+            {{ form.submit(class="btn btn-primary mt-2") }}
+        </form>
+    </div>
 {% endblock %}

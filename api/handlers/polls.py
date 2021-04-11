@@ -100,5 +100,5 @@ class PollListResource(Resource):
         return make_success_message()
 
 
-api.add_resource(PollResource, "/api/polls/<int:poll_id>")
-api.add_resource(PollListResource, "/api/polls")
+api.add_resource(PollResource, "/polls/<int:poll_id>")
+api.add_resource(PollListResource, "/polls")

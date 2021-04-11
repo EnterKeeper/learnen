@@ -8,8 +8,9 @@ from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unse
 from api.database import db_session
 from api.handlers import polls, users, errors
 from api.models.users import User
-from views import default as default_blueprint
-from views import users as users_blueprint
+import views.base
+import views.users
+import views.polls
 
 config = ConfigParser()
 config.read("config.ini", encoding="utf-8")
@@ -73,13 +74,15 @@ def main():
     db_session.global_init("db/app.db")
 
     # Blueprints
-    app.register_blueprint(default_blueprint.blueprint)
-    app.register_blueprint(users_blueprint.blueprint)
+    app.register_blueprint(views.base.blueprint)
+    app.register_blueprint(views.users.blueprint)
+    app.register_blueprint(views.polls.blueprint)
 
     # API
+    api_url_prefix = "/api"
     app.register_blueprint(errors.blueprint)
-    app.register_blueprint(users.blueprint)
-    app.register_blueprint(polls.blueprint)
+    app.register_blueprint(users.blueprint, url_prefix=api_url_prefix)
+    app.register_blueprint(polls.blueprint, url_prefix=api_url_prefix)
 
     app.run()
 

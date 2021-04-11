@@ -138,7 +138,7 @@ class UserLoginResource(Resource):
         return jsonify(get_user_tokens(user.id))
 
 
-api.add_resource(UserResource, "/api/users/<username>")
-api.add_resource(UsersListResource, "/api/users")
-api.add_resource(UserRegisterResource, "/api/register")
-api.add_resource(UserLoginResource, "/api/login")
+api.add_resource(UserResource, "/users/<username>")
+api.add_resource(UsersListResource, "/users")
+api.add_resource(UserRegisterResource, "/register")
+api.add_resource(UserLoginResource, "/login")

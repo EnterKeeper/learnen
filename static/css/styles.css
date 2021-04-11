@@ -11,6 +11,18 @@ body {
 }
 
 
+.classic-form {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.classic-form .alert {
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+
 .user-avatar {
     max-width: 150px;
 }

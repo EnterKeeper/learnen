@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if not user %}
+        ...
+    {% else %}
+        <img src="{{ url_for("static", filename="avatars/" + user["avatar_filename"]) }}" alt="User avatar">
+    {% endif %}
+{% endblock %}

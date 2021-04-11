@@ -4,7 +4,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 
 from api.tools import errors
 from forms.user import RegisterForm, LoginForm
-from tools.api_requests import ApiPost
+from tools.api_requests import ApiPost, ApiGet
 
 blueprint = Blueprint(
     "users",
@@ -107,4 +107,5 @@ def refresh():
 
 @blueprint.route("/user/<username>")
 def user_info(username):
-    pass
+    data = ApiGet.make_request("users", username).json()
+    return render_template("user_info.html", user=data.get("user"))

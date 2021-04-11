@@ -19,7 +19,6 @@ api = Api(blueprint)
 
 
 class PollResource(Resource):
-    @user_required()
     def get(self, poll_id):
         session = db_session.create_session()
 
@@ -70,7 +69,6 @@ class PollResource(Resource):
 
 
 class PollListResource(Resource):
-    @user_required()
     def get(self):
         session = db_session.create_session()
         polls = session.query(Poll).all()

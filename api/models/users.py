@@ -18,6 +18,7 @@ class User(SqlAlchemyBase):
     username = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=False)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
+    bio = sqlalchemy.Column(sqlalchemy.String)
     group = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=0)
     avatar_filename = sqlalchemy.Column(sqlalchemy.String, default="default.png")
 

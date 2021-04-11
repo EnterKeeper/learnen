@@ -25,13 +25,12 @@ def get_user_tokens(user_data):
 
 
 class UserResource(Resource):
-    @admin_required()
     def get(self, username):
         session = db_session.create_session()
         user = session.query(User).filter(User.username == username).first()
         if not user:
             raise errors.UserNotFoundError
-        data = UserSchema().dump(user)
+        data = UserSchema(exclude=["email"]).dump(user)
         return jsonify({"user": data})
 
     @admin_required()

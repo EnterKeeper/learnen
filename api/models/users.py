@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import sqlalchemy
+from sqlalchemy import orm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from ..database.db_session import SqlAlchemyBase
@@ -21,6 +22,8 @@ class User(SqlAlchemyBase):
     bio = sqlalchemy.Column(sqlalchemy.String)
     group = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=0)
     avatar_filename = sqlalchemy.Column(sqlalchemy.String, default="default.png")
+
+    polls = orm.relation("Poll", back_populates="author", passive_deletes=True)
 
     def set_password(self, password):
         self.hashed_password = generate_password(password)

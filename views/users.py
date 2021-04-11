@@ -106,6 +106,7 @@ def refresh():
 
 
 @blueprint.route("/user/<username>")
+@jwt_required(optional=True)
 def user_info(username):
     data = ApiGet.make_request("users", username).json()
     return render_template("user_info.html", user=data.get("user"))

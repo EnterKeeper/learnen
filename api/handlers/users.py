@@ -116,7 +116,7 @@ class UserRegisterResource(Resource):
         session.add(user)
         session.commit()
 
-        return jsonify(get_user_tokens(user.id))
+        return make_success_message()
 
 
 class UserLoginResource(Resource):

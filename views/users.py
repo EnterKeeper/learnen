@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, make_response
+from flask import Blueprint, render_template, redirect, make_response, url_for
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
     get_jwt_identity, create_access_token
 
@@ -15,7 +15,7 @@ blueprint = Blueprint(
 @blueprint.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    title = "Register"
+    title = "Sign up"
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template("register.html", title=title, form=form, message="Passwords dont match")
@@ -41,11 +41,7 @@ def register():
 
             return render_template("register.html", title=title, form=form, message=message)
 
-        resp = redirect("/")
-        access_token, refresh_token = (response.json()[field] for field in ("access_token", "refresh_token"))
-        set_access_cookies(resp, access_token)
-        set_refresh_cookies(resp, refresh_token)
-        return resp
+        return redirect(url_for("users.login"))
 
     return render_template("register.html", title=title, form=form)
 

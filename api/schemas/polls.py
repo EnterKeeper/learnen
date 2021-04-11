@@ -23,7 +23,8 @@ class CommentSchema(SQLAlchemyAutoSchema):
 class PollSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Poll
-        dump_only = ("id", "author_id", "completed", "created_at", "comments")
+        dump_only = ("id", "author_id", "completed", "created_at", "comments", "author")
 
+    author = fields.Nested(UserSchema, exclude=("email",))
     options = fields.Nested(OptionSchema, many=True, required=True, validate=validate.Length(min=1))
     comments = fields.Nested(CommentSchema, many=True)

@@ -4,10 +4,10 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 
 from api.tools import errors
 from forms.user import RegisterForm, LoginForm
-from tools.api_requests import api_post
+from tools.api_requests import ApiPost
 
 blueprint = Blueprint(
-    "users_blueprint",
+    "users",
     __name__,
 )
 
@@ -22,7 +22,7 @@ def register():
         user_data = form.data.copy()
         for field in ("password_again", "submit", "csrf_token"):
             user_data.pop(field)
-        response = api_post("register", json=user_data)
+        response = ApiPost.make_request("register", json=user_data)
 
         if response.status_code != 200:
             error = response.json()["error"]
@@ -58,7 +58,7 @@ def login():
         user_data = form.data.copy()
         for field in ("submit", "csrf_token"):
             user_data.pop(field)
-        response = api_post("login", json=user_data)
+        response = ApiPost.make_request("login", json=user_data)
 
         if response.status_code != 200:
             error = response.json()["error"]

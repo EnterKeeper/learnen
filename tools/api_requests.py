@@ -2,24 +2,26 @@ from flask import request
 from requests import get, post, put, delete
 
 
-def get_api_url(url_parts):
-    url = request.url_root + "api"
-    for part in url_parts:
-        url += "/" + str(part)
-    return url
+class ApiRequest:
+    request_function = None
+
+    @classmethod
+    def make_request(cls, url_parts, **kwargs):
+        url = request.url_root + "api/" + "/".join(map(str, url_parts))
+        return cls.request_function(url, **kwargs)
 
 
-def api_get(*url_parts, json=None):
-    return get(get_api_url(url_parts), json=json)
+class ApiGet(ApiRequest):
+    request_function = get
 
 
-def api_post(*url_parts, json=None):
-    return post(get_api_url(url_parts), json=json)
+class ApiPost(ApiRequest):
+    request_function = post
 
 
-def api_put(*url_parts, json=None):
-    return put(get_api_url(url_parts), json=json)
+class ApiPut(ApiRequest):
+    request_function = put
 
 
-def api_delete(*url_parts, json=None):
-    return delete(get_api_url(url_parts), json=json)
+class ApiDelete(ApiRequest):
+    request_function = delete

@@ -108,5 +108,12 @@ def refresh():
 @blueprint.route("/user/<username>")
 @jwt_required(optional=True)
 def user_info(username):
-    data = ApiGet.make_request("users", username).json()
-    return render_template("user_info.html", user=data.get("user"))
+    data = ApiGet.make_request("users", username).json().get("user")
+    return render_template("user_info.html", title=f"User information", user=data)
+
+
+@blueprint.route("/user/<username>/edit_profile")
+@jwt_required()
+def edit_user_profile(username):
+    pass
+

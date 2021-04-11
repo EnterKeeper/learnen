@@ -7,7 +7,7 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/styles.css") }}">
     <title>{{ title }}</title>
 </head>
 <body>
@@ -15,21 +15,32 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
 {% if not hide_base %}
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">QuickPolls</a>
+    <nav class="navbar mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="/">QuickPolls</a>
             <div class="d-flex">
                 {% if current_user %}
-                    <a class="navbar-brand" href="{{ url_for("users.logout") }}">{{ current_user.username }}</a>
+                    <div class="dropdown nav-item">
+                        <button class="btn dropdown-toggle user-dropdown-button" id="user-dropdown" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            {{ current_user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
+                            <li><a class="dropdown-item"
+                                   href="{{ url_for("users.user_info", username=current_user["username"]) }}">My
+                                profile</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for("users.logout") }}">Log out</a></li>
+                        </ul>
+                    </div>
                 {% else %}
-                    <a class="btn btn-link" href="{{ url_for("users.login") }}">Log in</a>
-                    <a class="btn btn-outline-dark" href="{{ url_for("users.register") }}">Sign up</a>
+                    <a class="btn btn-secondary" href="{{ url_for("users.login") }}">Log in</a>
+                    <a class="btn btn-outline-light" href="{{ url_for("users.register") }}">Sign up</a>
                 {% endif %}
             </div>
         </div>
     </nav>
 {% endif %}
-<div class="content">
+<div class="content container">
     {% block content %}{% endblock %}
 </div>
 </body>

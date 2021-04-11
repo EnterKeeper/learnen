@@ -1,0 +1,20 @@
+body {
+    background-color: lightgray;
+}
+
+.navbar {
+    background-color: #1e9a59;
+}
+
+.navbar-brand, .navbar-brand:hover, .user-dropdown-button, .user-dropdown-button:hover {
+    color: white;
+}
+
+
+.user-avatar {
+    max-width: 150px;
+}
+
+.poll-status {
+    font-size: 12px;
+}

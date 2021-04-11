@@ -8,7 +8,7 @@ from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unse
 from api.database import db_session
 from api.handlers import polls, users, errors
 from api.models.users import User
-import views.base
+import views.index
 import views.users
 import views.polls
 
@@ -74,7 +74,7 @@ def main():
     db_session.global_init("db/app.db")
 
     # Blueprints
-    app.register_blueprint(views.base.blueprint)
+    app.register_blueprint(views.index.blueprint)
     app.register_blueprint(views.users.blueprint)
     app.register_blueprint(views.polls.blueprint)
 

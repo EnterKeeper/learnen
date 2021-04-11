@@ -19,6 +19,7 @@ class User(SqlAlchemyBase):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
     group = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=0)
+    avatar_filename = sqlalchemy.Column(sqlalchemy.String, default="default.png")
 
     def set_password(self, password):
         self.hashed_password = generate_password(password)

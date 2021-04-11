@@ -17,14 +17,13 @@
 {% if not hide_base %}
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">LearnEN</a>
+            <a class="navbar-brand" href="#">QuickPolls</a>
             <div class="d-flex">
-                {{ curent_user }}
                 {% if current_user %}
-                    <a class="navbar-brand" href="/logout">{{ current_user.username }}</a>
+                    <a class="navbar-brand" href="{{ url_for("users.logout") }}">{{ current_user.username }}</a>
                 {% else %}
-                    <a class="btn btn-link" href="/login">Log in</a>
-                    <a class="btn btn-outline-dark" href="/register">Sign up</a>
+                    <a class="btn btn-link" href="{{ url_for("users.login") }}">Log in</a>
+                    <a class="btn btn-outline-dark" href="{{ url_for("users.register") }}">Sign up</a>
                 {% endif %}
             </div>
         </div>

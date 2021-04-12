@@ -3,8 +3,10 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
     get_jwt_identity, create_access_token, current_user
 
 from api.tools import errors
-from forms.user import RegisterForm, LoginForm
-from tools.api_requests import ApiPost, ApiGet
+from api.models.users import ModeratorGroup
+from forms.user import RegisterForm, LoginForm, UserProfileForm
+from tools.api_requests import ApiGet, ApiPost, ApiPut
+from tools.images import save_image
 
 blueprint = Blueprint(
     "users",
@@ -116,8 +118,49 @@ def user_info(username):
     return render_template("user_info.html", title=f"User information", user=data)
 
 
-@blueprint.route("/user/<username>/edit_profile")
+@blueprint.route("/user/<username>/edit_profile", methods=['GET', 'POST'])
 @jwt_required()
 def edit_user_profile(username):
-    pass
+    if current_user.username != username and not ModeratorGroup.is_belong(current_user.group):
+        return redirect(url_for("users.edit_user_profile", username=current_user.username))
 
+    title = "Edit profile"
+
+    form = UserProfileForm()
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token", "avatar"):
+            form_data.pop(field)
+
+        if form.avatar.data:
+            form_data["avatar_filename"] = save_image(form.avatar.data)
+
+        response = ApiPut.make_request("users", username, "profile", json=form_data)
+        if response.status_code != 200:
+            error = response.json()["error"]
+            code = error["code"]
+
+            message = ""
+            if errors.InvalidRequestError.sub_code_match(code):
+                fields = error["fields"]
+                for field in fields:
+                    if field in form:
+                        form[field].errors += fields[field]
+            elif errors.UserNotFoundError.sub_code_match(code):
+                message = "User not found"
+            else:
+                message = "Internal error. Try again."
+
+            return render_template("user_profile_edit.html", title=title, form=form, message=message)
+
+        return redirect(url_for("users.edit_user_profile", username=form.username.data))
+
+    user_data = ApiGet.make_request("users", username).json()
+    if "user" not in user_data:
+        return redirect("/")
+    user_data = user_data["user"]
+    form.username.data = user_data["username"]
+    if user_data["bio"]:
+        form.bio.data = user_data["bio"]
+
+    return render_template("user_profile_edit.html", title=title, form=form)

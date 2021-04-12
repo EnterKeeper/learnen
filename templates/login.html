@@ -11,10 +11,10 @@
                 </div>
             {% endif %}
             {% for field in form if field.name not in ("csrf_token", "submit") %}
-                <div>
+                <div class="form-field mb-2">
                     {% set mark_field_class = "text-danger" if field.errors else "" %}
                     {{ field.label(class="form-label mb-1 " + mark_field_class) }}
-                    {{ field(class="form-control mb-2") }}
+                    {{ field(class="form-control") }}
                 </div>
             {% endfor %}
             {{ form.submit(class="btn btn-primary mt-2") }}

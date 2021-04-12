@@ -25,6 +25,10 @@ class User(SqlAlchemyBase):
 
     polls = orm.relation("Poll", back_populates="author", passive_deletes=True)
 
+    min_username_length = 4
+    max_username_length = 20
+    max_bio_length = 200
+
     def set_password(self, password):
         self.hashed_password = generate_password(password)
 

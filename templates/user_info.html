@@ -17,7 +17,7 @@
                         {% endif %}
                     </div>
                     {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
-                        <a class="btn btn-primary mt-2" href="{{ url_for("users.edit_user_profile", username=user["username"]) }}">Edit profile</a>
+                        <a class="btn btn-primary mt-2" href="{{ url_for("users.profile_settings", username=user["username"]) }}">Edit profile</a>
                     {% endif %}
                 </div>
             </div>

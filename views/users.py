@@ -118,11 +118,11 @@ def user_info(username):
     return render_template("user_info.html", title=f"User information", user=data)
 
 
-@blueprint.route("/user/<username>/edit_profile", methods=['GET', 'POST'])
+@blueprint.route("/user/<username>/profile_settings", methods=['GET', 'POST'])
 @jwt_required()
-def edit_user_profile(username):
+def profile_settings(username):
     if current_user.username != username and not ModeratorGroup.is_belong(current_user.group):
-        return redirect(url_for("users.edit_user_profile", username=current_user.username))
+        return redirect(url_for("users.profile_settings", username=current_user.username))
 
     title = "Edit profile"
 
@@ -156,7 +156,7 @@ def edit_user_profile(username):
 
             return render_template("user_profile_edit.html", title=title, message=message, **template_vars)
 
-        return redirect(url_for("users.edit_user_profile", username=form.username.data))
+        return redirect(url_for("users.profile_settings", username=form.username.data))
 
     user_data = ApiGet.make_request("users", username).json()
     if "user" not in user_data:

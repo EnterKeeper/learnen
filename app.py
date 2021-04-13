@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from configparser import ConfigParser
+import os
 
-from flask import Flask, redirect, make_response
+from flask import Flask, redirect, make_response, url_for
 from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
 
 from api.database import db_session
 from api.handlers import polls, users, errors
 from api.models.users import User, groups
+from tools.users import get_avatar
 import views.index
 import views.users
 import views.polls
@@ -31,6 +33,16 @@ jwt = JWTManager(app)
 def inject_current_user():
     groups_dict = {group.title: group for group in groups}
     return dict(current_user=current_user, groups=groups_dict)
+
+
+@app.template_filter("get_avatar")
+def get_avatar(filename):
+    path = url_for("static", filename="avatars")
+    extension = ".png"
+    files = os.listdir(path[1:])
+    if type(filename) is not str or filename + extension not in files:
+        filename = "default"
+    return path + "/" + filename + extension
 
 
 @jwt.user_identity_loader

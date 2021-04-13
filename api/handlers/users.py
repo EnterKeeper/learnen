@@ -113,7 +113,7 @@ class UserProfileResource(Resource):
         if not user:
             raise errors.UserNotFoundError
 
-        if not data.get("avatar_filename", None):
+        if "avatar_filename" in data and not data.get("avatar_filename", None):
             data.pop("avatar_filename")
 
         session.query(User).filter(User.username == username).update(data)

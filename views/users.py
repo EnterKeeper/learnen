@@ -133,7 +133,9 @@ def edit_user_profile(username):
             form_data.pop(field)
 
         if form.avatar.data:
-            form_data["avatar_filename"] = save_image(form.avatar.data)
+            user_data = ApiGet.make_request("users", username).json()
+            last_avatar_filename = user_data.get("user", dict()).get("avatar_filename", None)
+            form_data["avatar_filename"] = save_image(form.avatar.data, remove=last_avatar_filename)
 
         response = ApiPut.make_request("users", username, "profile", json=form_data)
         if response.status_code != 200:

@@ -1,5 +1,8 @@
 import secrets
+import os
 from PIL import Image
+
+from flask import url_for
 
 
 def get_square(image):
@@ -27,9 +30,10 @@ def remove_transparency(image, bg_color=(255, 255, 255)):
         return image
 
 
-def save_image(image_data, folder="/avatars", size=(150, 150), ext="png", bg_color=(255, 255, 255)):
+def save_image(image_data, folder="avatars", size=(150, 150), ext="png", bg_color=(255, 255, 255), remove=None):
+    images_folder = url_for("static", filename=folder)[1:]
     image_filename = secrets.token_hex(16)
-    image_path = "static" + folder + "/" + image_filename + "." + ext
+    image_path = images_folder + "/" + image_filename + "." + ext
 
     image = Image.open(image_data)
     image = get_square(image)
@@ -37,5 +41,8 @@ def save_image(image_data, folder="/avatars", size=(150, 150), ext="png", bg_col
     if bg_color:
         image = remove_transparency(image, bg_color)
     image.save(image_path, ext)
+
+    if type(remove) is str and remove + "." + ext in os.listdir(images_folder):
+        os.remove(images_folder + "/" + remove + "." + ext)
 
     return image_filename

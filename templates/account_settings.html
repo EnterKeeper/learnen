@@ -9,14 +9,14 @@
                     <a class="nav-link disabled" href="#">Account settings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ profile_tab }}" href="#">Profile</a>
+                    <a class="nav-link {{ profile_tab }}" href="{{ url_for("users.profile_settings", username=username) }}">Profile</a>
                 </li>
                 {% if current_user.username == username %}
                 <li class="nav-item">
-                    <a class="nav-link {{ email_tab }}" href="#">Email</a>
+                    <a class="nav-link {{ email_tab }}" href="{{ url_for("users.email_settings", username=username) }}">Email</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ security_tab }}" href="#">Security</a>
+                    <a class="nav-link {{ security_tab }}" href="{{ url_for("users.security_settings", username=username) }}">Security</a>
                 </li>
                 {% endif %}
             </ul>

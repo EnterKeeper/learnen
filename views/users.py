@@ -167,3 +167,15 @@ def profile_settings(username):
         form.bio.data = user_data["bio"]
 
     return render_template("user_profile_edit.html", title=title, **template_vars)
+
+
+@blueprint.route("/user/<username>/email_settings", methods=['GET', 'POST'])
+@jwt_required()
+def email_settings(username):
+    pass
+
+
+@blueprint.route("/user/<username>/security_settings", methods=['GET', 'POST'])
+@jwt_required()
+def security_settings(username):
+    pass

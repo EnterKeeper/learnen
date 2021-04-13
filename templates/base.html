@@ -25,6 +25,7 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
                             {{ current_user.username }}
+                            <img class="navbar-user-avatar rounded-circle" src="{{ current_user.avatar_filename | get_avatar }}">
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
                             <li><a class="dropdown-item"

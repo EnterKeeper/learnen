@@ -23,6 +23,11 @@ body {
 }
 
 
+.navbar-user-avatar {
+    width: 30px;
+}
+
+
 .user-avatar {
     max-width: 150px;
 }

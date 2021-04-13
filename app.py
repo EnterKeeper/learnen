@@ -9,7 +9,6 @@ from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unse
 from api.database import db_session
 from api.handlers import polls, users, errors
 from api.models.users import User, groups
-from tools.users import get_avatar
 import views.index
 import views.users
 import views.polls

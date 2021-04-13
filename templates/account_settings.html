@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="settings-tabs card">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Account settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ profile_tab }}" href="#">Profile</a>
+                </li>
+                {% if current_user.username == username %}
+                <li class="nav-item">
+                    <a class="nav-link {{ email_tab }}" href="#">Email</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ security_tab }}" href="#">Security</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-9">
+        {% block tab %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

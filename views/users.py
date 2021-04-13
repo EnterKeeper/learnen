@@ -127,6 +127,7 @@ def edit_user_profile(username):
     title = "Edit profile"
 
     form = UserProfileForm()
+    template_vars = dict(form=form, profile_tab="active", username=username)
     if form.validate_on_submit():
         form_data = form.data.copy()
         for field in ("submit", "csrf_token", "avatar"):
@@ -153,7 +154,7 @@ def edit_user_profile(username):
             else:
                 message = "Internal error. Try again."
 
-            return render_template("user_profile_edit.html", title=title, form=form, message=message)
+            return render_template("user_profile_edit.html", title=title, message=message, **template_vars)
 
         return redirect(url_for("users.edit_user_profile", username=form.username.data))
 
@@ -165,4 +166,4 @@ def edit_user_profile(username):
     if user_data["bio"]:
         form.bio.data = user_data["bio"]
 
-    return render_template("user_profile_edit.html", title=title, form=form)
+    return render_template("user_profile_edit.html", title=title, **template_vars)

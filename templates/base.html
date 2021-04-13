@@ -29,8 +29,9 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
                             <li><a class="dropdown-item"
-                                   href="{{ url_for("users.user_info", username=current_user["username"]) }}">My
-                                profile</a></li>
+                                   href="{{ url_for("users.user_info", username=current_user["username"]) }}">My profile</a></li>
+                            <li><a class="dropdown-item"
+                                   href="{{ url_for("users.edit_user_profile", username=current_user["username"]) }}">Account settings</a></li>
                             <li><a class="dropdown-item" href="{{ url_for("users.logout") }}">Log out</a></li>
                         </ul>
                     </div>

@@ -38,3 +38,10 @@ class UserProfileForm(FlaskForm):
 class UserEmailForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
     submit = SubmitField("Update")
+
+
+class UserChangePasswordForm(FlaskForm):
+    old_password = PasswordField("Old password", validators=[DataRequired()])
+    new_password = PasswordField("New password", validators=[DataRequired()])
+    new_password_again = PasswordField("Repeat new password", validators=[DataRequired(), EqualTo("new_password")])
+    submit = SubmitField("Update")

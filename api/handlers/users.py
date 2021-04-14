@@ -8,7 +8,7 @@ from ..tools import errors
 from ..models.users import User, generate_password, ModeratorGroup
 from ..tools.response import make_success_message
 from ..tools.decorators import user_required, admin_required, guest_required
-from ..schemas.users import UserSchema
+from ..schemas.users import UserSchema, UserChangePasswordSchema
 
 blueprint = Blueprint(
     "users_resource",
@@ -109,7 +109,7 @@ class UserProfileResource(Resource):
 
         data = request.get_json()
         try:
-            UserSchema(only=("username", "bio", "avatar_filename"))
+            UserSchema(only=("username", "bio", "avatar_filename")).load(data)
         except ValidationError as e:
             raise errors.InvalidRequestError(e.messages)
 
@@ -134,7 +134,7 @@ class UserEmailResource(Resource):
 
         data = request.get_json()
         try:
-            UserSchema(only=("email",))
+            UserSchema(only=("email",)).load(data)
         except ValidationError as e:
             raise errors.InvalidRequestError(e.messages)
 
@@ -144,6 +144,32 @@ class UserEmailResource(Resource):
             raise errors.UserNotFoundError
 
         session.query(User).filter(User.username == username).update(data)
+        session.commit()
+        return make_success_message()
+
+
+class UserChangePasswordResource(Resource):
+    @user_required()
+    def put(self, username):
+        if current_user.username != username:
+            raise errors.AccessDeniedError
+
+        data = request.get_json()
+        try:
+            UserChangePasswordSchema().load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        if not user.check_password(data["old_password"]):
+            raise errors.WrongOldPassword
+
+        user.set_password(data["new_password"])
+
         session.commit()
         return make_success_message()
 
@@ -193,5 +219,6 @@ api.add_resource(UserResource, "/users/<username>")
 api.add_resource(UsersListResource, "/users")
 api.add_resource(UserProfileResource, "/users/<username>/profile")
 api.add_resource(UserEmailResource, "/users/<username>/email")
+api.add_resource(UserChangePasswordResource, "/users/<username>/change_password")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

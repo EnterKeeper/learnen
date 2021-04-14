@@ -4,7 +4,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 
 from api.tools import errors
 from api.models.users import ModeratorGroup
-from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm
+from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut
 from tools.images import save_image
 
@@ -216,4 +216,38 @@ def email_settings(username):
 @blueprint.route("/user/<username>/security_settings", methods=['GET', 'POST'])
 @jwt_required()
 def security_settings(username):
-    pass
+    if current_user.username != username:
+        return redirect(url_for("users.security_settings", username=current_user.username))
+
+    title = "Security settings"
+
+    form = UserChangePasswordForm()
+    template_vars = dict(form=form, security_tab="active", username=username)
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token", "new_password_again"):
+            form_data.pop(field)
+
+        response = ApiPut.make_request("users", username, "change_password", json=form_data)
+        if response.status_code != 200:
+            error = response.json()["error"]
+            code = error["code"]
+
+            message = ""
+            if errors.InvalidRequestError.sub_code_match(code):
+                fields = error["fields"]
+                for field in fields:
+                    if field in form:
+                        form[field].errors += fields[field]
+            elif errors.UserNotFoundError.sub_code_match(code):
+                message = "User not found"
+            elif errors.WrongOldPassword.sub_code_match(code):
+                message = "Old password is wrong."
+            else:
+                message = "Internal error. Try again."
+
+            return render_template("user_security_edit.html", title=title, message=message, **template_vars)
+
+        return redirect(url_for("users.security_settings", username=username))
+
+    return render_template("user_security_edit.html", title=title, **template_vars)

@@ -69,12 +69,6 @@ class UserNotFoundError(ApiError):
     message = "User not found."
 
 
-class PollNotFoundError(ApiError):
-    status_code = 404
-    sub_code = 110
-    message = "Poll not found"
-
-
 class UserAlreadyExistsError(ApiError):
     status_code = 404
     sub_code = 101
@@ -85,3 +79,15 @@ class WrongCredentialsError(ApiError):
     status_code = 404
     sub_code = 102
     message = "Wrong credentials."
+
+
+class WrongOldPassword(ApiError):
+    status_code = 404
+    sub_code = 103
+    message = "Old password is wrong."
+
+
+class PollNotFoundError(ApiError):
+    status_code = 404
+    sub_code = 110
+    message = "Poll not found"

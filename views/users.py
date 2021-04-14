@@ -210,7 +210,7 @@ def email_settings(username):
     email = user_data["user"]["email"]
     form.email.data = email
 
-    return render_template("user_profile_edit.html", title=title, **template_vars)
+    return render_template("user_email_edit.html", title=title, **template_vars)
 
 
 @blueprint.route("/user/<username>/security_settings", methods=['GET', 'POST'])

@@ -91,6 +91,7 @@ def login():
 def logout():
     resp = redirect("/")
     unset_jwt_cookies(resp)
+    flash("You have been logged out.", "warning")
     return resp
 
 

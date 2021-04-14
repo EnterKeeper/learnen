@@ -33,3 +33,8 @@ class UserProfileForm(FlaskForm):
     bio = StringField("Bio", validators=[Length(max=User.max_bio_length)],
                       description=f"Length must be no more than {User.max_bio_length}")
     submit = SubmitField("Update")
+
+
+class UserEmailForm(FlaskForm):
+    email = EmailField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Update")

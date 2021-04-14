@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token, create_refresh_token, current_user
+from flask_jwt_extended import create_access_token, create_refresh_token, current_user, jwt_required
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
 
@@ -7,7 +7,7 @@ from ..database import db_session
 from ..tools import errors
 from ..models.users import User, generate_password, ModeratorGroup
 from ..tools.response import make_success_message
-from ..tools.decorators import user_required, admin_required
+from ..tools.decorators import user_required, admin_required, guest_required
 from ..schemas.users import UserSchema
 
 blueprint = Blueprint(
@@ -25,12 +25,17 @@ def get_user_tokens(user_data):
 
 
 class UserResource(Resource):
+    @guest_required()
     def get(self, username):
+        exclude = ["email"]
+        if current_user and (current_user.username == username or ModeratorGroup.is_belong(current_user.group)):
+            exclude = []
+
         session = db_session.create_session()
         user = session.query(User).filter(User.username == username).first()
         if not user:
             raise errors.UserNotFoundError
-        data = UserSchema(exclude=["email"]).dump(user)
+        data = UserSchema(exclude=exclude).dump(user)
         return jsonify({"user": data})
 
     @admin_required()
@@ -121,6 +126,28 @@ class UserProfileResource(Resource):
         return make_success_message()
 
 
+class UserEmailResource(Resource):
+    @user_required()
+    def put(self, username):
+        if current_user.username != username:
+            raise errors.AccessDeniedError
+
+        data = request.get_json()
+        try:
+            UserSchema(only=("email",))
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        session.query(User).filter(User.username == username).update(data)
+        session.commit()
+        return make_success_message()
+
+
 class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
@@ -165,5 +192,6 @@ class UserLoginResource(Resource):
 api.add_resource(UserResource, "/users/<username>")
 api.add_resource(UsersListResource, "/users")
 api.add_resource(UserProfileResource, "/users/<username>/profile")
+api.add_resource(UserEmailResource, "/users/<username>/email")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

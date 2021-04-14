@@ -6,6 +6,21 @@ from . import errors
 from ..models.users import ModeratorGroup, AdminGroup
 
 
+def guest_required():
+    def wrapper(func):
+        @wraps(func)
+        def decorator(*args, **kwargs):
+            try:
+                verify_jwt_in_request()
+            except Exception:
+                pass
+            return func(*args, **kwargs)
+
+        return decorator
+
+    return wrapper
+
+
 def user_required():
     def wrapper(func):
         @wraps(func)

@@ -4,7 +4,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 
 from api.tools import errors
 from api.models.users import ModeratorGroup
-from forms.user import RegisterForm, LoginForm, UserProfileForm
+from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut
 from tools.images import save_image
 
@@ -124,7 +124,7 @@ def profile_settings(username):
     if current_user.username != username and not ModeratorGroup.is_belong(current_user.group):
         return redirect(url_for("users.profile_settings", username=current_user.username))
 
-    title = "Edit profile"
+    title = "Profile settings"
 
     form = UserProfileForm()
     template_vars = dict(form=form, profile_tab="active", username=username)
@@ -172,7 +172,45 @@ def profile_settings(username):
 @blueprint.route("/user/<username>/email_settings", methods=['GET', 'POST'])
 @jwt_required()
 def email_settings(username):
-    pass
+    if current_user.username != username:
+        return redirect(url_for("users.email_settings", username=current_user.username))
+
+    title = "Email settings"
+
+    form = UserEmailForm()
+    template_vars = dict(form=form, email_tab="active", username=username)
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        response = ApiPut.make_request("users", username, "email", json=form_data)
+        if response.status_code != 200:
+            error = response.json()["error"]
+            code = error["code"]
+
+            message = ""
+            if errors.InvalidRequestError.sub_code_match(code):
+                fields = error["fields"]
+                for field in fields:
+                    if field in form:
+                        form[field].errors += fields[field]
+            elif errors.UserNotFoundError.sub_code_match(code):
+                message = "User not found"
+            else:
+                message = "Internal error. Try again."
+
+            return render_template("user_email_edit.html", title=title, message=message, **template_vars)
+
+        return redirect(url_for("users.email_settings", username=username))
+
+    user_data = ApiGet.make_request("users", username).json()
+    if "user" not in user_data or "email" not in user_data["user"]:
+        return redirect("/")
+    email = user_data["user"]["email"]
+    form.email.data = email
+
+    return render_template("user_profile_edit.html", title=title, **template_vars)
 
 
 @blueprint.route("/user/<username>/security_settings", methods=['GET', 'POST'])

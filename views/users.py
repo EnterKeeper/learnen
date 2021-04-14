@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, make_response, url_for
+from flask import Blueprint, render_template, redirect, make_response, url_for, flash
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
     get_jwt_identity, create_access_token, current_user
 
@@ -23,31 +23,27 @@ def register():
     form = RegisterForm()
     title = "Sign up"
     if form.validate_on_submit():
-        if form.password.data != form.password_again.data:
-            return render_template("register.html", title=title, form=form, message="Passwords dont match")
         user_data = form.data.copy()
         for field in ("password_again", "submit", "csrf_token"):
             user_data.pop(field)
         response = ApiPost.make_request("register", json=user_data)
 
-        if response.status_code != 200:
-            error = response.json()["error"]
-            code = error["code"]
+        if response.status_code == 200:
+            flash("Your account has been created. You are now able to log in", "success")
+            return redirect(url_for("users.login"))
 
-            message = ""
-            if errors.InvalidRequestError.sub_code_match(code):
-                fields = error["fields"]
-                for field in fields:
-                    if field in form:
-                        form[field].errors += fields[field]
-            elif errors.UserAlreadyExistsError.sub_code_match(code):
-                message = "User already exists."
-            else:
-                message = "Internal error. Try again."
+        error = response.json()["error"]
+        code = error["code"]
 
-            return render_template("register.html", title=title, form=form, message=message)
-
-        return redirect(url_for("users.login"))
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserAlreadyExistsError.sub_code_match(code):
+            flash("User already exists.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
 
     return render_template("register.html", title=title, form=form)
 
@@ -66,30 +62,27 @@ def login():
             user_data.pop(field)
         response = ApiPost.make_request("login", json=user_data)
 
-        if response.status_code != 200:
-            error = response.json()["error"]
-            code = error["code"]
+        if response.status_code == 200:
+            resp = make_response(redirect("/"))
+            access_token, refresh_token = (response.json()[field] for field in ("access_token", "refresh_token"))
+            set_access_cookies(resp, access_token)
+            set_refresh_cookies(resp, refresh_token)
+            return resp
 
-            message = ""
-            if errors.InvalidRequestError.sub_code_match(code):
-                fields = error["fields"]
-                for field in fields:
-                    if field in form:
-                        form[field].errors += fields[field]
-            elif errors.UserNotFoundError.sub_code_match(code):
-                message = "User not found."
-            elif errors.WrongCredentialsError.sub_code_match(code):
-                message = "Wrong password."
-            else:
-                message = "Internal error. Try again."
+        error = response.json()["error"]
+        code = error["code"]
 
-            return render_template("login.html", title=title, form=form, message=message)
-
-        resp = make_response(redirect("/"))
-        access_token, refresh_token = (response.json()[field] for field in ("access_token", "refresh_token"))
-        set_access_cookies(resp, access_token)
-        set_refresh_cookies(resp, refresh_token)
-        return resp
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserNotFoundError.sub_code_match(code):
+            flash("User not found.", "danger")
+        elif errors.WrongCredentialsError.sub_code_match(code):
+            flash("Wrong password.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
 
     return render_template("login.html", title=title, form=form)
 
@@ -139,24 +132,24 @@ def profile_settings(username):
             form_data["avatar_filename"] = save_image(form.avatar.data, remove=last_avatar_filename)
 
         response = ApiPut.make_request("users", username, "profile", json=form_data)
-        if response.status_code != 200:
-            error = response.json()["error"]
-            code = error["code"]
+        if response.status_code == 200:
+            flash("Profile settings has been updated.", "success")
+            return redirect(url_for("users.profile_settings", username=form.username.data))
 
-            message = ""
-            if errors.InvalidRequestError.sub_code_match(code):
-                fields = error["fields"]
-                for field in fields:
-                    if field in form:
-                        form[field].errors += fields[field]
-            elif errors.UserNotFoundError.sub_code_match(code):
-                message = "User not found"
-            else:
-                message = "Internal error. Try again."
+        error = response.json()["error"]
+        code = error["code"]
 
-            return render_template("user_profile_edit.html", title=title, message=message, **template_vars)
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserNotFoundError.sub_code_match(code):
+            flash("User not found", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
 
-        return redirect(url_for("users.profile_settings", username=form.username.data))
+        return render_template("user_profile_edit.html", title=title, **template_vars)
 
     user_data = ApiGet.make_request("users", username).json()
     if "user" not in user_data:
@@ -175,34 +168,32 @@ def email_settings(username):
     if current_user.username != username:
         return redirect(url_for("users.email_settings", username=current_user.username))
 
-    title = "Email settings"
+    title = "Change email"
 
     form = UserEmailForm()
     template_vars = dict(form=form, email_tab="active", username=username)
     if form.validate_on_submit():
+        flash("Email has been updated.", "success")
         form_data = form.data.copy()
         for field in ("submit", "csrf_token"):
             form_data.pop(field)
 
         response = ApiPut.make_request("users", username, "email", json=form_data)
-        if response.status_code != 200:
-            error = response.json()["error"]
-            code = error["code"]
+        if response.status_code == 200:
+            return redirect(url_for("users.email_settings", username=username))
 
-            message = ""
-            if errors.InvalidRequestError.sub_code_match(code):
-                fields = error["fields"]
-                for field in fields:
-                    if field in form:
-                        form[field].errors += fields[field]
-            elif errors.UserNotFoundError.sub_code_match(code):
-                message = "User not found"
-            else:
-                message = "Internal error. Try again."
+        error = response.json()["error"]
+        code = error["code"]
 
-            return render_template("user_email_edit.html", title=title, message=message, **template_vars)
-
-        return redirect(url_for("users.email_settings", username=username))
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserNotFoundError.sub_code_match(code):
+            flash("User not found", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
 
     user_data = ApiGet.make_request("users", username).json()
     if "user" not in user_data or "email" not in user_data["user"]:
@@ -224,30 +215,28 @@ def security_settings(username):
     form = UserChangePasswordForm()
     template_vars = dict(form=form, security_tab="active", username=username)
     if form.validate_on_submit():
+        flash("Your password has been updated.", "success")
         form_data = form.data.copy()
         for field in ("submit", "csrf_token", "new_password_again"):
             form_data.pop(field)
 
         response = ApiPut.make_request("users", username, "change_password", json=form_data)
-        if response.status_code != 200:
-            error = response.json()["error"]
-            code = error["code"]
+        if response.status_code == 200:
+            return redirect(url_for("users.security_settings", username=username))
 
-            message = ""
-            if errors.InvalidRequestError.sub_code_match(code):
-                fields = error["fields"]
-                for field in fields:
-                    if field in form:
-                        form[field].errors += fields[field]
-            elif errors.UserNotFoundError.sub_code_match(code):
-                message = "User not found"
-            elif errors.WrongOldPassword.sub_code_match(code):
-                message = "Old password is wrong."
-            else:
-                message = "Internal error. Try again."
+        error = response.json()["error"]
+        code = error["code"]
 
-            return render_template("user_security_edit.html", title=title, message=message, **template_vars)
-
-        return redirect(url_for("users.security_settings", username=username))
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserNotFoundError.sub_code_match(code):
+            flash("User not found", "danger")
+        elif errors.WrongOldPassword.sub_code_match(code):
+            flash("Old password is wrong.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
 
     return render_template("user_security_edit.html", title=title, **template_vars)

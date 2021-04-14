@@ -5,11 +5,6 @@
         <h2 class="text-center">{{ title }}</h2>
         <form method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}
-            {% if message %}
-                <div class="alert alert-danger mt-1" role="alert">
-                    {{ message }}
-                </div>
-            {% endif %}
             {% for field in form if field.name not in ("csrf_token", "submit") %}
                 <div class="form-field mb-2">
                     {% set mark_field_class = "text-danger" if field.errors else "" %}

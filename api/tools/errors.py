@@ -91,3 +91,9 @@ class PollNotFoundError(ApiError):
     status_code = 404
     sub_code = 110
     message = "Poll not found"
+
+
+class OptionNotFoundError(ApiError):
+    status_code = 404
+    sub_code = 120
+    message = "Option not found"

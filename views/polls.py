@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, redirect, make_response, request
+from flask import Blueprint, render_template, redirect, make_response, request, flash, url_for
 from flask_jwt_extended import jwt_required, current_user
 
 from api.tools import errors
-from tools.api_requests import ApiGet
+from forms.poll import VoteForm
+from tools.api_requests import ApiGet, ApiPost
 
 blueprint = Blueprint(
     "polls",
@@ -17,7 +18,24 @@ def polls_list():
     return render_template("polls.html", polls=polls)
 
 
-@blueprint.route("/polls/<int:poll_id>")
+@blueprint.route("/polls/<int:poll_id>", methods=["GET", "POST"])
 @jwt_required(optional=True)
 def poll_info(poll_id):
-    pass
+    vote_form = VoteForm()
+    if vote_form.is_submitted():
+        response = ApiPost.make_request("polls", "vote", vote_form.options.data)
+        if response.status_code == 200:
+            flash("You have successfully voted", "success")
+            return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+        flash("Internal error. Try again.", "danger")
+
+    poll = ApiGet.make_request("polls", poll_id).json().get("poll")
+    if poll:
+        for option in poll.get("options"):
+            value = option["id"]
+            vote_form.options.choices.append((value, option["title"]))
+            if current_user.id in option["users"]:
+                vote_form.options.default = value
+        vote_form.process()
+    return render_template("poll_info.html", poll=poll, vote_form=vote_form)

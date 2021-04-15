@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if not poll %}
+        <div class="empty">Poll not found</div>
+    {% else %}
+        <div class="card p-4">
+            <div class="poll-date text-muted">{{ poll["created_at"] }}</div>
+            <h2 class="poll-title">{{ poll["title"] }}</h2>
+            <div class="poll-description mb-2">{{ poll["description"] }}</div>
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {{ vote_form.hidden_tag() }}
+                <div class="poll-options">
+                    {% for option in vote_form.options %}
+                        <div class="poll-option mb-1">
+                            {{ option(class="form-check-input") }}
+                            {{ option.label(class="form-check-label") }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {{ vote_form.submit(class="btn btn-primary mt-2") }}
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -8,7 +8,6 @@ from .users import UserSchema
 class OptionSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Option
-        exclude = ("id",)
 
     users = auto_field()
 

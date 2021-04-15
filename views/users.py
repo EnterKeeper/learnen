@@ -174,13 +174,13 @@ def email_settings(username):
     form = UserEmailForm()
     template_vars = dict(form=form, email_tab="active", username=username)
     if form.validate_on_submit():
-        flash("Email has been updated.", "success")
         form_data = form.data.copy()
         for field in ("submit", "csrf_token"):
             form_data.pop(field)
 
         response = ApiPut.make_request("users", username, "email", json=form_data)
         if response.status_code == 200:
+            flash("Email has been updated.", "success")
             return redirect(url_for("users.email_settings", username=username))
 
         error = response.json()["error"]
@@ -216,13 +216,13 @@ def security_settings(username):
     form = UserChangePasswordForm()
     template_vars = dict(form=form, security_tab="active", username=username)
     if form.validate_on_submit():
-        flash("Your password has been updated.", "success")
         form_data = form.data.copy()
         for field in ("submit", "csrf_token", "new_password_again"):
             form_data.pop(field)
 
         response = ApiPut.make_request("users", username, "change_password", json=form_data)
         if response.status_code == 200:
+            flash("Your password has been updated.", "success")
             return redirect(url_for("users.security_settings", username=username))
 
         error = response.json()["error"]

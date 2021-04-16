@@ -23,6 +23,8 @@ def polls_list():
 def poll_info(poll_id):
     vote_form = VoteForm()
     leave_comment_form = LeaveCommentForm()
+    title = "Poll"
+
     if vote_form.vote_btn.data and vote_form.options.data is not None:
         resp = ApiPost.make_request("polls", "vote", vote_form.options.data)
         if resp.status_code == 200:
@@ -43,10 +45,11 @@ def poll_info(poll_id):
 
     poll = ApiGet.make_request("polls", poll_id).json().get("poll")
     if poll:
+        title = poll["title"]
         for option in poll.get("options"):
             value = option["id"]
             vote_form.options.choices.append((value, option["title"]))
             if current_user and current_user.id in option["users"]:
                 vote_form.options.default = value
         vote_form.process()
-    return render_template("poll_info.html", poll=poll, vote_form=vote_form, leave_comment_form=leave_comment_form)
+    return render_template("poll_info.html", poll=poll, title=title, vote_form=vote_form, leave_comment_form=leave_comment_form)

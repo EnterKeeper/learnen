@@ -18,9 +18,11 @@
                         </div>
                     {% endfor %}
                 </div>
-                {{ vote_form.vote_btn(class="btn btn-primary mt-2") }}
+                {% set add_disabled = "disabled" if not current_user else "" %}
+                {{ vote_form.vote_btn(class="btn btn-primary mt-2 " + add_disabled) }}
             </form>
             <hr>
+            {% if current_user %}
             <form class="mb-3" method="post" enctype="multipart/form-data" novalidate>
                 {{ leave_comment_form.hidden_tag() }}
 
@@ -28,6 +30,7 @@
                 {{ leave_comment_form.text(class="form-control mb-2 " + mark_field_class) }}
                 {{ leave_comment_form.leave_comment_btn(class="btn btn-primary") }}
             </form>
+            {% endif %}
             <div class="comments">
                 {% if not poll["comments"] %}
                     <div class="empty">There are no comments here yet. Be the first.</div>

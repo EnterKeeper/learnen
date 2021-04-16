@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
+from sqlalchemy import desc
 from marshmallow.exceptions import ValidationError
 from flask_jwt_extended import get_jwt_identity, current_user
 
@@ -71,7 +72,7 @@ class PollResource(Resource):
 class PollListResource(Resource):
     def get(self):
         session = db_session.create_session()
-        polls = session.query(Poll).all()
+        polls = session.query(Poll).order_by(desc(Poll.created_at)).all()
         return jsonify({
             "polls": PollSchema().dump(polls, many=True)
         })

@@ -19,7 +19,7 @@ class Poll(SqlAlchemyBase):
 
     author = orm.relation(User)
     options = orm.relation("Option", back_populates="poll", passive_deletes=True)
-    comments = orm.relation("Comment", back_populates="poll", passive_deletes=True)
+    comments = orm.relation("Comment", back_populates="poll", order_by="desc(Comment.created_at)", passive_deletes=True)
 
     def __repr__(self):
         return f"<Poll> {self.id} {self.title}"
@@ -60,6 +60,7 @@ class Comment(SqlAlchemyBase):
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
     poll_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Poll.id, ondelete="CASCADE"), nullable=False)
     text = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
 
     user = orm.relation(User)
     poll = orm.relation(Poll)

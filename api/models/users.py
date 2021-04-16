@@ -23,7 +23,7 @@ class User(SqlAlchemyBase):
     group = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=0)
     avatar_filename = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    polls = orm.relation("Poll", back_populates="author", passive_deletes=True)
+    polls = orm.relation("Poll", back_populates="author", order_by="desc(Poll.created_at)", passive_deletes=True)
 
     min_username_length = 4
     max_username_length = 20

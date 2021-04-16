@@ -23,7 +23,7 @@ def polls_list():
 def poll_info(poll_id):
     vote_form = VoteForm()
     leave_comment_form = LeaveCommentForm()
-    if vote_form.is_submitted() and vote_form.options.data is not None:
+    if vote_form.vote_btn.data and vote_form.options.data is not None:
         resp = ApiPost.make_request("polls", "vote", vote_form.options.data)
         if resp.status_code == 200:
             flash("You have successfully voted", "success")
@@ -31,7 +31,7 @@ def poll_info(poll_id):
 
         flash("Internal error. Try again.", "danger")
 
-    if leave_comment_form.validate_on_submit():
+    if leave_comment_form.leave_comment_btn.data and leave_comment_form.validate():
         form_data = leave_comment_form.data.copy()
         for field in ("csrf_token", "leave_comment_btn"):
             form_data.pop(field)
@@ -46,7 +46,7 @@ def poll_info(poll_id):
         for option in poll.get("options"):
             value = option["id"]
             vote_form.options.choices.append((value, option["title"]))
-            if current_user.id in option["users"]:
+            if current_user and current_user.id in option["users"]:
                 vote_form.options.default = value
         vote_form.process()
     return render_template("poll_info.html", poll=poll, vote_form=vote_form, leave_comment_form=leave_comment_form)

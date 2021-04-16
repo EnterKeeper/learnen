@@ -39,3 +39,15 @@ body {
 .poll-status {
     font-size: 12px;
 }
+
+.comments-separator {
+    margin: 12px 0;
+}
+
+.comment-user-avatar-col {
+    width: 60px;
+}
+
+.comment-user-avatar {
+    width: 50px;
+}

@@ -5,11 +5,11 @@ from flask_jwt_extended import get_jwt_identity, current_user
 
 from ..database import db_session
 from ..tools import errors
-from ..models.polls import Poll, Option, Vote
+from ..models.polls import Poll, Option, Vote, Comment
 from ..models.users import ModeratorGroup
 from ..tools.response import make_success_message
 from ..tools.decorators import user_required
-from ..schemas.polls import PollSchema
+from ..schemas.polls import PollSchema, CommentSchema
 
 blueprint = Blueprint(
     "polls_resource",
@@ -117,6 +117,30 @@ class PollVoteResource(Resource):
         return make_success_message()
 
 
+class CommentResource(Resource):
+    @user_required()
+    def post(self, poll_id):
+        data = request.get_json()
+        try:
+            CommentSchema().load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        session = db_session.create_session()
+
+        poll = session.query(Poll).get(poll_id)
+        if not poll:
+            raise errors.PollNotFoundError
+
+        new_comment = Comment(text=data["text"], user_id=current_user.id)
+        poll.comments.append(new_comment)
+
+        session.commit()
+
+        return make_success_message()
+
+
 api.add_resource(PollResource, "/polls/<int:poll_id>")
 api.add_resource(PollListResource, "/polls")
 api.add_resource(PollVoteResource, "/polls/vote/<int:option_id>")
+api.add_resource(CommentResource, "/polls/<int:poll_id>/comment")

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, make_response, request, 
 from flask_jwt_extended import jwt_required, current_user
 
 from api.tools import errors
-from forms.poll import VoteForm
+from forms.poll import VoteForm, LeaveCommentForm
 from tools.api_requests import ApiGet, ApiPost
 
 blueprint = Blueprint(
@@ -22,10 +22,21 @@ def polls_list():
 @jwt_required(optional=True)
 def poll_info(poll_id):
     vote_form = VoteForm()
-    if vote_form.is_submitted():
-        response = ApiPost.make_request("polls", "vote", vote_form.options.data)
-        if response.status_code == 200:
+    leave_comment_form = LeaveCommentForm()
+    if vote_form.is_submitted() and vote_form.options.data is not None:
+        resp = ApiPost.make_request("polls", "vote", vote_form.options.data)
+        if resp.status_code == 200:
             flash("You have successfully voted", "success")
+            return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+        flash("Internal error. Try again.", "danger")
+
+    if leave_comment_form.validate_on_submit():
+        form_data = leave_comment_form.data.copy()
+        for field in ("csrf_token", "leave_comment_btn"):
+            form_data.pop(field)
+        resp = ApiPost.make_request("polls", poll_id, "comment", json=form_data)
+        if resp.status_code == 200:
             return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
         flash("Internal error. Try again.", "danger")
@@ -38,4 +49,4 @@ def poll_info(poll_id):
             if current_user.id in option["users"]:
                 vote_form.options.default = value
         vote_form.process()
-    return render_template("poll_info.html", poll=poll, vote_form=vote_form)
+    return render_template("poll_info.html", poll=poll, vote_form=vote_form, leave_comment_form=leave_comment_form)

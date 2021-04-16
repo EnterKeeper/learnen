@@ -18,8 +18,38 @@
                         </div>
                     {% endfor %}
                 </div>
-                {{ vote_form.submit(class="btn btn-primary mt-2") }}
+                {{ vote_form.vote_btn(class="btn btn-primary mt-2") }}
             </form>
+            <hr>
+            <form class="mb-3" method="post" enctype="multipart/form-data" novalidate>
+                {{ leave_comment_form.hidden_tag() }}
+
+                {% set mark_field_class = "border-danger" if leave_comment_form.text.errors else "" %}
+                {{ leave_comment_form.text(class="form-control mb-2 " + mark_field_class) }}
+                {{ leave_comment_form.leave_comment_btn(class="btn btn-primary") }}
+            </form>
+            <div class="comments">
+                {% if not poll["comments"] %}
+                    <div class="empty">There are no comments here yet. Be the first.</div>
+                {% else %}
+                    {% for comment in poll["comments"] %}
+                        {% if loop.index0 != 0 %}
+                            <hr class="comments-separator">
+                        {% endif %}
+                        <div class="comment row">
+                            <div class="comment-user-avatar-col col-1">
+                                <img class="comment-user-avatar rounded-circle"
+                                        {% set avatar = comment["user"]["avatar_filename"] | get_avatar() %}
+                                     src="{{ avatar }}" alt="User avatar">
+                            </div>
+                            <div class="col">
+                                <a href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
+                                <div>{{ comment["text"] }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     {% endif %}
 {% endblock %}

@@ -16,6 +16,7 @@ class CommentSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Comment
 
+    text = auto_field(validate=validate.Length(min=1))
     user = fields.Nested(UserSchema, exclude=("email", "polls"))
 
 

@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, redirect, make_response, request, 
 from flask_jwt_extended import jwt_required, current_user
 
 from api.tools import errors
-from forms.poll import VoteForm, LeaveCommentForm
-from tools.api_requests import ApiGet, ApiPost
+from api.models.users import ModeratorGroup
+from forms.poll import EditPollForm, VoteForm, LeaveCommentForm
+from tools.api_requests import ApiGet, ApiPost, ApiPut
 
 blueprint = Blueprint(
     "polls",
@@ -53,3 +54,41 @@ def poll_info(poll_id):
                 vote_form.options.default = value
         vote_form.process()
     return render_template("poll_info.html", poll=poll, title=title, vote_form=vote_form, leave_comment_form=leave_comment_form)
+
+
+@blueprint.route("/polls/<int:poll_id>/edit", methods=["GET", "POST"])
+@jwt_required()
+def poll_edit(poll_id):
+    form = EditPollForm()
+    title = "Edit poll"
+
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        resp = ApiPut.make_request("polls", poll_id, json=form_data)
+        if resp.status_code == 200:
+            flash("Poll has been successfully updated.", "success")
+            return redirect(url_for("polls.poll_edit", poll_id=poll_id))
+
+        error = resp.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    poll = ApiGet.make_request("polls", poll_id).json().get("poll")
+    if poll:
+        form.title.data = poll["title"]
+        form.description.data = poll["description"]
+
+        if current_user.id != poll["author"]["id"] and not ModeratorGroup.is_belong(current_user.group):
+            return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+    return render_template("poll_edit.html", title=title, form=form, poll=poll)

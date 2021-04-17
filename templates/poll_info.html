@@ -5,6 +5,11 @@
         <div class="empty">Poll not found</div>
     {% else %}
         <div class="card p-4">
+            <div class="position-relative">
+            {% if current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"]) %}
+                <a class="btn btn-secondary position-absolute top-0 end-0" href="{{ url_for("polls.poll_edit", poll_id=poll["id"]) }}">Edit</a>
+            {% endif %}
+
             <div class="poll-date text-muted">{{ poll["created_at"] }}</div>
             <h2 class="poll-title">{{ poll["title"] }}</h2>
             <div class="poll-description mb-2">{{ poll["description"] }}</div>
@@ -52,6 +57,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+            </div>
             </div>
         </div>
     {% endif %}

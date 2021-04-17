@@ -13,7 +13,7 @@
                     <div class="user-info">
                         <h2 class="username">{{ user["username"] }}</h2>
                         {% if user["bio"] %}
-                            <div class="user-bio">{{ user["bio"] }}</div>
+                            <div class="user-bio">{% autoescape false %} {{ user["bio"] | replace("\n", "<br>") }} {% endautoescape %}</div>
                         {% endif %}
                     </div>
                     {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}

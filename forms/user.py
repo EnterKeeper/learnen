@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import PasswordField, StringField, SubmitField
+from wtforms import PasswordField, StringField, TextAreaField, SubmitField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
@@ -30,8 +30,8 @@ class UserProfileForm(FlaskForm):
                            description=f"Length must be between {User.min_username_length} "
                                        f"and {User.max_username_length}")
     avatar = FileField("Avatar", validators=[FileAllowed(["png", "jpg", "jpeg"])])
-    bio = StringField("Bio", validators=[Length(max=User.max_bio_length)],
-                      description=f"Length must be no more than {User.max_bio_length}")
+    bio = TextAreaField("Bio", validators=[Length(max=User.max_bio_length)],
+                        description=f"Length must be no more than {User.max_bio_length}")
     submit = SubmitField("Update")
 
 

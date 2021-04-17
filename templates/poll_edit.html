@@ -6,18 +6,21 @@
     {% else %}
         <div class="card p-4">
             <h2 class="text-center">Poll settings</h2>
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {{ form.hidden_tag() }}
-                {% for field in form if field.name not in ("csrf_token", "submit") %}
-                    <div class="form-field mb-2">
-                        {% set mark_field_class = "text-danger" if field.errors else "" %}
-                        {{ field.label(class="form-label mb-1 " + mark_field_class) }}
-                        {{ field(class="form-control", aria_describedby=field.name + "Help") }}
-                        <div id="{{ field.name + "Help" }}" class="form-text">{{ field.description }}</div>
-                    </div>
-                {% endfor %}
-                {{ form.submit(class="btn btn-primary mt-2") }}
-            </form>
+            <div class="position-relative">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {{ form.hidden_tag() }}
+                    {% for field in form if field.name not in ("csrf_token", "submit") %}
+                        <div class="form-field mb-2">
+                            {% set mark_field_class = "text-danger" if field.errors else "" %}
+                            {{ field.label(class="form-label mb-1 " + mark_field_class) }}
+                            {{ field(class="form-control", aria_describedby=field.name + "Help") }}
+                            <div id="{{ field.name + "Help" }}" class="form-text">{{ field.description }}</div>
+                        </div>
+                    {% endfor %}
+                    {{ form.submit(class="btn btn-primary mt-2") }}
+                </form>
+                <a class="position-absolute bottom-0 end-0 btn btn-danger" href="{{ url_for("polls.poll_delete", poll_id=poll["id"]) }}">Delete</a>
+            </div>
         </div>
     {% endif %}
 {% endblock %}

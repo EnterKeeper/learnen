@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, current_user
 from api.tools import errors
 from api.models.users import ModeratorGroup
 from forms.poll import EditPollForm, VoteForm, LeaveCommentForm
-from tools.api_requests import ApiGet, ApiPost, ApiPut
+from tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
 
 blueprint = Blueprint(
     "polls",
@@ -92,3 +92,21 @@ def poll_edit(poll_id):
             return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
     return render_template("poll_edit.html", title=title, form=form, poll=poll)
+
+
+@blueprint.route("/polls/<int:poll_id>/delete", methods=["GET", "POST"])
+@jwt_required()
+def poll_delete(poll_id):
+    resp = ApiDelete.make_request("polls", poll_id)
+    if resp.status_code == 200:
+        flash("Poll has been deleted updated.", "success")
+        return redirect(url_for("polls.polls_list"))
+
+    error = resp.json()["error"]
+    code = error["code"]
+    if errors.AccessDeniedError.sub_code_match(code):
+        flash("You have no rights to do this.", "danger")
+    else:
+        flash("Internal error. Try again.", "danger")
+
+    return url_for("polls.poll_info", poll_id=poll_id)

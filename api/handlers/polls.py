@@ -47,7 +47,7 @@ class PollResource(Resource):
         if poll.author_id != user.id and not ModeratorGroup.is_belong(user.group):
             raise errors.AccessDeniedError
 
-        session.query(Poll).filter(Poll.id == user.id).update(data)
+        session.query(Poll).filter(Poll.id == poll.id).update(data)
         session.commit()
 
         return make_success_message()

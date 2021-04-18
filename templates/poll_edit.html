@@ -5,6 +5,7 @@
         <div class="empty">Poll not found</div>
     {% else %}
         <div class="card p-4">
+            <a class="btn btn-secondary me-auto" href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">Return to the poll</a>
             <h2 class="text-center">Poll settings</h2>
             <div class="position-relative">
                 <form method="post" enctype="multipart/form-data" novalidate>

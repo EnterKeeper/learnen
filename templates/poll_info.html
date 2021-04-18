@@ -69,7 +69,10 @@
                                      src="{{ avatar }}" alt="User avatar">
                             </div>
                             <div class="col">
-                                <a href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
+                                <div>
+                                    <a href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
+                                    <div class="d-inline-block text-muted">{{ comment["created_at"] }}</div>
+                                </div>
                                 <div>{{ comment["text"] }}</div>
                             </div>
                         </div>

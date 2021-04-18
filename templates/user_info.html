@@ -3,6 +3,11 @@
 {% block content %}
     {% if not user %}
         <div class="empty">User not found</div>
+    {% elif user["banned"] %}
+        <div class="empty">User is banned</div>
+        {% if current_user and groups["Moderator"].is_belong(current_user["group"]) %}
+            <a class="btn btn-danger mt-2" href="{{ url_for("users.user_unban", username=user["username"]) }}">Unban</a>
+        {% endif %}
     {% else %}
         <div class="row">
             <div class="col-md-4">
@@ -23,6 +28,9 @@
                                 <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a>
                             {% else %}
                                 <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel verification</a>
+                            {% endif %}
+                            {% if not user["banned"] %}
+                                <a class="btn btn-danger mt-2" href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a>
                             {% endif %}
                         {% endif %}
                     {% endif %}

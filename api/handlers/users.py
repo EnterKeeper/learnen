@@ -210,6 +210,42 @@ class UserCancelVerificationResource(Resource):
         return make_success_message()
 
 
+class UserBanResource(Resource):
+    @user_required()
+    def put(self, username):
+        session = db_session.create_session()
+
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        if not ModeratorGroup.is_belong(current_user.group):
+            raise errors.AccessDeniedError
+
+        user.banned = True
+        session.commit()
+
+        return make_success_message()
+
+
+class UserUnbanResource(Resource):
+    @user_required()
+    def put(self, username):
+        session = db_session.create_session()
+
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        if not ModeratorGroup.is_belong(current_user.group):
+            raise errors.AccessDeniedError
+
+        user.banned = False
+        session.commit()
+
+        return make_success_message()
+
+
 class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
@@ -258,5 +294,7 @@ api.add_resource(UserEmailResource, "/users/<username>/email")
 api.add_resource(UserChangePasswordResource, "/users/<username>/change_password")
 api.add_resource(UserVerifyResource, "/users/<username>/verify")
 api.add_resource(UserCancelVerificationResource, "/users/<username>/cancel_verification")
+api.add_resource(UserBanResource, "/users/<username>/ban")
+api.add_resource(UserUnbanResource, "/users/<username>/unban")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

@@ -57,6 +57,12 @@ class AccessDeniedError(ApiError):
     message = "Access denied."
 
 
+class UserBannedError(ApiError):
+    status_code = 403
+    sub_code = 5
+    message = "You were banned."
+
+
 class NoAuthError(ApiError):
     status_code = 401
     sub_code = 10

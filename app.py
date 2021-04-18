@@ -3,8 +3,9 @@
 from configparser import ConfigParser
 import os
 
-from flask import Flask, redirect, make_response, url_for
-from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
+import flask_jwt_extended
+from flask import Flask, redirect, make_response, url_for, flash, request
+from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies, jwt_required
 
 from api.database import db_session
 from api.handlers import polls, users, errors
@@ -26,6 +27,18 @@ app.config["JWT_CSRF_CHECK_FORM"] = False  # CHANGE IN PROD
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False  # DELETE IN PROD
 
 jwt = JWTManager(app)
+
+
+@app.before_request
+@flask_jwt_extended.jwt_required(optional=True)
+def logout_if_banned():
+    if request.path.startswith("/api"):
+        return
+    if current_user and current_user.banned:
+        resp = make_response(redirect("/"))
+        unset_jwt_cookies(resp)
+        flash("You were banned.", "danger")
+        return resp
 
 
 @app.context_processor

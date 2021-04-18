@@ -275,3 +275,37 @@ def user_cancel_verification(username):
             flash("Internal error. Try again.", "danger")
 
     return redirect(url_for("users.user_info", username=username))
+
+
+@blueprint.route("/user/<username>/ban", methods=['GET', 'POST'])
+@jwt_required()
+def user_ban(username):
+    resp = ApiPut.make_request("users", username, "ban")
+    if resp.status_code == 200:
+        flash("User has been banned.", "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash("You have no rights to do this.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return redirect(url_for("users.user_info", username=username))
+
+
+@blueprint.route("/user/<username>/unban", methods=['GET', 'POST'])
+@jwt_required()
+def user_unban(username):
+    resp = ApiPut.make_request("users", username, "unban")
+    if resp.status_code == 200:
+        flash("User has been unbanned.", "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash("You have no rights to do this.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return redirect(url_for("users.user_info", username=username))

@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask_jwt_extended import verify_jwt_in_request, get_current_user
+from flask_jwt_extended import verify_jwt_in_request, current_user
 
 from . import errors
 from ..models.users import ModeratorGroup, AdminGroup
@@ -29,6 +29,8 @@ def user_required():
                 verify_jwt_in_request()
             except Exception:
                 raise errors.NoAuthError
+            if current_user.banned:
+                raise errors.UserBannedError
             return func(*args, **kwargs)
 
         return decorator
@@ -44,8 +46,9 @@ def moderator_required():
                 verify_jwt_in_request()
             except Exception:
                 raise errors.NoAuthError
-            user = get_current_user()
-            if not ModeratorGroup.is_belong(user.group):
+            if current_user.banned:
+                raise errors.UserBannedError
+            if not ModeratorGroup.is_belong(current_user.group):
                 raise errors.AccessDeniedError
             return func(*args, **kwargs)
 
@@ -62,8 +65,9 @@ def admin_required():
                 verify_jwt_in_request()
             except Exception:
                 raise errors.NoAuthError
-            user = get_current_user()
-            if not AdminGroup.is_belong(user.group):
+            if current_user.banned:
+                raise errors.UserBannedError
+            if not AdminGroup.is_belong(current_user.group):
                 raise errors.AccessDeniedError
             return func(*args, **kwargs)
 

@@ -121,7 +121,7 @@ def poll_delete(poll_id):
     else:
         flash("Internal error. Try again.", "danger")
 
-    return url_for("polls.poll_info", poll_id=poll_id)
+    return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
 
 @blueprint.route("/polls/create", methods=["GET", "POST"])
@@ -156,3 +156,37 @@ def poll_create():
             flash("Internal error. Try again.", "danger")
 
     return render_template("poll_create.html", title=title, form=form)
+
+
+@blueprint.route("/polls/<int:poll_id>/complete", methods=["GET", "POST"])
+@jwt_required()
+def poll_complete(poll_id):
+    resp = ApiPut.make_request("polls", poll_id, "complete")
+    if resp.status_code == 200:
+        flash("Poll has been completed.", "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash("You have no rights to do this.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+
+@blueprint.route("/polls/<int:poll_id>/resume", methods=["GET", "POST"])
+@jwt_required()
+def poll_resume(poll_id):
+    resp = ApiPut.make_request("polls", poll_id, "resume")
+    if resp.status_code == 200:
+        flash("Poll has been resumed.", "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash("You have no rights to do this.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return redirect(url_for("polls.poll_info", poll_id=poll_id))

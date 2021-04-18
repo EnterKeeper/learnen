@@ -108,11 +108,53 @@ class PollVoteResource(Resource):
         if not option:
             raise errors.OptionNotFoundError
 
+        if option.poll.completed:
+            raise errors.PollCompleted
+
         votes = session.query(Vote).join(Option).filter(Option.poll_id == option.poll_id, Vote.user_id == current_user.id).all()
         for vote in votes:
             session.delete(vote)
         new_vote = Vote(user_id=current_user.id, option_id=option_id)
         session.add(new_vote)
+        session.commit()
+
+        return make_success_message()
+
+
+class PollCompleteResource(Resource):
+    @user_required()
+    def put(self, poll_id):
+        session = db_session.create_session()
+
+        poll = session.query(Poll).get(poll_id)
+        if not poll:
+            raise errors.PollNotFoundError
+
+        user = current_user
+        if poll.author_id != user.id and not ModeratorGroup.is_belong(user.group):
+            raise errors.AccessDeniedError
+
+        poll.completed = True
+        session.commit()
+
+        return make_success_message()
+
+
+
+class PollResumeResource(Resource):
+    @user_required()
+    def put(self, poll_id):
+        session = db_session.create_session()
+
+        poll = session.query(Poll).get(poll_id)
+        if not poll:
+            raise errors.PollNotFoundError
+
+        user = current_user
+        if poll.author_id != user.id and not ModeratorGroup.is_belong(user.group):
+            raise errors.AccessDeniedError
+
+        poll.completed = False
         session.commit()
 
         return make_success_message()
@@ -144,4 +186,6 @@ class CommentResource(Resource):
 api.add_resource(PollResource, "/polls/<int:poll_id>")
 api.add_resource(PollListResource, "/polls")
 api.add_resource(PollVoteResource, "/polls/vote/<int:option_id>")
+api.add_resource(PollCompleteResource, "/polls/<int:poll_id>/complete")
+api.add_resource(PollResumeResource, "/polls/<int:poll_id>/resume")
 api.add_resource(CommentResource, "/polls/<int:poll_id>/comment")

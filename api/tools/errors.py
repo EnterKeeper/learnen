@@ -90,10 +90,16 @@ class WrongOldPassword(ApiError):
 class PollNotFoundError(ApiError):
     status_code = 404
     sub_code = 110
-    message = "Poll not found"
+    message = "Poll not found."
+
+
+class PollCompleted(ApiError):
+    status_code = 403
+    sub_code = 111
+    message = "Poll has completed."
 
 
 class OptionNotFoundError(ApiError):
     status_code = 404
     sub_code = 120
-    message = "Option not found"
+    message = "Option not found."

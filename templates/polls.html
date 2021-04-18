@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if current_user %}
+        <a class="btn btn-primary mb-2" href="{{ url_for("polls.poll_create") }}">Create poll</a>
+    {% endif %}
     {% if not polls %}
         <div class="empty">There are no polls</div>
     {% else %}

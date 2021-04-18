@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, current_user
 
 from api.tools import errors
 from api.models.users import ModeratorGroup
-from forms.poll import EditPollForm, VoteForm, LeaveCommentForm
+from forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
 
 blueprint = Blueprint(
@@ -99,7 +99,7 @@ def poll_edit(poll_id):
 def poll_delete(poll_id):
     resp = ApiDelete.make_request("polls", poll_id)
     if resp.status_code == 200:
-        flash("Poll has been deleted updated.", "success")
+        flash("Poll has been updated.", "success")
         return redirect(url_for("polls.polls_list"))
 
     error = resp.json()["error"]
@@ -110,3 +110,37 @@ def poll_delete(poll_id):
         flash("Internal error. Try again.", "danger")
 
     return url_for("polls.poll_info", poll_id=poll_id)
+
+
+@blueprint.route("/polls/create", methods=["GET", "POST"])
+@jwt_required()
+def poll_create():
+    if not current_user:
+        return redirect(url_for("polls.polls_list"))
+    title = "Create poll"
+    form = CreatePollForm()
+
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+        for i, option_title in enumerate(form_data["options"]):
+            form_data["options"][i] = {"title": option_title}
+
+        resp = ApiPost.make_request("polls", json=form_data)
+        if resp.status_code == 200:
+            flash("Poll has been created.", "success")
+            return redirect(url_for("polls.poll_info", poll_id=resp.json()["poll"]["id"]))
+
+        error = resp.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return render_template("poll_create.html", title=title, form=form)

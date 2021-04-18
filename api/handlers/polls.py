@@ -96,7 +96,7 @@ class PollListResource(Resource):
         session.add(poll)
         session.commit()
 
-        return make_success_message()
+        return make_success_message({"poll": PollSchema().dump(poll)})
 
 
 class PollVoteResource(Resource):

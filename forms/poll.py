@@ -1,6 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, RadioField, TextAreaField, SubmitField
+from wtforms import StringField, RadioField, TextAreaField, SubmitField, FieldList
 from wtforms.validators import DataRequired, Length, Optional
+
+
+class CreatePollForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    description = TextAreaField("Description")
+    options = FieldList(StringField("Option", validators=[DataRequired()]))
+    submit = SubmitField("Create")
 
 
 class EditPollForm(FlaskForm):

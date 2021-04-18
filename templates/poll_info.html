@@ -12,7 +12,7 @@
 
             <div class="poll-date text-muted">{{ poll["created_at"] }}</div>
             <h2 class="poll-title">{{ poll["title"] }}</h2>
-            <div class="poll-description mb-2">{{ poll["description"] }}</div>
+            <div class="poll-description mb-2">{% autoescape false %} {{ poll["description"] | replace("\n", "<br>") }} {% endautoescape %}</div>
             <form method="post" enctype="multipart/form-data" novalidate>
                 {{ vote_form.hidden_tag() }}
                 <div class="poll-options">

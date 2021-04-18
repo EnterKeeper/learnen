@@ -52,14 +52,13 @@ def poll_info(poll_id):
         users_count = 0
         for option in poll.get("options"):
             option["users_count"] = len(option["users"])
-            if current_user.id in option["users"]:
-                user_voted = True
             users_count += option["users_count"]
 
             value = option["id"]
             vote_form.options.choices.append((value, option["title"]))
             if current_user and current_user.id in option["users"]:
                 vote_form.options.default = value
+                user_voted = True
         vote_form.process()
 
         poll["users_count"] = users_count

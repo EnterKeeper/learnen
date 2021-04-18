@@ -6,7 +6,7 @@
     {% else %}
         <div class="card p-4">
             <div class="position-relative">
-            {% if current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"]) %}
+            {% if current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
                 <a class="btn btn-secondary position-absolute top-0 end-0" href="{{ url_for("polls.poll_edit", poll_id=poll["id"]) }}">Edit</a>
             {% endif %}
 
@@ -20,7 +20,7 @@
                         <div class="poll-option mb-1">
                             {{ option(class="form-check-input") }}
                             {{ option.label(class="form-check-label") }}
-                            {% if user_voted or current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"]) %}
+                            {% if user_voted or current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
                                 {% set poll_option = poll["options"][loop.index0] %}
                                 <div class="d-inline-block">- {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)</div>
                                 <div class="progress mb-2">

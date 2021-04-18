@@ -20,6 +20,13 @@
                         <div class="poll-option mb-1">
                             {{ option(class="form-check-input") }}
                             {{ option.label(class="form-check-label") }}
+                            {% if user_voted or current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"]) %}
+                                {% set poll_option = poll["options"][loop.index0] %}
+                                <div class="d-inline-block">- {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)</div>
+                                <div class="progress mb-2">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ poll_option["percent"] }}%" aria-valuenow="{{ poll_option["percent"] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>

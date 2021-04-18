@@ -46,15 +46,27 @@ def poll_info(poll_id):
         flash("Internal error. Try again.", "danger")
 
     poll = ApiGet.make_request("polls", poll_id).json().get("poll")
+    user_voted = False
     if poll:
         title = poll["title"]
+        users_count = 0
         for option in poll.get("options"):
+            option["users_count"] = len(option["users"])
+            if current_user.id in option["users"]:
+                user_voted = True
+            users_count += option["users_count"]
+
             value = option["id"]
             vote_form.options.choices.append((value, option["title"]))
             if current_user and current_user.id in option["users"]:
                 vote_form.options.default = value
         vote_form.process()
-    return render_template("poll_info.html", poll=poll, title=title, vote_form=vote_form, leave_comment_form=leave_comment_form)
+
+        poll["users_count"] = users_count
+        for option in poll.get("options"):
+            option["percent"] = int(option["users_count"] / users_count * 100) if users_count else 0
+    return render_template("poll_info.html", poll=poll, title=title,
+                           vote_form=vote_form, leave_comment_form=leave_comment_form, user_voted=user_voted)
 
 
 @blueprint.route("/polls/<int:poll_id>/edit", methods=["GET", "POST"])

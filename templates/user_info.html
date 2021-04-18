@@ -11,13 +11,20 @@
                          {% set avatar = user["avatar_filename"] | get_avatar() %}
                          src="{{ avatar }}" alt="User avatar">
                     <div class="user-info">
-                        <h2 class="username">{{ user["username"] }}</h2>
+                        <h2 class="username">{{ user["username"] }} {% if user["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %}</h2>
                         {% if user["bio"] %}
                             <div class="user-bio">{% autoescape false %} {{ user["bio"] | replace("\n", "<br>") }} {% endautoescape %}</div>
                         {% endif %}
                     </div>
                     {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
                         <a class="btn btn-primary mt-2" href="{{ url_for("users.profile_settings", username=user["username"]) }}">Edit profile</a>
+                        {% if groups["Moderator"].is_belong(current_user["group"]) %}
+                            {% if not user["verified"] %}
+                                <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a>
+                            {% else %}
+                                <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel verification</a>
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

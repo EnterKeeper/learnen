@@ -241,3 +241,37 @@ def security_settings(username):
             flash("Internal error. Try again.", "danger")
 
     return render_template("user_security_edit.html", title=title, **template_vars)
+
+
+@blueprint.route("/user/<username>/verify", methods=['GET', 'POST'])
+@jwt_required()
+def user_verify(username):
+    resp = ApiPut.make_request("users", username, "verify")
+    if resp.status_code == 200:
+        flash("User has been verified.", "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash("You have no rights to do this.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return redirect(url_for("users.user_info", username=username))
+
+
+@blueprint.route("/user/<username>/cancel_verification", methods=['GET', 'POST'])
+@jwt_required()
+def user_cancel_verification(username):
+    resp = ApiPut.make_request("users", username, "cancel_verification")
+    if resp.status_code == 200:
+        flash("User's verification has been canceled.", "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash("You have no rights to do this.", "danger")
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return redirect(url_for("users.user_info", username=username))

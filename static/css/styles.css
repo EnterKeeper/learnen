@@ -11,6 +11,11 @@ body {
 }
 
 
+.verified-badge {
+    color: #1e9a59;
+}
+
+
 .classic-form {
     max-width: 400px;
     margin-left: auto;
@@ -30,6 +35,18 @@ body {
 
 .user-avatar {
     max-width: 150px;
+}
+
+.username .verified-badge {
+    font-size: 24px;
+}
+
+.polls-list .verified-badge {
+    font-size: 13px;
+}
+
+.poll-meta .verified-badge {
+    font-size: 14px;
 }
 
 .poll-status {

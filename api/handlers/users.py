@@ -174,6 +174,42 @@ class UserChangePasswordResource(Resource):
         return make_success_message()
 
 
+class UserVerifyResource(Resource):
+    @user_required()
+    def put(self, username):
+        session = db_session.create_session()
+
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        if not ModeratorGroup.is_belong(current_user.group):
+            raise errors.AccessDeniedError
+
+        user.verified = True
+        session.commit()
+
+        return make_success_message()
+
+
+class UserCancelVerificationResource(Resource):
+    @user_required()
+    def put(self, username):
+        session = db_session.create_session()
+
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        if not ModeratorGroup.is_belong(current_user.group):
+            raise errors.AccessDeniedError
+
+        user.verified = False
+        session.commit()
+
+        return make_success_message()
+
+
 class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
@@ -220,5 +256,7 @@ api.add_resource(UsersListResource, "/users")
 api.add_resource(UserProfileResource, "/users/<username>/profile")
 api.add_resource(UserEmailResource, "/users/<username>/email")
 api.add_resource(UserChangePasswordResource, "/users/<username>/change_password")
+api.add_resource(UserVerifyResource, "/users/<username>/verify")
+api.add_resource(UserCancelVerificationResource, "/users/<username>/cancel_verification")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

@@ -22,6 +22,7 @@ class User(SqlAlchemyBase):
     bio = sqlalchemy.Column(sqlalchemy.String)
     group = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=0)
     avatar_filename = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    verified = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
 
     polls = orm.relation("Poll", back_populates="author", order_by="desc(Poll.created_at)", passive_deletes=True)
 

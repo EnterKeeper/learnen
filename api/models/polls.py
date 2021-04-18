@@ -21,6 +21,11 @@ class Poll(SqlAlchemyBase):
     options = orm.relation("Option", back_populates="poll", passive_deletes=True)
     comments = orm.relation("Comment", back_populates="poll", order_by="desc(Comment.created_at)", passive_deletes=True)
 
+    max_title_length = 100
+    max_description_length = 2000
+    min_options_count = 1
+    max_options_count = 15
+
     def __repr__(self):
         return f"<Poll> {self.id} {self.title}"
 
@@ -34,6 +39,8 @@ class Option(SqlAlchemyBase):
 
     poll = orm.relation(Poll)
     users = orm.relation(User, secondary="votes", passive_deletes=True)
+
+    max_title_length = 100
 
     def __repr__(self):
         return f"<Option> {self.id} {self.title} ({self.poll.title})"
@@ -64,6 +71,8 @@ class Comment(SqlAlchemyBase):
 
     user = orm.relation(User)
     poll = orm.relation(Poll)
+
+    max_text_length = 400
 
     def __repr__(self):
         return f"<Comment> {self.id} {self.user.username})"

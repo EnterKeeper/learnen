@@ -32,7 +32,8 @@
                 {{ leave_comment_form.hidden_tag() }}
 
                 {% set mark_field_class = "border-danger" if leave_comment_form.text.errors else "" %}
-                {{ leave_comment_form.text(class="form-control mb-2 " + mark_field_class) }}
+                {{ leave_comment_form.text(class="form-control mb-0 " + mark_field_class) }}
+                <div id="textHelp" class="form-text mb-2 mt-0">{{ leave_comment_form.text.description }}</div>
                 {{ leave_comment_form.leave_comment_btn(class="btn btn-primary") }}
             </form>
             {% endif %}

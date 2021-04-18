@@ -31,7 +31,7 @@ class UserProfileForm(FlaskForm):
                                        f"and {User.max_username_length}")
     avatar = FileField("Avatar", validators=[FileAllowed(["png", "jpg", "jpeg"])])
     bio = TextAreaField("Bio", validators=[Length(max=User.max_bio_length)],
-                        description=f"Length must be no more than {User.max_bio_length}")
+                        description=f"Length cannot be longer than {User.max_bio_length}")
     submit = SubmitField("Update")
 
 

@@ -15,8 +15,9 @@ blueprint = Blueprint(
 @blueprint.route("/polls")
 @jwt_required(optional=True)
 def polls_list():
+    title = "Polls"
     polls = ApiGet.make_request("polls").json().get("polls")
-    return render_template("polls.html", polls=polls)
+    return render_template("polls.html", title=title, polls=polls)
 
 
 @blueprint.route("/polls/<int:poll_id>", methods=["GET", "POST"])

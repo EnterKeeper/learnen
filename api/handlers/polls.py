@@ -140,7 +140,6 @@ class PollCompleteResource(Resource):
         return make_success_message()
 
 
-
 class PollResumeResource(Resource):
     @user_required()
     def put(self, poll_id):

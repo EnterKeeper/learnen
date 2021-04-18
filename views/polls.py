@@ -99,6 +99,7 @@ def poll_edit(poll_id):
     if poll:
         form.title.data = poll["title"]
         form.description.data = poll["description"]
+        form.private.data = poll["private"]
 
         if current_user.id != poll["author"]["id"] and not ModeratorGroup.is_belong(current_user.group):
             return redirect(url_for("polls.poll_info", poll_id=poll_id))

@@ -9,12 +9,14 @@
     {% else %}
         <div class="polls-list">
         {% for poll in polls %}
+            {% if not poll["private"] %}
             <div class="poll card mb-1 p-3">
                 <a class="title" href={{ url_for("polls.poll_info", poll_id=poll["id"]) }}>{{ poll["title"] }}</a>
                 <div>
                     <div class="author">by <a href={{ url_for("users.user_info", username=poll["author"]["username"]) }}>{{ poll["author"]["username"] }}</a></div>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
         </div>
     {% endif %}

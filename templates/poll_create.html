@@ -5,7 +5,7 @@
         <h2 class="text-center">Create poll</h2>
         <form method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}
-            {% for field in form if field.name not in ("csrf_token", "submit", "options") %}
+            {% for field in form if field.name not in ("csrf_token", "submit", "options", "private") %}
                 <div class="form-field mb-2">
                     {% set mark_field_class = "text-danger" if field.errors else "" %}
                     {{ field.label(class="form-label mb-1 " + mark_field_class) }}
@@ -13,6 +13,10 @@
                     <div id="{{ field.name + "Help" }}" class="form-text">{{ field.description }}</div>
                 </div>
             {% endfor %}
+            <div class="form-field mb-2">
+                {{ form.private(class="form-check-input") }}
+                {{ form.private.label(class="form-check-label") }}
+            </div>
             <div class="options">
                 <label class="form-label mb-0">Options</label>
                 <div id="optionsHelp" class="form-text mb-2 mt-0">{{ form.options.description }}</div>

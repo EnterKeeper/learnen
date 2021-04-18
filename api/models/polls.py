@@ -15,6 +15,7 @@ class Poll(SqlAlchemyBase):
     description = sqlalchemy.Column(sqlalchemy.String)
     author_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
     completed = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    private = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
 
     author = orm.relation(User)

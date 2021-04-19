@@ -17,6 +17,8 @@ blueprint = Blueprint(
 def polls_list():
     title = "Polls"
     polls = ApiGet.make_request("polls").json().get("polls")
+    if polls:
+        polls = list(filter(lambda poll: not poll["private"], polls))
     return render_template("polls.html", title=title, polls=polls)
 
 

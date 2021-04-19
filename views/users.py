@@ -109,6 +109,8 @@ def refresh():
 @jwt_required(optional=True)
 def user_info(username):
     data = ApiGet.make_request("users", username).json().get("user")
+    if data:
+        data["polls"] = list(filter(lambda poll: not poll["private"], data["polls"]))
     return render_template("user_info.html", title=f"User information", user=data)
 
 

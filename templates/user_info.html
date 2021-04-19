@@ -24,14 +24,22 @@
                     {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
                         <a class="btn btn-primary mt-2" href="{{ url_for("users.profile_settings", username=user["username"]) }}">Edit profile</a>
                         {% if groups["Moderator"].is_belong(current_user["group"]) %}
-                            {% if not user["verified"] %}
-                                <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a>
-                            {% else %}
-                                <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel verification</a>
-                            {% endif %}
-                            {% if not user["banned"] and current_user.group > user["group"] %}
-                                <a class="btn btn-danger mt-2" href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a>
-                            {% endif %}
+                            <div class="btn-group mt-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu w-100">
+                                    {% if not user["verified"] %}
+                                        <li><a class="dropdown-item" href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a></li>
+                                    {% else %}
+                                        <li><a class="dropdown-item" href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel verification</a></li>
+                                    {% endif %}
+                                    {% if not user["banned"] and current_user.group > user["group"] %}
+                                        <li><a class="dropdown-item" href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
                         {% endif %}
                     {% endif %}
                 </div>

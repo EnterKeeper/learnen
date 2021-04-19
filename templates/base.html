@@ -45,6 +45,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
                                 <li><a class="dropdown-item" href="{{ url_for("polls.poll_create") }}">Create poll</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item"
                                        href="{{ url_for("users.user_info", username=current_user["username"]) }}">My profile</a></li>
                                 <li><a class="dropdown-item"

@@ -351,3 +351,17 @@ def user_change_group(username):
         form.process()
 
     return render_template("user_change_group.html", title=title, form=form, user=user)
+
+
+@blueprint.route("/user/<username>/manage-polls")
+@jwt_required()
+def user_manage_polls(username):
+    if not (current_user.username == username and ModeratorGroup.is_belong(current_user.group)):
+        return redirect(url_for("users.user_info", username=username))
+
+    polls = ApiGet.make_request("users", username, "polls").json().get("polls")
+    if not polls:
+        return redirect(url_for("users.user_info", username=username))
+    for poll in polls:
+        poll["participants"] = sum([len(option["users"]) for option in poll["options"]])
+    return render_template("user_manage_polls.html", title=f"User's polls", polls=polls)

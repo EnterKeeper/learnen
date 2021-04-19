@@ -1,14 +1,17 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, create_refresh_token, current_user, jwt_required
 from flask_restful import Api, Resource
+from sqlalchemy import desc
 from marshmallow.exceptions import ValidationError
 
 from ..database import db_session
 from ..tools import errors
 from ..models.users import User, generate_password, AdminGroup, ModeratorGroup, get_group
+from ..models.polls import Poll
 from ..tools.response import make_success_message
 from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
 from ..schemas.users import UserSchema, UserChangePasswordSchema
+from ..schemas.polls import PollSchema
 
 blueprint = Blueprint(
     "users_resource",
@@ -269,6 +272,24 @@ class UserChangeGroupResource(Resource):
         return make_success_message()
 
 
+class UserPollsResource(Resource):
+    @user_required()
+    def get(self, username):
+        if not (current_user.username == username and ModeratorGroup.is_belong(current_user.group)):
+            raise errors.AccessDeniedError
+
+        session = db_session.create_session()
+
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        polls = session.query(Poll).filter(Poll.author_id == user.id).order_by(desc(Poll.created_at)).all()
+        return jsonify({
+            "polls": PollSchema().dump(polls, many=True)
+        })
+
+
 class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
@@ -320,5 +341,6 @@ api.add_resource(UserCancelVerificationResource, "/users/<username>/cancel_verif
 api.add_resource(UserBanResource, "/users/<username>/ban")
 api.add_resource(UserUnbanResource, "/users/<username>/unban")
 api.add_resource(UserChangeGroupResource, "/users/<username>/change_group")
+api.add_resource(UserPollsResource, "/users/<username>/polls")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

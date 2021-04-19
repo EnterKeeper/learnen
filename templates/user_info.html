@@ -63,12 +63,10 @@
                         {% for poll in user["polls"] %}
                             <hr class="my-2">
                             <div class="poll-item">
-                                <a href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">{{ poll["title"] }}</a>
+                                <a class="text-decoration-none" href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">{{ poll["title"] }}</a>
                                 <div class="poll-status text-muted">
-                                    {% if not poll["completed"] %}
-                                        Opened
-                                    {% else %}
-                                        Closed
+                                    {% if poll["completed"] %}
+                                        Completed
                                     {% endif %}
                                 </div>
                             </div>

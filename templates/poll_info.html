@@ -20,7 +20,7 @@
                 </div>
             {% endif %}
 
-            <div class="poll-meta text-muted">Created by <a href="{{ url_for("users.user_info", username=poll["author"]["username"]) }}">{{ poll["author"]["username"] }}</a> {% if poll["author"]["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %} at {{ poll["created_at"] }}</div>
+            <div class="poll-meta text-muted">Created by <a class="text-decoration-none" href="{{ url_for("users.user_info", username=poll["author"]["username"]) }}">{{ poll["author"]["username"] }}</a> {% if poll["author"]["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %} at {{ poll["created_at"] }}</div>
             <h2 class="poll-title">{{ poll["title"] }}</h2>
             <div class="poll-description mb-2">{% autoescape false %} {{ poll["description"] | replace("\n", "<br>") }} {% endautoescape %}</div>
             <form method="post" enctype="multipart/form-data" novalidate>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="col">
                                 <div>
-                                    <a href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
+                                    <a class="text-decoration-none" href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
                                     {% if comment["user"]["verified"] %} <i class="fas fa-badge-check verified-badge"></i>{% endif %}
                                     <div class="d-inline-block text-muted">{{ comment["created_at"] }}</div>
                                 </div>

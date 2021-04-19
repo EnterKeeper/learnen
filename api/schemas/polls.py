@@ -27,7 +27,7 @@ class PollSchema(SQLAlchemyAutoSchema):
         dump_only = ("id", "author_id", "completed", "created_at", "comments", "author")
 
     title = auto_field(validate=validate.Length(min=1, max=Poll.max_title_length))
-    description = auto_field(validate=validate.Length(min=1, max=Poll.max_description_length))
+    description = auto_field(validate=validate.Length(max=Poll.max_description_length))
     author = fields.Nested(UserSchema, exclude=("email", "polls"))
     options = fields.Nested(OptionSchema, many=True, required=True,
                             validate=validate.Length(min=Poll.min_options_count, max=Poll.max_options_count))

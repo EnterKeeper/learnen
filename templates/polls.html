@@ -16,8 +16,8 @@
                 </div>
                 <div>
                     <span class="me-2"><i class="far fa-user"></i> {{ poll["participants"] }}</span>
-                    <span class="me-2"><i class="far fa-clock"></i> {{ poll["created_at"] }}</span>
-                    {% if poll["completed"] %}<span class="me-2"><i class="fas fa-check"></i> Completed</span>{% endif %}
+                    <span class="date me-2"><i class="far fa-clock"></i> {{ moment(poll["created_at"]).from_now() }}</span>
+                    {% if poll["completed"] %}<span class="me-2"><i class="fas fa-check"></i> completed</span>{% endif %}
                 </div>
             </div>
         {% endfor %}

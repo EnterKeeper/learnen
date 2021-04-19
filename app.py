@@ -10,6 +10,7 @@ from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unse
 from api.database import db_session
 from api.handlers import polls, users, errors
 from api.models.users import User, groups, get_group
+from tools import moment
 import views.index
 import views.users
 import views.polls
@@ -42,9 +43,9 @@ def logout_if_banned():
 
 
 @app.context_processor
-def inject_current_user():
+def inject_template_variables():
     groups_dict = {group.title: group for group in groups}
-    return dict(current_user=current_user, groups=groups_dict, get_group=get_group)
+    return dict(current_user=current_user, groups=groups_dict, get_group=get_group, moment=moment.MomentJs)
 
 
 @app.template_filter("get_avatar")

@@ -7,7 +7,7 @@
         <div class="polls-list">
             {% for poll in polls %}
                 <div class="poll card mb-1 p-3">
-                    <div class="text-muted">Created at {{ poll["created_at"] }}</div>
+                    <div class="text-muted">Created at {{ moment(poll["created_at"]).standard() }}</div>
                     <a class="title fs-3 text-decoration-none" href={{ url_for("polls.poll_info", poll_id=poll["id"]) }}>{{ poll["title"] }}</a>
                     <div class="text-muted">{% if poll["private"] %}Private{% else %}Public{% endif %}</div>
                     {% if poll["completed"] %}

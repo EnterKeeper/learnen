@@ -16,7 +16,7 @@ class Poll(SqlAlchemyBase):
     author_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
     completed = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     private = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
-    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
+    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.utcnow)
 
     author = orm.relation(User)
     options = orm.relation("Option", back_populates="poll", passive_deletes=True)
@@ -68,7 +68,7 @@ class Comment(SqlAlchemyBase):
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id), nullable=False)
     poll_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Poll.id, ondelete="CASCADE"), nullable=False)
     text = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
+    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.utcnow)
 
     user = orm.relation(User)
     poll = orm.relation(Poll)

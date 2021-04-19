@@ -5,7 +5,7 @@
         <div class="empty">User not found</div>
     {% elif user["banned"] %}
         <div class="empty">User is banned</div>
-        {% if current_user and groups["Moderator"].is_belong(current_user["group"]) %}
+        {% if current_user and groups["Moderator"].is_belong(current_user["group"]) and current_user.group > user["group"] %}
             <a class="btn btn-danger mt-2" href="{{ url_for("users.user_unban", username=user["username"]) }}">Unban</a>
         {% endif %}
     {% else %}
@@ -29,7 +29,7 @@
                             {% else %}
                                 <a class="btn btn-secondary mt-2" href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel verification</a>
                             {% endif %}
-                            {% if not user["banned"] %}
+                            {% if not user["banned"] and current_user.group > user["group"] %}
                                 <a class="btn btn-danger mt-2" href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a>
                             {% endif %}
                         {% endif %}

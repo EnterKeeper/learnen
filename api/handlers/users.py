@@ -219,7 +219,7 @@ class UserBanResource(Resource):
         if not user:
             raise errors.UserNotFoundError
 
-        if not ModeratorGroup.is_belong(current_user.group):
+        if not ModeratorGroup.is_belong(current_user.group) or current_user.group <= user.group:
             raise errors.AccessDeniedError
 
         user.banned = True
@@ -237,7 +237,7 @@ class UserUnbanResource(Resource):
         if not user:
             raise errors.UserNotFoundError
 
-        if not ModeratorGroup.is_belong(current_user.group):
+        if not ModeratorGroup.is_belong(current_user.group) or current_user.group <= user.group:
             raise errors.AccessDeniedError
 
         user.banned = False

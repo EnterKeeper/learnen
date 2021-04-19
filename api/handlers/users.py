@@ -7,7 +7,7 @@ from ..database import db_session
 from ..tools import errors
 from ..models.users import User, generate_password, ModeratorGroup
 from ..tools.response import make_success_message
-from ..tools.decorators import user_required, admin_required, guest_required
+from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
 from ..schemas.users import UserSchema, UserChangePasswordSchema
 
 blueprint = Blueprint(
@@ -175,16 +175,13 @@ class UserChangePasswordResource(Resource):
 
 
 class UserVerifyResource(Resource):
-    @user_required()
+    @moderator_required()
     def put(self, username):
         session = db_session.create_session()
 
         user = session.query(User).filter(User.username == username).first()
         if not user:
             raise errors.UserNotFoundError
-
-        if not ModeratorGroup.is_belong(current_user.group):
-            raise errors.AccessDeniedError
 
         user.verified = True
         session.commit()
@@ -193,16 +190,13 @@ class UserVerifyResource(Resource):
 
 
 class UserCancelVerificationResource(Resource):
-    @user_required()
+    @moderator_required()
     def put(self, username):
         session = db_session.create_session()
 
         user = session.query(User).filter(User.username == username).first()
         if not user:
             raise errors.UserNotFoundError
-
-        if not ModeratorGroup.is_belong(current_user.group):
-            raise errors.AccessDeniedError
 
         user.verified = False
         session.commit()
@@ -211,7 +205,7 @@ class UserCancelVerificationResource(Resource):
 
 
 class UserBanResource(Resource):
-    @user_required()
+    @moderator_required()
     def put(self, username):
         session = db_session.create_session()
 
@@ -219,7 +213,7 @@ class UserBanResource(Resource):
         if not user:
             raise errors.UserNotFoundError
 
-        if not ModeratorGroup.is_belong(current_user.group) or current_user.group <= user.group:
+        if current_user.group <= user.group:
             raise errors.AccessDeniedError
 
         user.banned = True
@@ -229,7 +223,7 @@ class UserBanResource(Resource):
 
 
 class UserUnbanResource(Resource):
-    @user_required()
+    @moderator_required()
     def put(self, username):
         session = db_session.create_session()
 
@@ -237,7 +231,7 @@ class UserUnbanResource(Resource):
         if not user:
             raise errors.UserNotFoundError
 
-        if not ModeratorGroup.is_belong(current_user.group) or current_user.group <= user.group:
+        if current_user.group <= user.group:
             raise errors.AccessDeniedError
 
         user.banned = False

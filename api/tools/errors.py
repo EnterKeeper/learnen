@@ -87,10 +87,22 @@ class WrongCredentialsError(ApiError):
     message = "Wrong credentials."
 
 
-class WrongOldPassword(ApiError):
+class WrongOldPasswordError(ApiError):
     status_code = 404
     sub_code = 103
     message = "Old password is wrong."
+
+
+class GroupNotFoundError(ApiError):
+    status_code = 404
+    sub_code = 104
+    message = "Group not found."
+
+
+class GroupNotAllowedError(ApiError):
+    status_code = 403
+    sub_code = 105
+    message = "You cannot set this group."
 
 
 class PollNotFoundError(ApiError):

@@ -5,7 +5,7 @@ from marshmallow.exceptions import ValidationError
 
 from ..database import db_session
 from ..tools import errors
-from ..models.users import User, generate_password, ModeratorGroup
+from ..models.users import User, generate_password, AdminGroup, ModeratorGroup, get_group
 from ..tools.response import make_success_message
 from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
 from ..schemas.users import UserSchema, UserChangePasswordSchema
@@ -166,7 +166,7 @@ class UserChangePasswordResource(Resource):
             raise errors.UserNotFoundError
 
         if not user.check_password(data["old_password"]):
-            raise errors.WrongOldPassword
+            raise errors.WrongOldPasswordError
 
         user.set_password(data["new_password"])
 
@@ -240,6 +240,35 @@ class UserUnbanResource(Resource):
         return make_success_message()
 
 
+class UserChangeGroupResource(Resource):
+    @admin_required()
+    def put(self, username):
+        data = request.get_json()
+        try:
+            UserSchema(only=("group",)).load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        group_id = data["group"]
+        if not get_group(id=group_id):
+            raise errors.GroupNotFoundError
+        if not current_user.group > group_id:
+            raise errors.GroupNotAllowedError
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        if not current_user.group > user.group:
+            raise errors.AccessDeniedError
+
+        user.group = group_id
+
+        session.commit()
+        return make_success_message()
+
+
 class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
@@ -290,5 +319,6 @@ api.add_resource(UserVerifyResource, "/users/<username>/verify")
 api.add_resource(UserCancelVerificationResource, "/users/<username>/cancel_verification")
 api.add_resource(UserBanResource, "/users/<username>/ban")
 api.add_resource(UserUnbanResource, "/users/<username>/unban")
+api.add_resource(UserChangeGroupResource, "/users/<username>/change_group")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

@@ -37,9 +37,13 @@
                                     {% if not user["banned"] and current_user.group > user["group"] %}
                                         <li><a class="dropdown-item" href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a></li>
                                     {% endif %}
+                                    {% if current_user.group > user["group"] %}
+                                        {% if groups["Admin"].is_belong(current_user["group"]) %}
+                                            <li><a class="dropdown-item" href="{{ url_for("users.user_change_group", username=user["username"]) }}">Change group</a></li>
+                                        {% endif %}
+                                    {% endif %}
                                 </ul>
                             </div>
-
                         {% endif %}
                     {% endif %}
                 </div>

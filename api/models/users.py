@@ -60,7 +60,12 @@ class AdminGroup(UserGroup):
     title = "Admin"
 
 
-groups = (UserGroup, ModeratorGroup, AdminGroup)
+class OwnerGroup(UserGroup):
+    id = 100
+    title = "Owner"
+
+
+groups = (UserGroup, ModeratorGroup, AdminGroup, OwnerGroup)
 
 
 def get_group(id=None, title=None):

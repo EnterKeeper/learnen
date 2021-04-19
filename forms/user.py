@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import PasswordField, StringField, TextAreaField, SubmitField
+from wtforms import PasswordField, StringField, TextAreaField, SelectField, SubmitField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
@@ -44,4 +44,9 @@ class UserChangePasswordForm(FlaskForm):
     old_password = PasswordField("Old password", validators=[DataRequired()])
     new_password = PasswordField("New password", validators=[DataRequired()])
     new_password_again = PasswordField("Repeat new password", validators=[DataRequired(), EqualTo("new_password")])
+    submit = SubmitField("Update")
+
+
+class UserChangeGroupForm(FlaskForm):
+    group = SelectField("Group", coerce=int, choices=[])
     submit = SubmitField("Update")

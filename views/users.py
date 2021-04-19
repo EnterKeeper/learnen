@@ -3,8 +3,8 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
     get_jwt_identity, create_access_token, current_user
 
 from api.tools import errors
-from api.models.users import ModeratorGroup
-from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm
+from api.models.users import groups, ModeratorGroup, AdminGroup
+from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, UserChangeGroupForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut
 from tools.images import save_image
 
@@ -237,7 +237,7 @@ def security_settings(username):
                     form[field].errors += fields[field]
         elif errors.UserNotFoundError.sub_code_match(code):
             flash("User not found", "danger")
-        elif errors.WrongOldPassword.sub_code_match(code):
+        elif errors.WrongOldPasswordError.sub_code_match(code):
             flash("Old password is wrong.", "danger")
         else:
             flash("Internal error. Try again.", "danger")
@@ -311,3 +311,43 @@ def user_unban(username):
             flash("Internal error. Try again.", "danger")
 
     return redirect(url_for("users.user_info", username=username))
+
+
+@blueprint.route("/user/<username>/change_group", methods=['GET', 'POST'])
+@jwt_required()
+def user_change_group(username):
+    user = ApiGet.make_request("users", username).json().get("user")
+    if not AdminGroup.is_belong(current_user.group) or current_user.group <= user["group"]:
+        flash("You have no rights to do this.", "danger")
+        return redirect(url_for("users.user_info", username=username))
+
+    title = "Change group"
+
+    form = UserChangeGroupForm()
+    if form.is_submitted():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        response = ApiPut.make_request("users", username, "change_group", json=form_data)
+        if response.status_code == 200:
+            flash("User's group has been updated.", "success")
+            return redirect(url_for("users.user_change_group", username=username))
+
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    if user:
+        form.group.choices = [(group.id, group.title) for group in groups if current_user.group > group.id]
+        form.group.default = user["group"]
+        form.process()
+
+    return render_template("user_change_group.html", title=title, form=form, user=user)

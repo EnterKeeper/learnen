@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import PasswordField, StringField, TextAreaField, SelectField, SubmitField
+from wtforms import PasswordField, StringField, TextAreaField, SelectField, IntegerField, SubmitField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
@@ -49,4 +49,10 @@ class UserChangePasswordForm(FlaskForm):
 
 class UserChangeGroupForm(FlaskForm):
     group = SelectField("Group", coerce=int, choices=[])
+    submit = SubmitField("Update")
+
+
+class UserChangePointsForm(FlaskForm):
+    action = SelectField("Action", coerce=int, choices=[(-1, "Remove"), (1, "Add")])
+    count = IntegerField("Count")
     submit = SubmitField("Update")

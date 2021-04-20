@@ -105,6 +105,12 @@ class GroupNotAllowedError(ApiError):
     message = "You cannot set this group."
 
 
+class UnknownActionError(ApiError):
+    status_code = 404
+    sub_code = 106
+    message = "Action not recognized."
+
+
 class PollNotFoundError(ApiError):
     status_code = 404
     sub_code = 110
@@ -115,6 +121,12 @@ class PollCompleted(ApiError):
     status_code = 403
     sub_code = 111
     message = "Poll has completed."
+
+
+class NotEnoughPointsError(ApiError):
+    status_code = 403
+    sub_code = 119
+    message = "Not enough points."
 
 
 class OptionNotFoundError(ApiError):

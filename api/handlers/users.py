@@ -10,7 +10,7 @@ from ..models.users import User, generate_password, AdminGroup, ModeratorGroup, 
 from ..models.polls import Poll
 from ..tools.response import make_success_message
 from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
-from ..schemas.users import UserSchema, UserChangePasswordSchema
+from ..schemas.users import UserSchema, UserChangePasswordSchema, UserChangePointsSchema
 from ..schemas.polls import PollSchema
 
 blueprint = Blueprint(
@@ -272,6 +272,29 @@ class UserChangeGroupResource(Resource):
         return make_success_message()
 
 
+class UserChangePointsResource(Resource):
+    @moderator_required()
+    def put(self, username):
+        data = request.get_json()
+        try:
+            UserChangePointsSchema().load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        if data["action"] not in (-1, 1):
+            raise errors.UnknownActionError
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        user.points += data["action"] * data["count"]
+
+        session.commit()
+        return make_success_message()
+
+
 class UserPollsResource(Resource):
     @user_required()
     def get(self, username):
@@ -341,6 +364,7 @@ api.add_resource(UserCancelVerificationResource, "/users/<username>/cancel_verif
 api.add_resource(UserBanResource, "/users/<username>/ban")
 api.add_resource(UserUnbanResource, "/users/<username>/unban")
 api.add_resource(UserChangeGroupResource, "/users/<username>/change_group")
+api.add_resource(UserChangePointsResource, "/users/<username>/change_points")
 api.add_resource(UserPollsResource, "/users/<username>/polls")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")

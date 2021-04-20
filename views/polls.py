@@ -152,7 +152,9 @@ def poll_create():
         error = resp.json()["error"]
         code = error["code"]
 
-        if errors.InvalidRequestError.sub_code_match(code):
+        if errors.NotEnoughPointsError.sub_code_match(code):
+            flash("Not enough points to create poll.", "danger")
+        elif errors.InvalidRequestError.sub_code_match(code):
             fields = error["fields"]
             for field in fields:
                 if field in form:

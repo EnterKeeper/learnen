@@ -2,12 +2,12 @@ from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
 from sqlalchemy import desc
 from marshmallow.exceptions import ValidationError
-from flask_jwt_extended import get_jwt_identity, current_user
+from flask_jwt_extended import current_user
 
 from ..database import db_session
 from ..tools import errors
 from ..models.polls import Poll, Option, Vote, Comment
-from ..models.users import ModeratorGroup
+from ..models.users import User, ModeratorGroup, Points
 from ..tools.response import make_success_message
 from ..tools.decorators import user_required
 from ..schemas.polls import PollSchema, CommentSchema
@@ -87,9 +87,14 @@ class PollListResource(Resource):
 
         session = db_session.create_session()
 
+        user = session.query(User).get(current_user.id)
+        if not Points.check(user.points, Points.create_poll):
+            raise errors.NotEnoughPointsError
+        user.points += Points.create_poll
+
         options = data.pop("options")
         poll = Poll(**data)
-        poll.author_id = get_jwt_identity()
+        poll.author_id = current_user.id
         for option_data in options:
             poll.options.append(Option(**option_data))
 
@@ -115,6 +120,9 @@ class PollVoteResource(Resource):
         for vote in votes:
             session.delete(vote)
         new_vote = Vote(user_id=current_user.id, option_id=option_id)
+        if not votes:
+            user = session.query(User).get(current_user.id)
+            user.points += Points.vote
         session.add(new_vote)
         session.commit()
 

@@ -4,7 +4,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 
 from api.tools import errors
 from api.models.users import groups, ModeratorGroup, AdminGroup
-from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, UserChangeGroupForm
+from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, UserChangeGroupForm, UserChangePointsForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut
 from tools.images import save_image
 
@@ -353,7 +353,7 @@ def user_change_group(username):
     return render_template("user_change_group.html", title=title, form=form, user=user)
 
 
-@blueprint.route("/user/<username>/manage-polls")
+@blueprint.route("/user/<username>/manage_polls")
 @jwt_required()
 def user_manage_polls(username):
     if not (current_user.username == username and ModeratorGroup.is_belong(current_user.group)):
@@ -365,3 +365,37 @@ def user_manage_polls(username):
     for poll in polls:
         poll["participants"] = sum([len(option["users"]) for option in poll["options"]])
     return render_template("user_manage_polls.html", title=f"User's polls", polls=polls)
+
+
+@blueprint.route("/user/<username>/change_points", methods=['GET', 'POST'])
+@jwt_required()
+def user_change_points(username):
+    if not ModeratorGroup.is_belong(current_user.group):
+        flash("You have no rights to do this.", "danger")
+        return redirect(url_for("users.user_info", username=username))
+
+    title = "Change points"
+
+    form = UserChangePointsForm()
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        response = ApiPut.make_request("users", username, "change_points", json=form_data)
+        if response.status_code == 200:
+            flash("User's points has been updated.", "success")
+            return redirect(url_for("users.user_change_points", username=username))
+
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        else:
+            flash("Internal error. Try again.", "danger")
+
+    return render_template("user_change_points.html", title=title, form=form)

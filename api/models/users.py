@@ -11,6 +11,16 @@ def generate_password(password):
     return generate_password_hash(password)
 
 
+class Points:
+    register = 20
+    create_poll = -10
+    vote = 5
+
+    @classmethod
+    def check(cls, current_points, required_points):
+        return (current_points + required_points) >= 0 or required_points >= 0
+
+
 class User(SqlAlchemyBase):
     __tablename__ = "users"
 
@@ -24,6 +34,7 @@ class User(SqlAlchemyBase):
     avatar_filename = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     verified = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     banned = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    points = sqlalchemy.Column(sqlalchemy.Integer, default=Points.register)
 
     polls = orm.relation("Poll", back_populates="author", order_by="desc(Poll.created_at)", passive_deletes=True)
 

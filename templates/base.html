@@ -37,6 +37,7 @@
                 </ul>
                 <div class="d-flex">
                     {% if current_user %}
+                        <div class="text-light me-2 mt-2">Your points: {{ current_user.points }}</div>
                         <div class="dropdown nav-item">
                             <button class="btn dropdown-toggle user-dropdown-button text-white" id="user-dropdown"
                                     data-bs-toggle="dropdown"

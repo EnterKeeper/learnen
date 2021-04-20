@@ -42,6 +42,7 @@
                                             <li><a class="dropdown-item" href="{{ url_for("users.user_change_group", username=user["username"]) }}">Change group</a></li>
                                         {% endif %}
                                     {% endif %}
+                                    <li><a class="dropdown-item" href="{{ url_for("users.user_change_points", username=user["username"]) }}">Change points count</a></li>
                                 </ul>
                             </div>
                             <button class="btn btn-secondary mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#user-additional-info" aria-expanded="false" aria-controls="user-additional-info">Additional information</button>
@@ -49,6 +50,7 @@
                                 <div class="mt-1">Group: {{ get_group(id=user["group"]).title }}</div>
                                 <div class="mt-1">Email: {{ user["email"] }}</div>
                                 <div class="mt-1">Registered at: {{ moment(user["created_at"]).standard() }}</div>
+                                <div class="mt-1">Points: {{ user["points"] }}</div>
                             </div>
                         {% endif %}
                     {% endif %}

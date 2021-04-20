@@ -22,3 +22,8 @@ class UserSchema(SQLAlchemyAutoSchema):
 class UserChangePasswordSchema(marshmallow.Schema):
     old_password = marshmallow.fields.String(required=True)
     new_password = marshmallow.fields.String(required=True)
+
+
+class UserChangePointsSchema(marshmallow.Schema):
+    action = marshmallow.fields.Integer(required=True)
+    count = marshmallow.fields.Integer(required=True)

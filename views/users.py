@@ -3,7 +3,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
     get_jwt_identity, create_access_token, current_user
 
 from api.tools import errors
-from api.models.users import groups, ModeratorGroup, AdminGroup
+from api.models.users import Points, groups, ModeratorGroup, AdminGroup
 from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, UserChangeGroupForm, UserChangePointsForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut
 from tools.images import save_image
@@ -12,6 +12,20 @@ blueprint = Blueprint(
     "users",
     __name__,
 )
+
+
+@blueprint.route("/points")
+@jwt_required(optional=True)
+def points_info():
+    title = "Points"
+    return render_template("points.html", title=title, points=Points)
+
+
+@blueprint.route("/verification")
+@jwt_required(optional=True)
+def verification_info():
+    title = "Verification"
+    return render_template("verification.html", title=title)
 
 
 @blueprint.route("/register", methods=["GET", "POST"])

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card p-4">
+        <div class="mb-1">The service uses a system of points and ratings. For each action, users receive a certain number of points.</div>
+        <table class="table points-table">
+            <thead>
+                <tr>
+                    <th scope="col">Action</th>
+                    <th scope="col">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Registration</td>
+                    <td>+{{ points.register }}</td>
+                </tr>
+                <tr>
+                    <td>Creating poll *</td>
+                    <td>{{ points.create_poll }}</td>
+                </tr>
+                <tr>
+                    <td>Voting</td>
+                    <td>+{{ points.vote }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>* <a>Verified</a> users do not have their points deducted.</div>
+        <div class="mt-3 fw-bold">Moderators reserve the right to deduct any number of points or block users for violations of the service rules.</div>
+    </div>
+{% endblock %}

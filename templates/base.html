@@ -34,6 +34,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for("polls.polls_list") }}">Polls</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for("users.verification_info") }}">Verification</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for("users.points_info") }}">Points</a>
+                    </li>
                 </ul>
                 <div class="d-flex">
                     {% if current_user %}

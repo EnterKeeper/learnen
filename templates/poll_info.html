@@ -13,9 +13,9 @@
                 <div class="position-absolute top-0 end-0">
                 <a class="btn btn-secondary" href="{{ url_for("polls.poll_edit", poll_id=poll["id"]) }}">Edit</a>
                 {% if not poll["completed"] %}
-                    <a class="btn btn-warning" href="{{ url_for("polls.poll_complete", poll_id=poll["id"]) }}">Complete</a>
+                    <a class="btn btn-secondary" href="{{ url_for("polls.poll_complete", poll_id=poll["id"]) }}">Complete</a>
                 {% else %}
-                    <a class="btn btn-warning" href="{{ url_for("polls.poll_resume", poll_id=poll["id"]) }}">Resume</a>
+                    <a class="btn btn-secondary" href="{{ url_for("polls.poll_resume", poll_id=poll["id"]) }}">Resume</a>
                 {% endif %}
                 </div>
             {% endif %}

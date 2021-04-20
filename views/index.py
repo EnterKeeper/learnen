@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template
-from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request, jwt_required, current_user
-
+from flask_jwt_extended import jwt_required
 
 blueprint = Blueprint(
     "default_blueprint",

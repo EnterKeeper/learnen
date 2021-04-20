@@ -33,7 +33,7 @@
             var wrapper = $(".input-fields-wrap");
             var add_button = $(".add-option-btn");
 
-            function add_field(value="", danger=false) {
+            function add_field(value = "", danger = false) {
                 let field_name = "options-" + x;
                 var danger_class = (danger ? " border-danger" : "");
 
@@ -55,7 +55,8 @@
 
             {% for option_title in form.options.data %}
                 {% set danger = true if form.options.errors[loop.index0] else false %}
-                add_field("{{ option_title }}", {% if form.options.errors[loop.index0] %} true {% else %} false {% endif %})
+                add_field("{{ option_title }}", {% if form.options.errors[loop.index0] %} true {% else %} false
+                {% endif %})
             {% endfor %}
 
             if (!x) {

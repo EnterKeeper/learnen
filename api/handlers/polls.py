@@ -1,16 +1,16 @@
 from flask import Blueprint, jsonify, request
-from flask_restful import Api, Resource
-from sqlalchemy import desc
-from marshmallow.exceptions import ValidationError
 from flask_jwt_extended import current_user
+from flask_restful import Api, Resource
+from marshmallow.exceptions import ValidationError
+from sqlalchemy import desc
 
 from ..database import db_session
-from ..tools import errors
 from ..models.polls import Poll, Option, Vote, Comment
 from ..models.users import User, ModeratorGroup, Points
-from ..tools.response import make_success_message
-from ..tools.decorators import user_required
 from ..schemas.polls import PollSchema, CommentSchema
+from ..tools import errors
+from ..tools.decorators import user_required
+from ..tools.response import make_success_message
 
 blueprint = Blueprint(
     "polls_resource",
@@ -117,7 +117,8 @@ class PollVoteResource(Resource):
         if option.poll.completed:
             raise errors.PollCompleted
 
-        votes = session.query(Vote).join(Option).filter(Option.poll_id == option.poll_id, Vote.user_id == current_user.id).all()
+        votes = session.query(Vote).join(Option).filter(Option.poll_id == option.poll_id,
+                                                        Vote.user_id == current_user.id).all()
         for vote in votes:
             session.delete(vote)
         new_vote = Vote(user_id=current_user.id, option_id=option_id)

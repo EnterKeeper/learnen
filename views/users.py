@@ -2,9 +2,10 @@ from flask import Blueprint, render_template, redirect, make_response, url_for, 
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
     get_jwt_identity, create_access_token, current_user
 
-from api.tools import errors
 from api.models.users import Points, groups, ModeratorGroup, AdminGroup
-from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, UserChangeGroupForm, UserChangePointsForm
+from api.tools import errors
+from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, \
+    UserChangeGroupForm, UserChangePointsForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut
 from tools.images import save_image
 

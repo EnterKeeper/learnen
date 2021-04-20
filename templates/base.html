@@ -26,7 +26,8 @@
 {% if not hide_base %}
     <nav class="navbar navbar-expand-md mb-3 navbar-dark">
         <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="/">QuickPolls</a>
@@ -50,16 +51,24 @@
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                 {{ current_user.username }}
-                                <img class="navbar-user-avatar rounded-circle" src="{{ current_user.avatar_filename | get_avatar }}">
+                                <img class="navbar-user-avatar rounded-circle"
+                                     src="{{ current_user.avatar_filename | get_avatar }}">
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
-                                <li><a class="dropdown-item" href="{{ url_for("polls.poll_create") }}">Create poll</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for("users.user_manage_polls", username=current_user["username"]) }}">Manage my polls</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for("polls.poll_create") }}">Create poll</a>
+                                </li>
                                 <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_info", username=current_user["username"]) }}">My profile</a></li>
+                                       href="{{ url_for("users.user_manage_polls", username=current_user["username"]) }}">Manage
+                                    my polls</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item"
-                                       href="{{ url_for("users.profile_settings", username=current_user["username"]) }}">Account settings</a></li>
+                                       href="{{ url_for("users.user_info", username=current_user["username"]) }}">My
+                                    profile</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{{ url_for("users.profile_settings", username=current_user["username"]) }}">Account
+                                    settings</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for("users.logout") }}">Log out</a></li>
                             </ul>
                         </div>

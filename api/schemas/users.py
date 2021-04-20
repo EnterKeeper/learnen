@@ -1,5 +1,5 @@
-from marshmallow import validate
 import marshmallow
+from marshmallow import validate
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field, fields
 
 from ..models.users import User

@@ -1,17 +1,17 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token, create_refresh_token, current_user, jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token, current_user
 from flask_restful import Api, Resource
-from sqlalchemy import desc
 from marshmallow.exceptions import ValidationError
+from sqlalchemy import desc
 
 from ..database import db_session
-from ..tools import errors
-from ..models.users import User, generate_password, AdminGroup, ModeratorGroup, get_group
 from ..models.polls import Poll
-from ..tools.response import make_success_message
-from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
-from ..schemas.users import UserSchema, UserChangePasswordSchema, UserChangePointsSchema
+from ..models.users import User, generate_password, ModeratorGroup, get_group
 from ..schemas.polls import PollSchema
+from ..schemas.users import UserSchema, UserChangePasswordSchema, UserChangePointsSchema
+from ..tools import errors
+from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
+from ..tools.response import make_success_message
 
 blueprint = Blueprint(
     "users_resource",

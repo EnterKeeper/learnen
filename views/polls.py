@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, make_response, request, flash, url_for
+from flask import Blueprint, render_template, redirect, flash, url_for
 from flask_jwt_extended import jwt_required, current_user
 
-from api.tools import errors
 from api.models.users import ModeratorGroup
+from api.tools import errors
 from forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
 

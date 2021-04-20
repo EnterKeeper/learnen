@@ -1,81 +1,97 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if not user %}
-        <div class="empty">User not found</div>
-    {% elif user["banned"] %}
-        <div class="empty">User is banned</div>
-        {% if current_user and groups["Moderator"].is_belong(current_user["group"]) and current_user.group > user["group"] %}
-            <a class="btn btn-danger mt-2" href="{{ url_for("users.user_unban", username=user["username"]) }}">Unban</a>
-        {% endif %}
-    {% else %}
-        <div class="row">
-            <div class="col-md-4">
-                <div class="user-profile card p-4 text-center mb-3">
-                    <img class="user-avatar rounded-circle mx-auto mb-1"
-                         {% set avatar = user["avatar_filename"] | get_avatar() %}
-                         src="{{ avatar }}" alt="User avatar">
-                    <div class="user-info">
-                        <h2 class="username">{{ user["username"] }} {% if user["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %}</h2>
-                        {% if user["bio"] %}
-                            <div class="user-bio">{% autoescape false %} {{ user["bio"] | replace("\n", "<br>") }} {% endautoescape %}</div>
-                        {% endif %}
+{% if not user %}
+<div class="empty">User not found</div>
+{% elif user["banned"] %}
+<div class="empty">User is banned</div>
+{% if current_user and groups["Moderator"].is_belong(current_user["group"]) and current_user.group > user["group"] %}
+    <a class="btn btn-danger mt-2" href="{{ url_for("users.user_unban", username=user["username"]) }}">Unban</a>
+{% endif %}
+{% else %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="user-profile card p-4 text-center mb-3">
+            <img class="user-avatar rounded-circle mx-auto mb-1"
+                    {% set avatar = user["avatar_filename"] | get_avatar() %}
+                 src="{{ avatar }}" alt="User avatar">
+            <div class="user-info">
+                <h2 class="username">{{ user["username"] }} {% if user["verified"] %}
+                    <i class="fas fa-badge-check verified-badge"></i>{% endif %}</h2>
+                {% if user["bio"] %}
+                <div class="user-bio">{% autoescape false %} {{ user["bio"] | replace("\n", "<br>") }} {% endautoescape %}</div>
+                {% endif %}
+            </div>
+            {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
+                <a class="btn btn-primary mt-2"
+                   href="{{ url_for("users.profile_settings", username=user["username"]) }}">Edit profile</a>
+                {% if groups["Moderator"].is_belong(current_user["group"]) %}
+                    <div class="btn-group mt-2">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu w-100">
+                            {% if not user["verified"] %}
+                                <li><a class="dropdown-item"
+                                       href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a>
+                                </li>
+                            {% else %}
+                                <li><a class="dropdown-item"
+                                       href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel
+                                    verification</a></li>
+                            {% endif %}
+                            {% if not user["banned"] and current_user.group > user["group"] %}
+                                <li><a class="dropdown-item"
+                                       href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a></li>
+                            {% endif %}
+                            {% if current_user.group > user["group"] %}
+                                {% if groups["Admin"].is_belong(current_user["group"]) %}
+                                    <li><a class="dropdown-item"
+                                           href="{{ url_for("users.user_change_group", username=user["username"]) }}">Change
+                                        group</a></li>
+                                {% endif %}
+                            {% endif %}
+                            <li><a class="dropdown-item"
+                                   href="{{ url_for("users.user_change_points", username=user["username"]) }}">Change
+                                points count</a></li>
+                        </ul>
                     </div>
-                    {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
-                        <a class="btn btn-primary mt-2" href="{{ url_for("users.profile_settings", username=user["username"]) }}">Edit profile</a>
-                        {% if groups["Moderator"].is_belong(current_user["group"]) %}
-                            <div class="btn-group mt-2">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Actions
-                                </button>
-                                <ul class="dropdown-menu w-100">
-                                    {% if not user["verified"] %}
-                                        <li><a class="dropdown-item" href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a></li>
-                                    {% else %}
-                                        <li><a class="dropdown-item" href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel verification</a></li>
-                                    {% endif %}
-                                    {% if not user["banned"] and current_user.group > user["group"] %}
-                                        <li><a class="dropdown-item" href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a></li>
-                                    {% endif %}
-                                    {% if current_user.group > user["group"] %}
-                                        {% if groups["Admin"].is_belong(current_user["group"]) %}
-                                            <li><a class="dropdown-item" href="{{ url_for("users.user_change_group", username=user["username"]) }}">Change group</a></li>
-                                        {% endif %}
-                                    {% endif %}
-                                    <li><a class="dropdown-item" href="{{ url_for("users.user_change_points", username=user["username"]) }}">Change points count</a></li>
-                                </ul>
-                            </div>
-                            <button class="btn btn-secondary mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#user-additional-info" aria-expanded="false" aria-controls="user-additional-info">Additional information</button>
-                            <div id="user-additional-info" class="collapse">
-                                <div class="mt-1">Group: {{ get_group(id=user["group"]).text }}</div>
-                                <div class="mt-1">Email: {{ user["email"] }}</div>
-                                <div class="mt-1">Registered at: {{ moment(user["created_at"]).standard() }}</div>
-                                <div class="mt-1">Points: {{ user["points"] }}</div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="polls card p-4">
-                    <h4>User's polls</h4>
-                    {% if not user["polls"] %}
-                        <div class="empty">There are no polls</div>
-                    {% else %}
-                        {% for poll in user["polls"] %}
-                            <hr class="my-2">
-                            <div class="poll-item">
-                                <a class="text-decoration-none" href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">{{ poll["title"] }}</a>
-                                <div class="poll-status text-muted">
-                                    {% if poll["completed"] %}
-                                        Completed
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
+                    <button class="btn btn-secondary mt-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#user-additional-info" aria-expanded="false"
+                            aria-controls="user-additional-info">Additional information
+                    </button>
+                    <div id="user-additional-info" class="collapse">
+                        <div class="mt-1">Group: {{ get_group(id=user["group"]).text }}</div>
+                        <div class="mt-1">Email: {{ user["email"] }}</div>
+                        <div class="mt-1">Registered at: {{ moment(user["created_at"]).standard() }}</div>
+                        <div class="mt-1">Points: {{ user["points"] }}</div>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
+    <div class="col-md-8">
+        <div class="polls card p-4">
+            <h4>User's polls</h4>
+            {% if not user["polls"] %}
+                <div class="empty">There are no polls</div>
+            {% else %}
+                {% for poll in user["polls"] %}
+                    <hr class="my-2">
+                    <div class="poll-item">
+                        <a class="text-decoration-none"
+                           href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">{{ poll["title"] }}</a>
+                        <div class="poll-status text-muted">
+                            {% if poll["completed"] %}
+                                Completed
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

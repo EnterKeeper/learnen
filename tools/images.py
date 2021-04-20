@@ -1,7 +1,7 @@
-import secrets
 import os
-from PIL import Image
+import secrets
 
+from PIL import Image
 from flask import url_for
 
 

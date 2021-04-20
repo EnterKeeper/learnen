@@ -3,8 +3,8 @@ from datetime import datetime
 import sqlalchemy
 from sqlalchemy import orm
 
-from ..database.db_session import SqlAlchemyBase
 from .users import User
+from ..database.db_session import SqlAlchemyBase
 
 
 class Poll(SqlAlchemyBase):
@@ -52,7 +52,8 @@ class Vote(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(User.id, ondelete="CASCADE"), nullable=False)
-    option_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Option.id, ondelete="CASCADE"), nullable=False)
+    option_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey(Option.id, ondelete="CASCADE"),
+                                  nullable=False)
 
     user = orm.relation(User)
     option = orm.relation(Option)

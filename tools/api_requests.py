@@ -1,5 +1,5 @@
-from flask import request
 import requests
+from flask import request
 
 
 class ApiRequest:

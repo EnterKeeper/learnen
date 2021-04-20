@@ -1,50 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if not poll %}
-        <div class="empty">Poll not found</div>
-    {% else %}
-        <div class="card p-4">
-            <div class="position-relative">
-            {% if poll["completed"] %}
-                <div class="text-danger">Poll is completed</div>
-            {% endif %}
-            {% if current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
-                <div class="position-absolute top-0 end-0">
+{% if not poll %}
+<div class="empty">Poll not found</div>
+{% else %}
+<div class="card p-4">
+    <div class="position-relative">
+        {% if poll["completed"] %}
+            <div class="text-danger">Poll is completed</div>
+        {% endif %}
+        {% if current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
+            <div class="position-absolute top-0 end-0">
                 <a class="btn btn-secondary" href="{{ url_for("polls.poll_edit", poll_id=poll["id"]) }}">Edit</a>
                 {% if not poll["completed"] %}
                     <a class="btn btn-secondary" href="{{ url_for("polls.poll_complete", poll_id=poll["id"]) }}">Complete</a>
                 {% else %}
-                    <a class="btn btn-secondary" href="{{ url_for("polls.poll_resume", poll_id=poll["id"]) }}">Resume</a>
+                    <a class="btn btn-secondary"
+                       href="{{ url_for("polls.poll_resume", poll_id=poll["id"]) }}">Resume</a>
                 {% endif %}
-                </div>
-            {% endif %}
+            </div>
+        {% endif %}
 
-            <div class="poll-meta text-muted">Created by <a class="text-decoration-none" href="{{ url_for("users.user_info", username=poll["author"]["username"]) }}">{{ poll["author"]["username"] }}</a> {% if poll["author"]["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %} at {{ moment(poll["created_at"]).standard() }}</div>
-            <h2 class="poll-title">{{ poll["title"] }}</h2>
-            <div class="poll-description mb-2">{% autoescape false %} {{ poll["description"] | replace("\n", "<br>") }} {% endautoescape %}</div>
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {{ vote_form.hidden_tag() }}
-                <div class="poll-options">
-                    {% for option in vote_form.options %}
-                        <div class="poll-option mb-1">
-                            {{ option(class="form-check-input") }}
-                            {{ option.label(class="form-check-label") }}
-                            {% if user_voted or current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
-                                {% set poll_option = poll["options"][loop.index0] %}
-                                <div class="d-inline-block">- {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)</div>
-                                <div class="progress mb-2">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ poll_option["percent"] }}%" aria-valuenow="{{ poll_option["percent"] }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-                {% set add_disabled = "disabled" if (not current_user or poll["completed"]) else "" %}
-                {{ vote_form.vote_btn(class="btn btn-primary mt-2 " + add_disabled) }}
-            </form>
-            <hr>
-            {% if current_user %}
+        <div class="poll-meta text-muted">Created by <a class="text-decoration-none"
+                                                        href="{{ url_for("users.user_info", username=poll["author"]["username"]) }}">{{ poll["author"]["username"] }}</a>
+            {% if poll["author"]["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %}
+            at {{ moment(poll["created_at"]).standard() }}</div>
+        <h2 class="poll-title">{{ poll["title"] }}</h2>
+        <div class="poll-description mb-2">{% autoescape false %} {{ poll["description"] | replace("\n", "<br>") }} {% endautoescape %}</div>
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {{ vote_form.hidden_tag() }}
+            <div class="poll-options">
+                {% for option in vote_form.options %}
+                    <div class="poll-option mb-1">
+                        {{ option(class="form-check-input") }}
+                        {{ option.label(class="form-check-label") }}
+                        {% if user_voted or current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
+                            {% set poll_option = poll["options"][loop.index0] %}
+                            <div class="d-inline-block">- {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)</div>
+                            <div class="progress mb-2">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: {{ poll_option["percent"] }}%"
+                                     aria-valuenow="{{ poll_option["percent"] }}" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% set add_disabled = "disabled" if (not current_user or poll["completed"]) else "" %}
+            {{ vote_form.vote_btn(class="btn btn-primary mt-2 " + add_disabled) }}
+        </form>
+        <hr>
+        {% if current_user %}
             <form class="mb-3" method="post" enctype="multipart/form-data" novalidate>
                 {{ leave_comment_form.hidden_tag() }}
 
@@ -53,34 +60,36 @@
                 <div id="textHelp" class="form-text mb-2 mt-0">{{ leave_comment_form.text.description }}</div>
                 {{ leave_comment_form.leave_comment_btn(class="btn btn-primary") }}
             </form>
-            {% endif %}
-            <div class="comments">
-                {% if not poll["comments"] %}
-                    <div class="empty">There are no comments here yet. Be the first.</div>
-                {% else %}
-                    {% for comment in poll["comments"] %}
-                        {% if loop.index0 != 0 %}
-                            <hr class="comments-separator">
-                        {% endif %}
-                        <div class="comment row">
-                            <div class="comment-user-avatar-col col-1">
-                                <img class="comment-user-avatar rounded-circle"
-                                        {% set avatar = comment["user"]["avatar_filename"] | get_avatar() %}
-                                     src="{{ avatar }}" alt="User avatar">
-                            </div>
-                            <div class="col">
-                                <div>
-                                    <a class="text-decoration-none" href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
-                                    {% if comment["user"]["verified"] %} <i class="fas fa-badge-check verified-badge"></i>{% endif %}
-                                    <div class="d-inline-block text-muted">{{ moment(comment["created_at"]).from_now() }}</div>
-                                </div>
-                                <div>{{ comment["text"] }}</div>
-                            </div>
+        {% endif %}
+        <div class="comments">
+            {% if not poll["comments"] %}
+                <div class="empty">There are no comments here yet. Be the first.</div>
+            {% else %}
+                {% for comment in poll["comments"] %}
+                    {% if loop.index0 != 0 %}
+                        <hr class="comments-separator">
+                    {% endif %}
+                    <div class="comment row">
+                        <div class="comment-user-avatar-col col-1">
+                            <img class="comment-user-avatar rounded-circle"
+                                    {% set avatar = comment["user"]["avatar_filename"] | get_avatar() %}
+                                 src="{{ avatar }}" alt="User avatar">
                         </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            </div>
+                        <div class="col">
+                            <div>
+                                <a class="text-decoration-none"
+                                   href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
+                                {% if comment["user"]["verified"] %}
+                                    <i class="fas fa-badge-check verified-badge"></i>{% endif %}
+                                <div class="d-inline-block text-muted">{{ moment(comment["created_at"]).from_now() }}</div>
+                            </div>
+                            <div>{{ comment["text"] }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
+</div>
+{% endif %}
 {% endblock %}

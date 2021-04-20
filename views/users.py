@@ -360,7 +360,7 @@ def user_change_group(username):
             flash("Internal error. Try again.", "danger")
 
     if user:
-        form.group.choices = [(group.id, group.title) for group in groups if current_user.group > group.id]
+        form.group.choices = [(group.id, group.text) for group in groups if current_user.group > group.id]
         form.group.default = user["group"]
         form.process()
 

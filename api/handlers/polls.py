@@ -88,9 +88,10 @@ class PollListResource(Resource):
         session = db_session.create_session()
 
         user = session.query(User).get(current_user.id)
-        if not Points.check(user.points, Points.create_poll):
-            raise errors.NotEnoughPointsError
-        user.points += Points.create_poll
+        if not user.verified:
+            if not Points.check(user.points, Points.create_poll):
+                raise errors.NotEnoughPointsError
+            user.points += Points.create_poll
 
         options = data.pop("options")
         poll = Poll(**data)

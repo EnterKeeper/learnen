@@ -48,7 +48,7 @@
                             <div id="user-additional-info" class="collapse">
                                 <div class="mt-1">Group: {{ get_group(id=user["group"]).title }}</div>
                                 <div class="mt-1">Email: {{ user["email"] }}</div>
-                                <div class="mt-1">Registered at: {{ user["created_at"] }}</div>
+                                <div class="mt-1">Registered at: {{ moment(user["created_at"]).standard() }}</div>
                             </div>
                         {% endif %}
                     {% endif %}

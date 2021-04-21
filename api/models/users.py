@@ -55,7 +55,6 @@ class User(SqlAlchemyBase):
 class UserGroup:
     id = 0
     title = "User"
-    text = "User"
 
     @classmethod
     def is_belong(cls, user_group_id):
@@ -65,19 +64,16 @@ class UserGroup:
 class ModeratorGroup(UserGroup):
     id = 1
     title = "Moderator"
-    text = "Moderator"
 
 
 class AdminGroup(UserGroup):
     id = 10
     title = "Admin"
-    text = "Admin"
 
 
 class OwnerGroup(UserGroup):
     id = 100
     title = "Owner"
-    text = "Owner"
 
 
 groups = (UserGroup, ModeratorGroup, AdminGroup, OwnerGroup)

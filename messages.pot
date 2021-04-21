@@ -1,0 +1,574 @@
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-04-21 21:29+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms/poll.py:10 forms/poll.py:19
+msgid "Title"
+msgstr ""
+
+#: forms/poll.py:11 forms/poll.py:20
+msgid "Description"
+msgstr ""
+
+#: forms/poll.py:14 forms/poll.py:21
+msgid "Is private (available only via link)"
+msgstr ""
+
+#: forms/poll.py:15
+msgid "Create"
+msgstr ""
+
+#: forms/poll.py:22 forms/user.py:31 forms/user.py:36 forms/user.py:44
+#: forms/user.py:49 forms/user.py:56
+msgid "Update"
+msgstr ""
+
+#: forms/poll.py:26 templates/poll_create.html:21
+msgid "Options"
+msgstr ""
+
+#: forms/poll.py:27
+msgid "Vote"
+msgstr ""
+
+#: forms/poll.py:31
+msgid "Comment"
+msgstr ""
+
+#: forms/poll.py:32
+msgid "Leave comment"
+msgstr ""
+
+#: forms/user.py:12 forms/user.py:21 forms/user.py:35
+#: templates/account_settings.html:18 templates/user_info.html:79
+msgid "Email"
+msgstr ""
+
+#: forms/user.py:13 forms/user.py:27
+msgid "Username"
+msgstr ""
+
+#: forms/user.py:15 forms/user.py:22
+msgid "Password"
+msgstr ""
+
+#: forms/user.py:16
+msgid "Repeat password"
+msgstr ""
+
+#: forms/user.py:17 templates/base.html:110 templates/register.html:5
+#: views/users.py:29
+msgid "Sign up"
+msgstr ""
+
+#: forms/user.py:23 templates/base.html:108 templates/login.html:5
+msgid "Log in"
+msgstr ""
+
+#: forms/user.py:29
+msgid "Avatar"
+msgstr ""
+
+#: forms/user.py:30
+msgid "Bio"
+msgstr ""
+
+#: forms/user.py:40
+msgid "Old password"
+msgstr ""
+
+#: forms/user.py:41
+msgid "New password"
+msgstr ""
+
+#: forms/user.py:42
+msgid "Repeat new password"
+msgstr ""
+
+#: forms/user.py:48 templates/user_info.html:78
+msgid "Group"
+msgstr ""
+
+#: forms/user.py:53 templates/points.html:12
+msgid "Action"
+msgstr ""
+
+#: forms/user.py:54
+msgid "Deduct"
+msgstr ""
+
+#: forms/user.py:54
+msgid "Add"
+msgstr ""
+
+#: forms/user.py:55
+msgid "Count"
+msgstr ""
+
+#: templates/account_settings.html:9 templates/base.html:97
+msgid "Account settings"
+msgstr ""
+
+#: templates/account_settings.html:13
+msgid "Profile "
+msgstr ""
+
+#: templates/account_settings.html:22
+msgid "Security"
+msgstr ""
+
+#: templates/base.html:37 views/polls.py:21
+msgid "Polls"
+msgstr ""
+
+#: templates/base.html:41 views/default.py:30
+msgid "Verification"
+msgstr ""
+
+#: templates/base.html:44 templates/points.html:13 templates/user_info.html:81
+#: views/default.py:23
+msgid "Points"
+msgstr ""
+
+#: templates/base.html:52
+msgid "Language"
+msgstr ""
+
+#: templates/base.html:64
+msgid "Your points"
+msgstr ""
+
+#: templates/base.html:76 templates/poll_create.html:5 templates/polls.html:5
+#: views/polls.py:144
+msgid "Create poll"
+msgstr ""
+
+#: templates/base.html:82
+msgid "Manage my polls"
+msgstr ""
+
+#: templates/base.html:91
+msgid "My profile"
+msgstr ""
+
+#: templates/base.html:102
+msgid "Log out"
+msgstr ""
+
+#: templates/index.html:6
+msgid "Vote Create Analyze"
+msgstr ""
+
+#: templates/index.html:7
+msgid ""
+"Whether you are a research organization\n"
+"            or just an inquisitive user, this service is right for you."
+msgstr ""
+
+#: templates/index.html:9
+msgid "Here you can easily and quickly create polls that will involve real users"
+msgstr ""
+
+#: templates/index.html:10
+msgid "or vote and get rewards."
+msgstr ""
+
+#: templates/points.html:6
+msgid ""
+"The service uses a system of points and ratings. For each action, users "
+"receive a certain\n"
+"            number of points."
+msgstr ""
+
+#: templates/points.html:18
+msgid "Registration"
+msgstr ""
+
+#: templates/points.html:22
+msgid "Creating poll"
+msgstr ""
+
+#: templates/points.html:26
+msgid "Voting"
+msgstr ""
+
+#: templates/points.html:31
+msgid "Verified"
+msgstr ""
+
+#: templates/points.html:32
+msgid "users do not have their points deducted."
+msgstr ""
+
+#: templates/points.html:35
+msgid ""
+"Moderators reserve the right to deduct any number of points or block "
+"users for\n"
+"            violations of the service rules."
+msgstr ""
+
+#: templates/poll_create.html:24
+msgid "Add choice"
+msgstr ""
+
+#: templates/poll_edit.html:5 templates/poll_info.html:5
+msgid "Poll not found"
+msgstr ""
+
+#: templates/poll_edit.html:9
+msgid "Return to the poll"
+msgstr ""
+
+#: templates/poll_edit.html:10
+msgid "Poll settings"
+msgstr ""
+
+#: templates/poll_edit.html:29
+msgid "Delete"
+msgstr ""
+
+#: templates/poll_info.html:10
+msgid "Poll is completed"
+msgstr ""
+
+#: templates/poll_info.html:14
+msgid "Edit"
+msgstr ""
+
+#: templates/poll_info.html:16
+msgid "Complete"
+msgstr ""
+
+#: templates/poll_info.html:19
+msgid "Resume"
+msgstr ""
+
+#: templates/poll_info.html:24
+msgid "Created by"
+msgstr ""
+
+#: templates/poll_info.html:30
+msgid "at"
+msgstr ""
+
+#: templates/poll_info.html:71
+msgid "There are no comments here yet. Be the first."
+msgstr ""
+
+#: templates/polls.html:8 templates/user_info.html:91
+msgid "There are no polls"
+msgstr ""
+
+#: templates/polls.html:16
+msgid "by"
+msgstr ""
+
+#: templates/polls.html:30
+msgid "completed"
+msgstr ""
+
+#: templates/user_change_group.html:5
+msgid "Change user's group"
+msgstr ""
+
+#: templates/user_change_points.html:5
+msgid "Change user's points"
+msgstr ""
+
+#: templates/user_info.html:5
+msgid "User not found"
+msgstr ""
+
+#: templates/user_info.html:7
+msgid "User is banned"
+msgstr ""
+
+#: templates/user_info.html:9
+msgid "Unban"
+msgstr ""
+
+#: templates/user_info.html:27
+msgid "Edit profile"
+msgstr ""
+
+#: templates/user_info.html:32
+msgid "Actions"
+msgstr ""
+
+#: templates/user_info.html:37
+msgid "Verify"
+msgstr ""
+
+#: templates/user_info.html:43
+msgid "Cancel verification"
+msgstr ""
+
+#: templates/user_info.html:51
+msgid "Ban"
+msgstr ""
+
+#: templates/user_info.html:60 views/users.py:328
+msgid "Change group"
+msgstr ""
+
+#: templates/user_info.html:68
+msgid "Change points count"
+msgstr ""
+
+#: templates/user_info.html:75
+msgid "Additional information"
+msgstr ""
+
+#: templates/user_info.html:80
+msgid "Registered at"
+msgstr ""
+
+#: templates/user_info.html:89 views/users.py:366
+msgid "User's polls"
+msgstr ""
+
+#: templates/user_info.html:100 templates/user_manage_polls.html:21
+msgid "Completed"
+msgstr ""
+
+#: templates/user_manage_polls.html:5
+msgid "There are no polls."
+msgstr ""
+
+#: templates/user_manage_polls.html:10
+msgid "Created at"
+msgstr ""
+
+#: templates/user_manage_polls.html:15
+msgid "Private"
+msgstr ""
+
+#: templates/user_manage_polls.html:17
+msgid "Public"
+msgstr ""
+
+#: templates/user_manage_polls.html:23
+msgid "votes"
+msgstr ""
+
+#: templates/user_security_edit.html:5
+msgid "Change password"
+msgstr ""
+
+#: templates/verification.html:5
+msgid "If you are a company or content maker, you can apply for verification."
+msgstr ""
+
+#: templates/verification.html:7
+msgid "If your application is accepted, you will receive:"
+msgstr ""
+
+#: templates/verification.html:9
+msgid "Profile badge"
+msgstr ""
+
+#: templates/verification.html:10
+msgid "for recognition, which will be displayed next to your username."
+msgstr ""
+
+#: templates/verification.html:12
+msgid "Unlimited points, so that nothing restricts you."
+msgstr ""
+
+#: templates/verification.html:16
+msgid ""
+"To send a request, write to the email address (currently unavailable) "
+"from the email address that the\n"
+"            account is linked to."
+msgstr ""
+
+#: templates/verification.html:20
+msgid ""
+"Do not forget to specify links to resources and the purpose of using the "
+"service in your letter."
+msgstr ""
+
+#: templates/verification.html:22
+msgid "We will be glad to see you among the verified users :)"
+msgstr ""
+
+#: tools/languages.py:11
+msgid "User"
+msgstr ""
+
+#: tools/languages.py:12
+msgid "Moderator"
+msgstr ""
+
+#: tools/languages.py:13
+msgid "Admin"
+msgstr ""
+
+#: tools/languages.py:14
+msgid "Owner"
+msgstr ""
+
+#: tools/languages.py:17
+msgid "Internal error. Try again."
+msgstr ""
+
+#: tools/languages.py:18
+msgid "You have no rights to do this."
+msgstr ""
+
+#: views/default.py:16
+msgid "Quick Polls"
+msgstr ""
+
+#: views/polls.py:33
+msgid "Poll"
+msgstr ""
+
+#: views/polls.py:37 views/polls.py:85 views/polls.py:86 views/polls.py:146
+#: views/polls.py:147 views/users.py:134
+msgid "Length cannot be longer than "
+msgstr ""
+
+#: views/polls.py:42
+msgid "You have successfully voted"
+msgstr ""
+
+#: views/polls.py:84
+msgid "Edit poll"
+msgstr ""
+
+#: views/polls.py:95
+msgid "Poll has been successfully updated."
+msgstr ""
+
+#: views/polls.py:126
+msgid "Poll has been deleted."
+msgstr ""
+
+#: views/polls.py:148
+msgid "Every option's length cannot be longer than "
+msgstr ""
+
+#: views/polls.py:159
+msgid "Poll has been created."
+msgstr ""
+
+#: views/polls.py:166
+msgid "Not enough points to create poll."
+msgstr ""
+
+#: views/polls.py:183
+msgid "Poll has been completed."
+msgstr ""
+
+#: views/polls.py:200
+msgid "Poll has been resumed."
+msgstr ""
+
+#: views/users.py:27 views/users.py:132
+msgid "Length must be between "
+msgstr ""
+
+#: views/users.py:28 views/users.py:133
+msgid " and "
+msgstr ""
+
+#: views/users.py:37
+msgid "Your account has been created. You are now able to log in."
+msgstr ""
+
+#: views/users.py:49
+msgid "User already exists."
+msgstr ""
+
+#: views/users.py:63
+msgid "Login"
+msgstr ""
+
+#: views/users.py:86
+msgid "User not found."
+msgstr ""
+
+#: views/users.py:88
+msgid "Wrong password."
+msgstr ""
+
+#: views/users.py:99
+msgid "You have been logged out."
+msgstr ""
+
+#: views/users.py:117
+msgid "User information"
+msgstr ""
+
+#: views/users.py:129
+msgid "Profile settings"
+msgstr ""
+
+#: views/users.py:149
+msgid "Profile settings have been updated."
+msgstr ""
+
+#: views/users.py:182
+msgid "Change email"
+msgstr ""
+
+#: views/users.py:193
+msgid "Email has been updated."
+msgstr ""
+
+#: views/users.py:222
+msgid "Security settings"
+msgstr ""
+
+#: views/users.py:233
+msgid "Your password has been updated."
+msgstr ""
+
+#: views/users.py:245
+msgid "Old password is wrong."
+msgstr ""
+
+#: views/users.py:257
+msgid "User has been verified."
+msgstr ""
+
+#: views/users.py:274
+msgid "User's verification has been canceled."
+msgstr ""
+
+#: views/users.py:291
+msgid "User has been banned."
+msgstr ""
+
+#: views/users.py:308
+msgid "User has been unbanned."
+msgstr ""
+
+#: views/users.py:338
+msgid "User's group has been updated."
+msgstr ""
+
+#: views/users.py:383
+msgid "Change points"
+msgstr ""
+
+#: views/users.py:393
+msgid "User's points has been updated."
+msgstr ""
+

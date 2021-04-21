@@ -2,29 +2,34 @@
 
 {% block content %}
 {% if not poll %}
-<div class="empty">Poll not found</div>
+<div class="empty">{{ _("Poll not found") }}</div>
 {% else %}
 <div class="card p-4">
     <div class="position-relative">
         {% if poll["completed"] %}
-            <div class="text-danger">Poll is completed</div>
+            <div class="text-danger">{{ _("Poll is completed") }}</div>
         {% endif %}
         {% if current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
             <div class="position-absolute top-0 end-0">
-                <a class="btn btn-secondary" href="{{ url_for("polls.poll_edit", poll_id=poll["id"]) }}">Edit</a>
+                <a class="btn btn-secondary"
+                   href="{{ url_for("polls.poll_edit", poll_id=poll["id"]) }}">{{ _("Edit") }}</a>
                 {% if not poll["completed"] %}
-                    <a class="btn btn-secondary" href="{{ url_for("polls.poll_complete", poll_id=poll["id"]) }}">Complete</a>
+                    <a class="btn btn-secondary"
+                       href="{{ url_for("polls.poll_complete", poll_id=poll["id"]) }}">{{ _("Complete") }}</a>
                 {% else %}
                     <a class="btn btn-secondary"
-                       href="{{ url_for("polls.poll_resume", poll_id=poll["id"]) }}">Resume</a>
+                       href="{{ url_for("polls.poll_resume", poll_id=poll["id"]) }}">{{ _("Resume") }}</a>
                 {% endif %}
             </div>
         {% endif %}
 
-        <div class="poll-meta text-muted">Created by <a class="text-decoration-none"
-                                                        href="{{ url_for("users.user_info", username=poll["author"]["username"]) }}">{{ poll["author"]["username"] }}</a>
+        <div class="poll-meta text-muted">{{ _("Created by") }}
+            <a class="text-decoration-none"
+               href="{{ url_for("users.user_info", username=poll["author"]["username"]) }}">
+                {{ poll["author"]["username"] }}
+            </a>
             {% if poll["author"]["verified"] %}<i class="fas fa-badge-check verified-badge"></i>{% endif %}
-            at {{ moment(poll["created_at"]).standard() }}</div>
+            {{ _("at") }} {{ moment(poll["created_at"]).standard() }}</div>
         <h2 class="poll-title">{{ poll["title"] }}</h2>
         <div class="poll-description mb-2">{% autoescape false %} {{ poll["description"] | replace("\n", "<br>") }} {% endautoescape %}</div>
         <form method="post" enctype="multipart/form-data" novalidate>
@@ -34,9 +39,12 @@
                     <div class="poll-option mb-1">
                         {{ option(class="form-check-input") }}
                         {{ option.label(class="form-check-label") }}
-                        {% if user_voted or current_user and (current_user.id == poll["author"]["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
+                        {% if user_voted or current_user and (current_user.id == poll["author"]["id"]
+                        or groups["Moderator"].is_belong(current_user["group"])) %}
                             {% set poll_option = poll["options"][loop.index0] %}
-                            <div class="d-inline-block">- {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)</div>
+                            <div class="d-inline-block">
+                                - {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)
+                            </div>
                             <div class="progress mb-2">
                                 <div class="progress-bar" role="progressbar"
                                      style="width: {{ poll_option["percent"] }}%"
@@ -63,7 +71,7 @@
         {% endif %}
         <div class="comments">
             {% if not poll["comments"] %}
-                <div class="empty">There are no comments here yet. Be the first.</div>
+                <div class="empty">{{ _("There are no comments here yet. Be the first.") }}</div>
             {% else %}
                 {% for comment in poll["comments"] %}
                     {% if loop.index0 != 0 %}
@@ -78,7 +86,9 @@
                         <div class="col">
                             <div>
                                 <a class="text-decoration-none"
-                                   href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">{{ comment["user"]["username"] }}</a>
+                                   href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">
+                                    {{ comment["user"]["username"] }}
+                                </a>
                                 {% if comment["user"]["verified"] %}
                                     <i class="fas fa-badge-check verified-badge"></i>{% endif %}
                                 <div class="d-inline-block text-muted">{{ moment(comment["created_at"]).from_now() }}</div>

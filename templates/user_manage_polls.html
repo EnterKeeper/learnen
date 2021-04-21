@@ -2,19 +2,25 @@
 
 {% block content %}
     {% if not polls %}
-        <div class="empty">There are no polls.</div>
+        <div class="empty">{{ _("There are no polls.") }}</div>
     {% else %}
         <div class="polls-list">
             {% for poll in polls %}
                 <div class="poll card mb-1 p-3">
-                    <div class="text-muted">Created at {{ moment(poll["created_at"]).standard() }}</div>
+                    <div class="text-muted">{{ _("Created at") }} {{ moment(poll["created_at"]).standard() }}</div>
                     <a class="title fs-3 text-decoration-none"
                        href={{ url_for("polls.poll_info", poll_id=poll["id"]) }}>{{ poll["title"] }}</a>
-                    <div class="text-muted">{% if poll["private"] %}Private{% else %}Public{% endif %}</div>
+                    <div class="text-muted">
+                        {% if poll["private"] %}
+                            {{ _("Private") }}
+                        {% else %}
+                            {{ _("Public") }}
+                        {% endif %}
+                    </div>
                     {% if poll["completed"] %}
-                        <div class="text-danger">Completed</div>
+                        <div class="text-danger">{{ _("Completed") }}</div>
                     {% endif %}
-                    <div><span class="fw-bold">{{ poll["participants"] }}</span> participants</div>
+                    <div><span class="fw-bold">{{ poll["participants"] }}</span> {{ _("votes") }}</div>
                 </div>
             {% endfor %}
         </div>

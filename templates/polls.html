@@ -2,10 +2,10 @@
 
 {% block content %}
     {% if current_user %}
-        <a class="btn btn-primary mb-2" href="{{ url_for("polls.poll_create") }}">Create poll</a>
+        <a class="btn btn-primary mb-2" href="{{ url_for("polls.poll_create") }}">{{ _("Create poll") }}</a>
     {% endif %}
     {% if not polls %}
-        <div class="empty">There are no polls</div>
+        <div class="empty">{{ _("There are no polls") }}</div>
     {% else %}
         <div class="polls-list">
             {% for poll in polls %}
@@ -13,16 +13,22 @@
                     <a class="title fs-3 text-decoration-none"
                        href={{ url_for("polls.poll_info", poll_id=poll["id"]) }}>{{ poll["title"] }}</a>
                     <div>
-                        <div class="author">by <a class="text-decoration-none"
-                                                  href={{ url_for("users.user_info", username=poll["author"]["username"]) }}>{{ poll["author"]["username"] }}</a>
+                        <div class="author">{{ _("by") }}
+                            <a class="text-decoration-none"
+                               href={{ url_for("users.user_info", username=poll["author"]["username"]) }}>
+                                {{ poll["author"]["username"] }}
+                            </a>
                             {% if poll["author"]["verified"] %}
-                                <i class="fas fa-badge-check verified-badge"></i>{% endif %}</div>
+                                <i class="fas fa-badge-check verified-badge"></i>
+                            {% endif %}
+                        </div>
                     </div>
                     <div>
                         <span class="me-2"><i class="far fa-user"></i> {{ poll["participants"] }}</span>
                         <span class="date me-2"><i class="far fa-clock"></i> {{ moment(poll["created_at"]).from_now() }}</span>
                         {% if poll["completed"] %}
-                            <span class="me-2"><i class="fas fa-check"></i> completed</span>{% endif %}
+                            <span class="me-2"><i class="fas fa-check"></i> {{ _("completed") }}</span>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

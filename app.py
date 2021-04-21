@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from configparser import ConfigParser
 import os
+from configparser import ConfigParser
 
 import flask_jwt_extended
 from flask import Flask, redirect, make_response, url_for, flash, request
-from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies, jwt_required
+from flask_babel import Babel
+from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
 
+import views.default
+import views.polls
+import views.users
 from api.database import db_session
 from api.handlers import polls, users, errors
 from api.models.users import User, groups, get_group
 from tools import moment
-import views.index
-import views.users
-import views.polls
+from tools.languages import LANGUAGES, GROUPS
 
 config = ConfigParser()
 config.read("config.ini", encoding="utf-8")
@@ -28,6 +30,16 @@ app.config["JWT_CSRF_CHECK_FORM"] = False  # CHANGE IN PROD
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False  # DELETE IN PROD
 
 jwt = JWTManager(app)
+
+babel = Babel(app)
+
+
+@babel.localeselector
+def get_locale():
+    language = request.cookies.get("language")
+    if language not in LANGUAGES.keys():
+        return request.accept_languages.best_match(LANGUAGES.keys())
+    return language
 
 
 @app.before_request
@@ -45,7 +57,12 @@ def logout_if_banned():
 @app.context_processor
 def inject_template_variables():
     groups_dict = {group.title: group for group in groups}
-    return dict(current_user=current_user, groups=groups_dict, get_group=get_group, moment=moment.MomentJs)
+    return dict(current_user=current_user,
+                groups=groups_dict,
+                groups_translations=GROUPS,
+                get_group=get_group,
+                moment=moment.MomentJs,
+                langs=LANGUAGES)
 
 
 @app.template_filter("get_avatar")
@@ -100,7 +117,7 @@ def main():
     db_session.global_init("db/app.db")
 
     # Blueprints
-    app.register_blueprint(views.index.blueprint)
+    app.register_blueprint(views.default.blueprint)
     app.register_blueprint(views.users.blueprint)
     app.register_blueprint(views.polls.blueprint)
 

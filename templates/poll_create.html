@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="card p-4">
-        <h2 class="text-center">Create poll</h2>
+        <h2 class="text-center">{{ _("Create poll") }}</h2>
         <form method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}
             {% for field in form if field.name not in ("csrf_token", "submit", "options", "private") %}
@@ -18,10 +18,10 @@
                 {{ form.private.label(class="form-check-label") }}
             </div>
             <div class="options">
-                <label class="form-label mb-0">Options</label>
+                <label class="form-label mb-0">{{ _("Options") }}</label>
                 <div id="optionsHelp" class="form-text mb-2 mt-0">{{ form.options.description }}</div>
                 <div class="input-fields-wrap"></div>
-                <button class="add-option-btn btn btn-secondary mb-2">Add choice</button>
+                <button class="add-option-btn btn btn-secondary mb-2">{{ _("Add choice")}}</button>
             </div>
             {{ form.submit(class="btn btn-primary mt-2") }}
         </form>

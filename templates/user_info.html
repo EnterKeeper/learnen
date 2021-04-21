@@ -2,11 +2,12 @@
 
 {% block content %}
 {% if not user %}
-<div class="empty">User not found</div>
+<div class="empty">{{ _("User not found") }}</div>
 {% elif user["banned"] %}
-<div class="empty">User is banned</div>
+<div class="empty">{{ _("User is banned") }}</div>
 {% if current_user and groups["Moderator"].is_belong(current_user["group"]) and current_user.group > user["group"] %}
-    <a class="btn btn-danger mt-2" href="{{ url_for("users.user_unban", username=user["username"]) }}">Unban</a>
+    <a class="btn btn-danger mt-2"
+       href="{{ url_for("users.user_unban", username=user["username"]) }}">{{ _("Unban") }}</a>
 {% endif %}
 {% else %}
 <div class="row">
@@ -24,48 +25,61 @@
             </div>
             {% if current_user and (current_user.id == user["id"] or groups["Moderator"].is_belong(current_user["group"])) %}
                 <a class="btn btn-primary mt-2"
-                   href="{{ url_for("users.profile_settings", username=user["username"]) }}">Edit profile</a>
+                   href="{{ url_for("users.profile_settings", username=user["username"]) }}">{{ _("Edit profile") }}</a>
                 {% if groups["Moderator"].is_belong(current_user["group"]) %}
                     <div class="btn-group mt-2">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                            Actions
+                            {{ _("Actions") }}
                         </button>
                         <ul class="dropdown-menu w-100">
                             {% if not user["verified"] %}
                                 <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_verify", username=user["username"]) }}">Verify</a>
+                                       href="{{ url_for("users.user_verify", username=user["username"]) }}">{{ _("Verify") }}</a>
                                 </li>
                             {% else %}
-                                <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">Cancel
-                                    verification</a></li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">
+                                        {{ _("Cancel verification") }}
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if not user["banned"] and current_user.group > user["group"] %}
-                                <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_ban", username=user["username"]) }}">Ban</a></li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("users.user_ban", username=user["username"]) }}">
+                                        {{ _("Ban") }}
+                                    </a>
+                                </li>
                             {% endif %}
                             {% if current_user.group > user["group"] %}
                                 {% if groups["Admin"].is_belong(current_user["group"]) %}
-                                    <li><a class="dropdown-item"
-                                           href="{{ url_for("users.user_change_group", username=user["username"]) }}">Change
-                                        group</a></li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{{ url_for("users.user_change_group", username=user["username"]) }}">
+                                            {{ _("Change group") }}
+                                        </a>
+                                    </li>
                                 {% endif %}
                             {% endif %}
-                            <li><a class="dropdown-item"
-                                   href="{{ url_for("users.user_change_points", username=user["username"]) }}">Change
-                                points count</a></li>
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{{ url_for("users.user_change_points", username=user["username"]) }}">
+                                    {{ _("Change points count") }}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <button class="btn btn-secondary mt-2" type="button" data-bs-toggle="collapse"
                             data-bs-target="#user-additional-info" aria-expanded="false"
-                            aria-controls="user-additional-info">Additional information
+                            aria-controls="user-additional-info">{{ _("Additional information") }}
                     </button>
                     <div id="user-additional-info" class="collapse">
-                        <div class="mt-1">Group: {{ get_group(id=user["group"]).text }}</div>
-                        <div class="mt-1">Email: {{ user["email"] }}</div>
-                        <div class="mt-1">Registered at: {{ moment(user["created_at"]).standard() }}</div>
-                        <div class="mt-1">Points: {{ user["points"] }}</div>
+                        <div class="mt-1">{{ _("Group") }}: {{ groups_translations[get_group(id=user["group"])] }}</div>
+                        <div class="mt-1">{{ _("Email") }}: {{ user["email"] }}</div>
+                        <div class="mt-1">{{ _("Registered at") }}: {{ moment(user["created_at"]).standard() }}</div>
+                        <div class="mt-1">{{ _("Points") }}: {{ user["points"] }}</div>
                     </div>
                 {% endif %}
             {% endif %}
@@ -73,9 +87,9 @@
     </div>
     <div class="col-md-8">
         <div class="polls card p-4">
-            <h4>User's polls</h4>
+            <h4>{{ _("User's polls") }}</h4>
             {% if not user["polls"] %}
-                <div class="empty">There are no polls</div>
+                <div class="empty">{{ _("There are no polls") }}</div>
             {% else %}
                 {% for poll in user["polls"] %}
                     <hr class="my-2">
@@ -84,7 +98,7 @@
                            href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">{{ poll["title"] }}</a>
                         <div class="poll-status text-muted">
                             {% if poll["completed"] %}
-                                Completed
+                                {{ _("Completed") }}
                             {% endif %}
                         </div>
                     </div>

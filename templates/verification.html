@@ -2,20 +2,23 @@
 
 {% block content %}
     <div class="card p-4">
-        <div>If you are a company or content maker, you can apply for verification.</div>
+        <div>{{ _("If you are a company or content maker, you can apply for verification.") }}</div>
         <div class="mt-2">
-            If your application is accepted, you will receive:
+            {{ _("If your application is accepted, you will receive:") }}
             <ul>
-                <li>Profile badge <i class="fas fa-badge-check verified-badge"></i> for recognition, which will be
-                    displayed next to your username.
+                <li>{{ _("Profile badge") }} <i class="fas fa-badge-check verified-badge"></i>
+                    {{ _("for recognition, which will be displayed next to your username.") }}
                 </li>
-                <li>Unlimited points, so that nothing restricts you.</li>
+                <li>{{ _("Unlimited points, so that nothing restricts you.") }}</li>
             </ul>
         </div>
-        <div>To send a request, write to the email address (currently unavailable) from the email address that the
-            account is linked to.
+        <div>
+            {{ _("To send a request, write to the email address (currently unavailable) from the email address that the
+            account is linked to.") }}
         </div>
-        <div>Do not forget to specify links to resources and the purpose of using the service in your letter.</div>
-        <div class="mt-2">We will be glad to see you among the verified users :)</div>
+        <div>
+            {{ _("Do not forget to specify links to resources and the purpose of using the service in your letter.") }}
+        </div>
+        <div class="mt-2">{{ _("We will be glad to see you among the verified users :)") }}</div>
     </div>
 {% endblock %}

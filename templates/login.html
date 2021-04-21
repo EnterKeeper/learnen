@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="card p-4 classic-form">
-        <h2 class="text-center">Log in</h2>
+        <h2 class="text-center">{{ _("Log in") }}</h2>
         <form method="post" novalidate>
             {{ form.hidden_tag() }}
             {% for field in form if field.name not in ("csrf_token", "submit") %}

@@ -2,12 +2,12 @@
 
 {% block content %}
     {% if not poll %}
-        <div class="empty">Poll not found</div>
+        <div class="empty">{{ _("Poll not found") }}</div>
     {% else %}
         <div class="card p-4">
-            <a class="btn btn-secondary position-absolute" href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">Return
-                to the poll</a>
-            <h2 class="text-center mb-3">Poll settings</h2>
+            <a class="btn btn-secondary position-absolute"
+               href="{{ url_for("polls.poll_info", poll_id=poll["id"]) }}">{{ _("Return to the poll") }}</a>
+            <h2 class="text-center mb-3">{{ _("Poll settings") }}</h2>
             <div class="position-relative">
                 <form method="post" enctype="multipart/form-data" novalidate>
                     {{ form.hidden_tag() }}
@@ -26,7 +26,7 @@
                     {{ form.submit(class="btn btn-primary mt-2") }}
                 </form>
                 <a class="position-absolute bottom-0 end-0 btn btn-danger"
-                   href="{{ url_for("polls.poll_delete", poll_id=poll["id"]) }}">Delete</a>
+                   href="{{ url_for("polls.poll_delete", poll_id=poll["id"]) }}">{{ _("Delete") }}</a>
             </div>
         </div>
     {% endif %}

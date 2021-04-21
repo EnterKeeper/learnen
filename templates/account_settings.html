@@ -6,20 +6,20 @@
             <div class="settings-tabs card p-2">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Account settings</a>
+                        <a class="nav-link disabled" href="#">{{ _("Account settings") }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ profile_tab }}"
-                           href="{{ url_for("users.profile_settings", username=username) }}">Profile</a>
+                           href="{{ url_for("users.profile_settings", username=username) }}">{{ _("Profile ") }}</a>
                     </li>
                     {% if current_user.username == username %}
                         <li class="nav-item">
                             <a class="nav-link {{ email_tab }}"
-                               href="{{ url_for("users.email_settings", username=username) }}">Email</a>
+                               href="{{ url_for("users.email_settings", username=username) }}">{{ _("Email") }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ security_tab }}"
-                               href="{{ url_for("users.security_settings", username=username) }}">Security</a>
+                               href="{{ url_for("users.security_settings", username=username) }}">{{ _("Security") }}</a>
                         </li>
                     {% endif %}
                 </ul>

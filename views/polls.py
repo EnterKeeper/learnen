@@ -1,10 +1,13 @@
 from flask import Blueprint, render_template, redirect, flash, url_for
+from flask_babel import _
 from flask_jwt_extended import jwt_required, current_user
 
+from api.models.polls import Poll, Option, Comment
 from api.models.users import ModeratorGroup
 from api.tools import errors
 from forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm
 from tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
+from tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG
 
 blueprint = Blueprint(
     "polls",
@@ -15,7 +18,7 @@ blueprint = Blueprint(
 @blueprint.route("/polls")
 @jwt_required(optional=True)
 def polls_list():
-    title = "Polls"
+    title = _("Polls")
     polls = ApiGet.make_request("polls").json().get("polls")
     if polls:
         polls = list(filter(lambda poll: not poll["private"], polls))
@@ -27,17 +30,19 @@ def polls_list():
 @blueprint.route("/polls/<int:poll_id>", methods=["GET", "POST"])
 @jwt_required(optional=True)
 def poll_info(poll_id):
+    title = _("Poll")
+
     vote_form = VoteForm()
     leave_comment_form = LeaveCommentForm()
-    title = "Poll"
+    leave_comment_form.text.description = _("Length cannot be longer than ") + str(Comment.max_text_length)
 
     if vote_form.vote_btn.data and vote_form.options.data is not None:
         resp = ApiPost.make_request("polls", "vote", vote_form.options.data)
         if resp.status_code == 200:
-            flash("You have successfully voted", "success")
+            flash(_("You have successfully voted"), "success")
             return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
-        flash("Internal error. Try again.", "danger")
+        flash(INTERNAL_ERROR_MSG, "danger")
 
     if leave_comment_form.leave_comment_btn.data and leave_comment_form.validate():
         form_data = leave_comment_form.data.copy()
@@ -47,7 +52,7 @@ def poll_info(poll_id):
         if resp.status_code == 200:
             return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
-        flash("Internal error. Try again.", "danger")
+        flash(INTERNAL_ERROR_MSG, "danger")
 
     poll = ApiGet.make_request("polls", poll_id).json().get("poll")
     user_voted = False
@@ -76,7 +81,9 @@ def poll_info(poll_id):
 @jwt_required()
 def poll_edit(poll_id):
     form = EditPollForm()
-    title = "Edit poll"
+    title = _("Edit poll")
+    form.title.description = _("Length cannot be longer than ") + str(Poll.max_title_length)
+    form.description.description = _("Length cannot be longer than ") + str(Poll.max_description_length)
 
     if form.validate_on_submit():
         form_data = form.data.copy()
@@ -85,7 +92,7 @@ def poll_edit(poll_id):
 
         resp = ApiPut.make_request("polls", poll_id, json=form_data)
         if resp.status_code == 200:
-            flash("Poll has been successfully updated.", "success")
+            flash(_("Poll has been successfully updated."), "success")
             return redirect(url_for("polls.poll_edit", poll_id=poll_id))
 
         error = resp.json()["error"]
@@ -97,7 +104,7 @@ def poll_edit(poll_id):
                 if field in form:
                     form[field].errors += fields[field]
         else:
-            flash("Internal error. Try again.", "danger")
+            flash(INTERNAL_ERROR_MSG, "danger")
 
     poll = ApiGet.make_request("polls", poll_id).json().get("poll")
     if poll:
@@ -116,15 +123,15 @@ def poll_edit(poll_id):
 def poll_delete(poll_id):
     resp = ApiDelete.make_request("polls", poll_id)
     if resp.status_code == 200:
-        flash("Poll has been updated.", "success")
+        flash(_("Poll has been deleted."), "success")
         return redirect(url_for("polls.polls_list"))
 
     error = resp.json()["error"]
     code = error["code"]
     if errors.AccessDeniedError.sub_code_match(code):
-        flash("You have no rights to do this.", "danger")
+        flash(NO_RIGHTS_ERROR_MSG, "danger")
     else:
-        flash("Internal error. Try again.", "danger")
+        flash(INTERNAL_ERROR_MSG, "danger")
 
     return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
@@ -134,8 +141,11 @@ def poll_delete(poll_id):
 def poll_create():
     if not current_user:
         return redirect(url_for("polls.polls_list"))
-    title = "Create poll"
+    title = _("Create poll")
     form = CreatePollForm()
+    form.title.description = _("Length cannot be longer than ") + str(Poll.max_title_length)
+    form.description.description = _("Length cannot be longer than ") + str(Poll.max_description_length)
+    form.options.description = _("Every option's length cannot be longer than ") + str(Option.max_title_length)
 
     if form.validate_on_submit():
         form_data = form.data.copy()
@@ -146,21 +156,21 @@ def poll_create():
 
         resp = ApiPost.make_request("polls", json=form_data)
         if resp.status_code == 200:
-            flash("Poll has been created.", "success")
+            flash(_("Poll has been created."), "success")
             return redirect(url_for("polls.poll_info", poll_id=resp.json()["poll"]["id"]))
 
         error = resp.json()["error"]
         code = error["code"]
 
         if errors.NotEnoughPointsError.sub_code_match(code):
-            flash("Not enough points to create poll.", "danger")
+            flash(_("Not enough points to create poll."), "danger")
         elif errors.InvalidRequestError.sub_code_match(code):
             fields = error["fields"]
             for field in fields:
                 if field in form:
                     form[field].errors += fields[field]
         else:
-            flash("Internal error. Try again.", "danger")
+            flash(INTERNAL_ERROR_MSG, "danger")
 
     return render_template("poll_create.html", title=title, form=form)
 
@@ -170,14 +180,14 @@ def poll_create():
 def poll_complete(poll_id):
     resp = ApiPut.make_request("polls", poll_id, "complete")
     if resp.status_code == 200:
-        flash("Poll has been completed.", "success")
+        flash(_("Poll has been completed."), "success")
     else:
         error = resp.json()["error"]
         code = error["code"]
         if errors.AccessDeniedError.sub_code_match(code):
-            flash("You have no rights to do this.", "danger")
+            flash(NO_RIGHTS_ERROR_MSG, "danger")
         else:
-            flash("Internal error. Try again.", "danger")
+            flash(INTERNAL_ERROR_MSG, "danger")
 
     return redirect(url_for("polls.poll_info", poll_id=poll_id))
 
@@ -187,13 +197,13 @@ def poll_complete(poll_id):
 def poll_resume(poll_id):
     resp = ApiPut.make_request("polls", poll_id, "resume")
     if resp.status_code == 200:
-        flash("Poll has been resumed.", "success")
+        flash(_("Poll has been resumed."), "success")
     else:
         error = resp.json()["error"]
         code = error["code"]
         if errors.AccessDeniedError.sub_code_match(code):
-            flash("You have no rights to do this.", "danger")
+            flash(NO_RIGHTS_ERROR_MSG, "danger")
         else:
-            flash("Internal error. Try again.", "danger")
+            flash(INTERNAL_ERROR_MSG, "danger")
 
     return redirect(url_for("polls.poll_info", poll_id=poll_id))

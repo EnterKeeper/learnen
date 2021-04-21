@@ -34,18 +34,34 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for("polls.polls_list") }}">Polls</a>
+                        <a class="nav-link" href="{{ url_for("polls.polls_list") }}">{{ _("Polls") }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for("users.verification_info") }}">Verification</a>
+                        <a class="nav-link"
+                           href="{{ url_for("default.verification_info") }}">{{ _("Verification") }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for("users.points_info") }}">Points</a>
+                        <a class="nav-link" href="{{ url_for("default.points_info") }}">{{ _("Points") }}</a>
                     </li>
                 </ul>
                 <div class="d-flex">
+                    <div class="dropdown nav-item me-2">
+                        <button class="btn dropdown-toggle lang-dropdown-button text-white" id="lang-dropdown"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            {{ _("Language") }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="lang-dropdown">
+                            {% for lang_id, lang in langs.items() %}
+                                <li><a class="dropdown-item"
+                                       href="{{ url_for("default.change_language", lang=lang_id) }}">
+                                    {{ lang }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                     {% if current_user %}
-                        <div class="text-light me-2 mt-2">Your points: {{ current_user.points }}</div>
+                        <div class="text-light me-2 mt-2">{{ _("Your points") }}: {{ current_user.points }}</div>
                         <div class="dropdown nav-item">
                             <button class="btn dropdown-toggle user-dropdown-button text-white" id="user-dropdown"
                                     data-bs-toggle="dropdown"
@@ -55,26 +71,43 @@
                                      src="{{ current_user.avatar_filename | get_avatar }}">
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
-                                <li><a class="dropdown-item" href="{{ url_for("polls.poll_create") }}">Create poll</a>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for("polls.poll_create") }}">
+                                        {{ _("Create poll") }}
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_manage_polls", username=current_user["username"]) }}">Manage
-                                    my polls</a></li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("users.user_manage_polls", username=current_user["username"]) }}">
+                                        {{ _("Manage my polls") }}
+                                    </a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_info", username=current_user["username"]) }}">My
-                                    profile</a></li>
-                                <li><a class="dropdown-item"
-                                       href="{{ url_for("users.profile_settings", username=current_user["username"]) }}">Account
-                                    settings</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for("users.logout") }}">Log out</a></li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("users.user_info", username=current_user["username"]) }}">
+                                        {{ _("My profile") }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("users.profile_settings", username=current_user["username"]) }}">
+                                        {{ _("Account settings") }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for("users.logout") }}">
+                                        {{ _("Log out") }}
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     {% else %}
-                        <a class="btn btn-success" href="{{ url_for("users.login") }}">Log in</a>
-                        <a class="btn btn-outline-light ms-1" href="{{ url_for("users.register") }}">Sign up</a>
+                        <a class="btn btn-success" href="{{ url_for("users.login") }}">{{ _("Log in") }}</a>
+                        <a class="btn btn-outline-light ms-1"
+                           href="{{ url_for("users.register") }}">{{ _("Sign up") }}</a>
                     {% endif %}
                 </div>
             </div>

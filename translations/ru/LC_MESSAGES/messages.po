@@ -1,0 +1,592 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-04-21 21:29+0300\n"
+"PO-Revision-Date: 2021-04-21 18:36+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms/poll.py:10 forms/poll.py:19
+msgid "Title"
+msgstr "Название"
+
+#: forms/poll.py:11 forms/poll.py:20
+msgid "Description"
+msgstr "Описание"
+
+#: forms/poll.py:14 forms/poll.py:21
+msgid "Is private (available only via link)"
+msgstr "Приватный (доступен только по ссылке)"
+
+#: forms/poll.py:15
+msgid "Create"
+msgstr "Создать"
+
+#: forms/poll.py:22 forms/user.py:31 forms/user.py:36 forms/user.py:44
+#: forms/user.py:49 forms/user.py:56
+msgid "Update"
+msgstr "Обновить"
+
+#: forms/poll.py:26 templates/poll_create.html:21
+msgid "Options"
+msgstr "Варианты ответа"
+
+#: forms/poll.py:27
+msgid "Vote"
+msgstr "Проголосовать"
+
+#: forms/poll.py:31
+msgid "Comment"
+msgstr "Комментарий"
+
+#: forms/poll.py:32
+msgid "Leave comment"
+msgstr "Прокоммментировать"
+
+#: forms/user.py:12 forms/user.py:21 forms/user.py:35
+#: templates/account_settings.html:18 templates/user_info.html:79
+msgid "Email"
+msgstr ""
+
+#: forms/user.py:13 forms/user.py:27
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: forms/user.py:15 forms/user.py:22
+msgid "Password"
+msgstr "Пароль"
+
+#: forms/user.py:16
+msgid "Repeat password"
+msgstr "Повторите пароль"
+
+#: forms/user.py:17 templates/base.html:110 templates/register.html:5
+#: views/users.py:29
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: forms/user.py:23 templates/base.html:108 templates/login.html:5
+msgid "Log in"
+msgstr "Войти"
+
+#: forms/user.py:29
+msgid "Avatar"
+msgstr "Аватар"
+
+#: forms/user.py:30
+msgid "Bio"
+msgstr "Информация о себе"
+
+#: forms/user.py:40
+msgid "Old password"
+msgstr "Старый пароль"
+
+#: forms/user.py:41
+msgid "New password"
+msgstr "Новый пароль"
+
+#: forms/user.py:42
+msgid "Repeat new password"
+msgstr "Повторите новый пароль"
+
+#: forms/user.py:48 templates/user_info.html:78
+msgid "Group"
+msgstr "Группа"
+
+#: forms/user.py:53 templates/points.html:12
+msgid "Action"
+msgstr "Действие"
+
+#: forms/user.py:54
+msgid "Deduct"
+msgstr "Вычесть"
+
+#: forms/user.py:54
+msgid "Add"
+msgstr "Добавить"
+
+#: forms/user.py:55
+msgid "Count"
+msgstr "Количество"
+
+#: templates/account_settings.html:9 templates/base.html:97
+msgid "Account settings"
+msgstr "Настройки аккаунта"
+
+#: templates/account_settings.html:13
+msgid "Profile "
+msgstr "Профиль"
+
+#: templates/account_settings.html:22
+msgid "Security"
+msgstr "Безопасность"
+
+#: templates/base.html:37 views/polls.py:21
+msgid "Polls"
+msgstr "Опросы"
+
+#: templates/base.html:41 views/default.py:30
+msgid "Verification"
+msgstr "Верификация"
+
+#: templates/base.html:44 templates/points.html:13 templates/user_info.html:81
+#: views/default.py:23
+msgid "Points"
+msgstr "Баллы"
+
+#: templates/base.html:52
+msgid "Language"
+msgstr "Язык"
+
+#: templates/base.html:64
+msgid "Your points"
+msgstr "Ваши баллы"
+
+#: templates/base.html:76 templates/poll_create.html:5 templates/polls.html:5
+#: views/polls.py:144
+msgid "Create poll"
+msgstr "Создать опрос"
+
+#: templates/base.html:82
+msgid "Manage my polls"
+msgstr "Управление опросами"
+
+#: templates/base.html:91
+msgid "My profile"
+msgstr "Мой профиль"
+
+#: templates/base.html:102
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/index.html:6
+msgid "Vote Create Analyze"
+msgstr "Голосуй Твори Анализируй"
+
+#: templates/index.html:7
+msgid ""
+"Whether you are a research organization\n"
+"            or just an inquisitive user, this service is right for you."
+msgstr ""
+"Вы представляете исследовательскую организацию? Или вы просто любопытны? "
+"Это не имеет значения."
+
+#: templates/index.html:9
+msgid "Here you can easily and quickly create polls that will involve real users"
+msgstr ""
+"Здесь вы можете быстро и легко создавать опросы, в которых будут "
+"участвовать настоящие пользователи"
+
+#: templates/index.html:10
+msgid "or vote and get rewards."
+msgstr "или голосовать и получать награды"
+
+#: templates/points.html:6
+msgid ""
+"The service uses a system of points and ratings. For each action, users "
+"receive a certain\n"
+"            number of points."
+msgstr ""
+"На сервисе используется система баллов и рейтингов. За каждое действие "
+"пользователи получают определенное количество баллов."
+
+#: templates/points.html:18
+msgid "Registration"
+msgstr "Регистрация"
+
+#: templates/points.html:22
+msgid "Creating poll"
+msgstr "Создание опроса"
+
+#: templates/points.html:26
+msgid "Voting"
+msgstr "Голосование в опросе"
+
+#: templates/points.html:31
+msgid "Verified"
+msgstr "У подтвержденных"
+
+#: templates/points.html:32
+msgid "users do not have their points deducted."
+msgstr "пользователей баллы не вычитаются."
+
+#: templates/points.html:35
+msgid ""
+"Moderators reserve the right to deduct any number of points or block "
+"users for\n"
+"            violations of the service rules."
+msgstr ""
+"Модераторы оставляют за собой право вычитать любое количество баллов или "
+"блокировать пользователей за нарушение правил сервиса."
+
+#: templates/poll_create.html:24
+msgid "Add choice"
+msgstr "Добавить вариант ответа"
+
+#: templates/poll_edit.html:5 templates/poll_info.html:5
+msgid "Poll not found"
+msgstr "Опрос не найден"
+
+#: templates/poll_edit.html:9
+msgid "Return to the poll"
+msgstr "Вернуться к опросу"
+
+#: templates/poll_edit.html:10
+msgid "Poll settings"
+msgstr "Настройки опроса"
+
+#: templates/poll_edit.html:29
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/poll_info.html:10
+msgid "Poll is completed"
+msgstr "Опрос завершен"
+
+#: templates/poll_info.html:14
+msgid "Edit"
+msgstr "Редактировать"
+
+#: templates/poll_info.html:16
+msgid "Complete"
+msgstr "Завершить"
+
+#: templates/poll_info.html:19
+msgid "Resume"
+msgstr "Возобновить"
+
+#: templates/poll_info.html:24
+msgid "Created by"
+msgstr "Создал"
+
+#: templates/poll_info.html:30
+msgid "at"
+msgstr " "
+
+#: templates/poll_info.html:71
+msgid "There are no comments here yet. Be the first."
+msgstr "Здесь пока нет комментариев. Будьте первыми."
+
+#: templates/polls.html:8 templates/user_info.html:91
+msgid "There are no polls"
+msgstr "Опросов еще нет"
+
+#: templates/polls.html:16
+msgid "by"
+msgstr "от"
+
+#: templates/polls.html:30
+msgid "completed"
+msgstr "завершен"
+
+#: templates/user_change_group.html:5
+msgid "Change user's group"
+msgstr "Сменить группу пользователя"
+
+#: templates/user_change_points.html:5
+msgid "Change user's points"
+msgstr "Изменить количество баллов пользователя"
+
+#: templates/user_info.html:5
+msgid "User not found"
+msgstr "Пользователь не найден"
+
+#: templates/user_info.html:7
+msgid "User is banned"
+msgstr "Пользователь забанен"
+
+#: templates/user_info.html:9
+msgid "Unban"
+msgstr "Разбанить"
+
+#: templates/user_info.html:27
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+#: templates/user_info.html:32
+msgid "Actions"
+msgstr "Действия"
+
+#: templates/user_info.html:37
+msgid "Verify"
+msgstr "Верифицировать"
+
+#: templates/user_info.html:43
+msgid "Cancel verification"
+msgstr "Отменить верификацию"
+
+#: templates/user_info.html:51
+msgid "Ban"
+msgstr "Забанить"
+
+#: templates/user_info.html:60 views/users.py:328
+msgid "Change group"
+msgstr "Сменить группу"
+
+#: templates/user_info.html:68
+msgid "Change points count"
+msgstr "Изменить количество баллов"
+
+#: templates/user_info.html:75
+msgid "Additional information"
+msgstr "Дополнительная информация"
+
+#: templates/user_info.html:80
+msgid "Registered at"
+msgstr "Зарегистрирован"
+
+#: templates/user_info.html:89 views/users.py:366
+msgid "User's polls"
+msgstr "Опросы пользователя"
+
+#: templates/user_info.html:100 templates/user_manage_polls.html:21
+msgid "Completed"
+msgstr "Завершен"
+
+#: templates/user_manage_polls.html:5
+msgid "There are no polls."
+msgstr "Опросов еще нет."
+
+#: templates/user_manage_polls.html:10
+msgid "Created at"
+msgstr "Создан"
+
+#: templates/user_manage_polls.html:15
+msgid "Private"
+msgstr "Приватный"
+
+#: templates/user_manage_polls.html:17
+msgid "Public"
+msgstr "Публичный"
+
+#: templates/user_manage_polls.html:23
+msgid "votes"
+msgstr "голосов"
+
+#: templates/user_security_edit.html:5
+msgid "Change password"
+msgstr "Сменить пароль"
+
+#: templates/verification.html:5
+msgid "If you are a company or content maker, you can apply for verification."
+msgstr ""
+"Если вы представляете организацию или создателем контента, вы можете "
+"подать заявку на верификацию."
+
+#: templates/verification.html:7
+msgid "If your application is accepted, you will receive:"
+msgstr "Если ваша заявка будет принята, вы получите:"
+
+#: templates/verification.html:9
+msgid "Profile badge"
+msgstr "Значок в профиле"
+
+#: templates/verification.html:10
+msgid "for recognition, which will be displayed next to your username."
+msgstr ""
+"для узнаваемости, который будет отображаться рядом с вашим именем "
+"пользователя."
+
+#: templates/verification.html:12
+msgid "Unlimited points, so that nothing restricts you."
+msgstr "Неограниченное количество баллов, чтобы ничто не ограничивало вас."
+
+#: templates/verification.html:16
+msgid ""
+"To send a request, write to the email address (currently unavailable) "
+"from the email address that the\n"
+"            account is linked to."
+msgstr ""
+"Чтобы отправить запрос, напишите на электронную почту (в настоящее время "
+"недоступна) с электронной почты, к которой привязана учетная запись."
+
+#: templates/verification.html:20
+msgid ""
+"Do not forget to specify links to resources and the purpose of using the "
+"service in your letter."
+msgstr ""
+"В письме не забудьте указать ссылки на ресурсы и ваши цели использования "
+"сервиса."
+
+#: templates/verification.html:22
+msgid "We will be glad to see you among the verified users :)"
+msgstr "Мы будем рады видеть вас среди верифицированных пользователей :)"
+
+#: tools/languages.py:11
+msgid "User"
+msgstr "Пользователь"
+
+#: tools/languages.py:12
+msgid "Moderator"
+msgstr "Модератор"
+
+#: tools/languages.py:13
+msgid "Admin"
+msgstr "Администратор"
+
+#: tools/languages.py:14
+msgid "Owner"
+msgstr "Владелец"
+
+#: tools/languages.py:17
+msgid "Internal error. Try again."
+msgstr "Неизвестная ошибка. Попробуйте ещё раз."
+
+#: tools/languages.py:18
+msgid "You have no rights to do this."
+msgstr "Вы не можете делать это."
+
+#: views/default.py:16
+msgid "Quick Polls"
+msgstr ""
+
+#: views/polls.py:33
+msgid "Poll"
+msgstr "Опрос"
+
+#: views/polls.py:37 views/polls.py:85 views/polls.py:86 views/polls.py:146
+#: views/polls.py:147 views/users.py:134
+msgid "Length cannot be longer than "
+msgstr "Длина не должна превышать "
+
+#: views/polls.py:42
+msgid "You have successfully voted"
+msgstr "Вы успешно проголосовали."
+
+#: views/polls.py:84
+msgid "Edit poll"
+msgstr "Редактировать опрос"
+
+#: views/polls.py:95
+msgid "Poll has been successfully updated."
+msgstr "Опрос был успешно обновлен."
+
+#: views/polls.py:126
+msgid "Poll has been deleted."
+msgstr "Опрос был удален."
+
+#: views/polls.py:148
+msgid "Every option's length cannot be longer than "
+msgstr "Длина каждого варианта ответа не должна превышать "
+
+#: views/polls.py:159
+msgid "Poll has been created."
+msgstr "Опрос был создан."
+
+#: views/polls.py:166
+msgid "Not enough points to create poll."
+msgstr "Недостаточно баллов для создания опроса."
+
+#: views/polls.py:183
+msgid "Poll has been completed."
+msgstr "Опрос был успешно завершен."
+
+#: views/polls.py:200
+msgid "Poll has been resumed."
+msgstr "Опрос был возобновлен."
+
+#: views/users.py:27 views/users.py:132
+msgid "Length must be between "
+msgstr "Длина должна быть между "
+
+#: views/users.py:28 views/users.py:133
+msgid " and "
+msgstr " и "
+
+#: views/users.py:37
+msgid "Your account has been created. You are now able to log in."
+msgstr "Ваш был успешно создать. Теперь вы можете войти."
+
+#: views/users.py:49
+msgid "User already exists."
+msgstr "Пользователь уже существует."
+
+#: views/users.py:63
+msgid "Login"
+msgstr "Войти"
+
+#: views/users.py:86
+msgid "User not found."
+msgstr "Пользователь не найден."
+
+#: views/users.py:88
+msgid "Wrong password."
+msgstr "Неверный пароль."
+
+#: views/users.py:99
+msgid "You have been logged out."
+msgstr "Вы вышли из аккаунта."
+
+#: views/users.py:117
+msgid "User information"
+msgstr "Информация о пользователе."
+
+#: views/users.py:129
+msgid "Profile settings"
+msgstr "Настройки профиля"
+
+#: views/users.py:149
+msgid "Profile settings have been updated."
+msgstr "Профиль был успешно обновлен."
+
+#: views/users.py:182
+msgid "Change email"
+msgstr "Сменить адрес электронной почты"
+
+#: views/users.py:193
+msgid "Email has been updated."
+msgstr "Адрес электронной почты был успешно обновлен."
+
+#: views/users.py:222
+msgid "Security settings"
+msgstr "Настройки безопасности"
+
+#: views/users.py:233
+msgid "Your password has been updated."
+msgstr "Пароль был успешно обновлен."
+
+#: views/users.py:245
+msgid "Old password is wrong."
+msgstr "Старый пароль неверный."
+
+#: views/users.py:257
+msgid "User has been verified."
+msgstr "Пользователь был верифицирован."
+
+#: views/users.py:274
+msgid "User's verification has been canceled."
+msgstr "Верификация пользователя была отменена."
+
+#: views/users.py:291
+msgid "User has been banned."
+msgstr "Пользователь был забанен."
+
+#: views/users.py:308
+msgid "User has been unbanned."
+msgstr "Пользователь был разбанен."
+
+#: views/users.py:338
+msgid "User's group has been updated."
+msgstr "Группа пользователя была обновлена."
+
+#: views/users.py:383
+msgid "Change points"
+msgstr "Изменить количество баллов."
+
+#: views/users.py:393
+msgid "User's points has been updated."
+msgstr "Количество баллов пользователя было обновлено."
+

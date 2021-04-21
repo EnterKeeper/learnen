@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, RadioField, TextAreaField, BooleanField, SubmitField, FieldList
 from wtforms.validators import DataRequired, Length, Optional
 
-from api.models.polls import Poll, Option, Comment
+from qp.api.models.polls import Poll, Option, Comment
 
 
 class CreatePollForm(FlaskForm):

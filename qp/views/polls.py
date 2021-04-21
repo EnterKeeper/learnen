@@ -2,12 +2,12 @@ from flask import Blueprint, render_template, redirect, flash, url_for
 from flask_babel import _
 from flask_jwt_extended import jwt_required, current_user
 
-from api.models.polls import Poll, Option, Comment
-from api.models.users import ModeratorGroup
-from api.tools import errors
-from forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm
-from tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
-from tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG
+from qp.api.models.polls import Poll, Option, Comment
+from qp.api.models.users import ModeratorGroup
+from qp.api.tools import errors
+from qp.forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm
+from qp.tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
+from qp.tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG
 
 blueprint = Blueprint(
     "polls",

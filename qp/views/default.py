@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, make_response, redirect
 from flask_babel import _
 from flask_jwt_extended import jwt_required
 
-from api.models.users import Points
+from qp.api.models.users import Points
 
 blueprint = Blueprint(
     "default",

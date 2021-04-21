@@ -1,6 +1,6 @@
 from flask_babel import _
 
-from api.models import users
+from qp.api.models import users
 
 LANGUAGES = {
     "en": "English",

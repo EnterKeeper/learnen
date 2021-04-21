@@ -508,7 +508,7 @@ msgstr " и "
 
 #: views/users.py:37
 msgid "Your account has been created. You are now able to log in."
-msgstr "Ваш был успешно создать. Теперь вы можете войти."
+msgstr "Аккаунт был успешно создан. Теперь вы можете войти."
 
 #: views/users.py:49
 msgid "User already exists."

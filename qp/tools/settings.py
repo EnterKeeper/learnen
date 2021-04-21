@@ -1,37 +1,13 @@
-# -*- coding: utf-8 -*-
-
 import os
-from configparser import ConfigParser
 
-import flask_jwt_extended
-from flask import Flask, redirect, make_response, url_for, flash, request
-from flask_babel import Babel
-from flask_jwt_extended import JWTManager, current_user, unset_jwt_cookies, unset_access_cookies
+from flask import redirect, make_response, url_for, flash, request
+from flask_jwt_extended import current_user, unset_jwt_cookies, unset_access_cookies, jwt_required
 
-import views.default
-import views.polls
-import views.users
-from api.database import db_session
-from api.handlers import polls, users, errors
-from api.models.users import User, groups, get_group
-from tools import moment
-from tools.languages import LANGUAGES, GROUPS
-
-config = ConfigParser()
-config.read("config.ini", encoding="utf-8")
-
-app = Flask(__name__)
-app.config["SECRET_KEY"] = config["App"]["SecretKey"]
-app.config["JWT_SECRET_KEY"] = config["App"]["JWTSecretKey"]
-app.config["PROPAGATE_EXCEPTIONS"] = True
-app.config["JWT_TOKEN_LOCATION"] = ["cookies", "headers"]
-app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # CHANGE IN PROD
-app.config["JWT_CSRF_CHECK_FORM"] = False  # CHANGE IN PROD
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False  # DELETE IN PROD
-
-jwt = JWTManager(app)
-
-babel = Babel(app)
+from qp import babel, jwt, app
+from qp.api.database import db_session
+from qp.api.models.users import groups, get_group, User
+from qp.tools.languages import LANGUAGES, GROUPS
+from qp.tools.moment import MomentJs
 
 
 @babel.localeselector
@@ -43,7 +19,7 @@ def get_locale():
 
 
 @app.before_request
-@flask_jwt_extended.jwt_required(optional=True)
+@jwt_required(optional=True)
 def logout_if_banned():
     if request.path.startswith("/api"):
         return
@@ -61,7 +37,7 @@ def inject_template_variables():
                 groups=groups_dict,
                 groups_translations=GROUPS,
                 get_group=get_group,
-                moment=moment.MomentJs,
+                moment=MomentJs,
                 langs=LANGUAGES)
 
 
@@ -69,7 +45,7 @@ def inject_template_variables():
 def get_avatar(filename):
     path = url_for("static", filename="avatars")
     extension = ".png"
-    files = os.listdir(path[1:])
+    files = os.listdir("qp/" + path[1:])
     if type(filename) is not str or filename + extension not in files:
         filename = "default"
     return path + "/" + filename + extension
@@ -111,24 +87,3 @@ def user_lookup_callback(*args):
     response = make_response(redirect("/login"))
     unset_jwt_cookies(response)
     return response
-
-
-def main():
-    db_session.global_init("db/app.db")
-
-    # Blueprints
-    app.register_blueprint(views.default.blueprint)
-    app.register_blueprint(views.users.blueprint)
-    app.register_blueprint(views.polls.blueprint)
-
-    # API
-    api_url_prefix = "/api"
-    app.register_blueprint(errors.blueprint)
-    app.register_blueprint(users.blueprint, url_prefix=api_url_prefix)
-    app.register_blueprint(polls.blueprint, url_prefix=api_url_prefix)
-
-    app.run()
-
-
-if __name__ == "__main__":
-    main()

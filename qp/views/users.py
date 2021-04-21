@@ -3,13 +3,13 @@ from flask_babel import _
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
     get_jwt_identity, create_access_token, current_user
 
-from api.models.users import User, groups, ModeratorGroup, AdminGroup
-from api.tools import errors
-from forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, \
+from qp.api.models.users import User, groups, ModeratorGroup, AdminGroup
+from qp.api.tools import errors
+from qp.forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, \
     UserChangeGroupForm, UserChangePointsForm
-from tools.api_requests import ApiGet, ApiPost, ApiPut
-from tools.images import save_image
-from tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG, GROUPS
+from qp.tools.api_requests import ApiGet, ApiPost, ApiPut
+from qp.tools.images import save_image
+from qp.tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG, GROUPS
 
 blueprint = Blueprint(
     "users",

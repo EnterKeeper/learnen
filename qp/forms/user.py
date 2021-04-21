@@ -5,7 +5,7 @@ from wtforms import PasswordField, StringField, TextAreaField, SelectField, Inte
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-from api.models.users import User
+from qp.api.models.users import User
 
 
 class RegisterForm(FlaskForm):

@@ -4,5 +4,4 @@ class Config:
     PROPAGATE_EXCEPTIONS = True
     JWT_TOKEN_LOCATION = ["cookies", "headers"]
     JWT_COOKIE_SECURE = True
-    JWT_COOKIE_CSRF_PROTECT = True
-
+    JWT_COOKIE_CSRF_PROTECT = False

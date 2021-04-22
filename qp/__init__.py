@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask
 from flask_babel import Babel
 from flask_jwt_extended import JWTManager

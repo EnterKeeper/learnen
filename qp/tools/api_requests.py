@@ -8,6 +8,8 @@ class ApiRequest:
     @classmethod
     def make_request(cls, *url_parts, **kwargs):
         url = request.url_root + "api/" + "/".join(map(str, url_parts))
+        if not ("127.0.0.1:" in url or "localhost:" in url):
+            url = url.replace("http://", "https://")
         headers = dict()
         access_token = request.cookies.get("access_token_cookie")
         if access_token:

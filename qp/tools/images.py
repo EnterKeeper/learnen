@@ -31,7 +31,7 @@ def remove_transparency(image, bg_color=(255, 255, 255)):
 
 
 def save_image(image_data, folder="avatars", size=(150, 150), ext="png", bg_color=(255, 255, 255), remove=None):
-    images_folder = url_for("static", filename=folder)[1:]
+    images_folder = "qp/static/" + folder
     image_filename = secrets.token_hex(16)
     image_path = images_folder + "/" + image_filename + "." + ext
 

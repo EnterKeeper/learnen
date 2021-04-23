@@ -8,7 +8,7 @@ LANGUAGES = {
 }
 
 GROUPS = {
-    users.User: _("User"),
+    users.UserGroup: _("User"),
     users.ModeratorGroup: _("Moderator"),
     users.AdminGroup: _("Admin"),
     users.OwnerGroup: _("Owner")

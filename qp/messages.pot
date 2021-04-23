@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-21 21:29+0300\n"
+"POT-Creation-Date: 2021-04-23 15:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgid "Leave comment"
 msgstr ""
 
 #: forms/user.py:12 forms/user.py:21 forms/user.py:35
-#: templates/account_settings.html:18 templates/user_info.html:79
+#: templates/account_settings.html:18 templates/user_info.html:80
 msgid "Email"
 msgstr ""
 
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Repeat new password"
 msgstr ""
 
-#: forms/user.py:48 templates/user_info.html:78
+#: forms/user.py:48 templates/user_info.html:79
 msgid "Group"
 msgstr ""
 
@@ -140,7 +140,7 @@ msgstr ""
 msgid "Verification"
 msgstr ""
 
-#: templates/base.html:44 templates/points.html:13 templates/user_info.html:81
+#: templates/base.html:44 templates/points.html:13 templates/user_info.html:82
 #: views/default.py:23
 msgid "Points"
 msgstr ""
@@ -246,31 +246,31 @@ msgstr ""
 msgid "Poll is completed"
 msgstr ""
 
-#: templates/poll_info.html:14
+#: templates/poll_info.html:15
 msgid "Edit"
 msgstr ""
 
-#: templates/poll_info.html:16
+#: templates/poll_info.html:18
 msgid "Complete"
 msgstr ""
 
-#: templates/poll_info.html:19
+#: templates/poll_info.html:21
 msgid "Resume"
 msgstr ""
 
-#: templates/poll_info.html:24
+#: templates/poll_info.html:26
 msgid "Created by"
 msgstr ""
 
-#: templates/poll_info.html:30
+#: templates/poll_info.html:32
 msgid "at"
 msgstr ""
 
-#: templates/poll_info.html:71
+#: templates/poll_info.html:74
 msgid "There are no comments here yet. Be the first."
 msgstr ""
 
-#: templates/polls.html:8 templates/user_info.html:91
+#: templates/polls.html:8 templates/user_info.html:92
 msgid "There are no polls"
 msgstr ""
 
@@ -298,51 +298,51 @@ msgstr ""
 msgid "User is banned"
 msgstr ""
 
-#: templates/user_info.html:9
+#: templates/user_info.html:10
 msgid "Unban"
 msgstr ""
 
-#: templates/user_info.html:27
+#: templates/user_info.html:28
 msgid "Edit profile"
 msgstr ""
 
-#: templates/user_info.html:32
+#: templates/user_info.html:33
 msgid "Actions"
 msgstr ""
 
-#: templates/user_info.html:37
+#: templates/user_info.html:38
 msgid "Verify"
 msgstr ""
 
-#: templates/user_info.html:43
+#: templates/user_info.html:44
 msgid "Cancel verification"
 msgstr ""
 
-#: templates/user_info.html:51
+#: templates/user_info.html:52
 msgid "Ban"
 msgstr ""
 
-#: templates/user_info.html:60 views/users.py:328
+#: templates/user_info.html:61 views/users.py:328
 msgid "Change group"
 msgstr ""
 
-#: templates/user_info.html:68
+#: templates/user_info.html:69
 msgid "Change points count"
 msgstr ""
 
-#: templates/user_info.html:75
+#: templates/user_info.html:76
 msgid "Additional information"
 msgstr ""
 
-#: templates/user_info.html:80
+#: templates/user_info.html:81
 msgid "Registered at"
 msgstr ""
 
-#: templates/user_info.html:89 views/users.py:366
+#: templates/user_info.html:90 views/users.py:366
 msgid "User's polls"
 msgstr ""
 
-#: templates/user_info.html:100 templates/user_manage_polls.html:21
+#: templates/user_info.html:101 templates/user_manage_polls.html:21
 msgid "Completed"
 msgstr ""
 

@@ -1,4 +1,4 @@
-from flask_babel import _
+from flask_babel import _, lazy_gettext
 
 from qp.api.models import users
 
@@ -8,10 +8,10 @@ LANGUAGES = {
 }
 
 GROUPS = {
-    users.UserGroup: _("User"),
-    users.ModeratorGroup: _("Moderator"),
-    users.AdminGroup: _("Admin"),
-    users.OwnerGroup: _("Owner")
+    users.UserGroup: lazy_gettext("User"),
+    users.ModeratorGroup: lazy_gettext("Moderator"),
+    users.AdminGroup: lazy_gettext("Admin"),
+    users.OwnerGroup: lazy_gettext("Owner")
 }
 
 INTERNAL_ERROR_MSG = _("Internal error. Try again.")

@@ -3,6 +3,7 @@ from flask import request
 
 
 class ApiRequest:
+    """Making requests to app API"""
     request_function = None
 
     @classmethod

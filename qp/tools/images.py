@@ -2,10 +2,10 @@ import os
 import secrets
 
 from PIL import Image
-from flask import url_for
 
 
 def get_square(image):
+    """Cropping image to square"""
     width, height = image.size
     crop = [0, 0, width, height]
     if width > height:
@@ -20,6 +20,7 @@ def get_square(image):
 
 
 def remove_transparency(image, bg_color=(255, 255, 255)):
+    """Removing alpha channel"""
     if image.mode in ("RGBA", "LA") or (image.mode == "P" and "transparency" in image.info):
         alpha = image.getchannel("A")
 
@@ -31,6 +32,7 @@ def remove_transparency(image, bg_color=(255, 255, 255)):
 
 
 def save_image(image_data, folder="avatars", size=(150, 150), ext="png", bg_color=(255, 255, 255), remove=None):
+    """Saving image"""
     images_folder = "qp/static/" + folder
     image_filename = secrets.token_hex(16)
     image_path = images_folder + "/" + image_filename + "." + ext

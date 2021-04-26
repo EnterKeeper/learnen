@@ -2,6 +2,7 @@ from flask import jsonify
 
 
 class ApiError(Exception):
+    """API error class"""
     status_code = 500
     sub_code = 0
     message = "Error."

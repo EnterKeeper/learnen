@@ -12,6 +12,7 @@ from qp.tools.moment import MomentJs
 
 @babel.localeselector
 def get_locale():
+    """Getting current language"""
     language = request.cookies.get("language")
     if language not in LANGUAGES.keys():
         return request.accept_languages.best_match(LANGUAGES.keys())
@@ -21,6 +22,7 @@ def get_locale():
 @app.before_request
 @jwt_required(optional=True)
 def logout_if_banned():
+    """Logout if current user is banned"""
     if request.path.startswith("/api"):
         return
     if current_user and current_user.banned:
@@ -32,6 +34,7 @@ def logout_if_banned():
 
 @app.context_processor
 def inject_template_variables():
+    """Adding variables to Jinja2 engine"""
     groups_dict = {group.title: group for group in groups}
     return dict(current_user=current_user,
                 groups=groups_dict,
@@ -43,6 +46,7 @@ def inject_template_variables():
 
 @app.template_filter("get_avatar")
 def get_avatar(filename):
+    """Get user avatar"""
     path = url_for("static", filename="avatars")
     extension = ".png"
     files = os.listdir("qp/" + path[1:])
@@ -53,11 +57,13 @@ def get_avatar(filename):
 
 @jwt.user_identity_loader
 def user_identity_lookup(user_id):
+    """Getting JWT identity"""
     return user_id
 
 
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
+    """Getting current_user from database"""
     user_id = jwt_data["sub"]
     session = db_session.create_session()
     return session.query(User).get(user_id)
@@ -65,11 +71,13 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 @jwt.unauthorized_loader
 def unauthorized_callback(*args):
+    """Log in if user is unauthorized, but authorization is required"""
     return redirect("/login")
 
 
 @jwt.invalid_token_loader
 def invalid_token_callback(*args):
+    """Remove cookies and log in if JWT tokens are invalid"""
     response = make_response(redirect("/login"))
     unset_jwt_cookies(response)
     return response
@@ -77,6 +85,7 @@ def invalid_token_callback(*args):
 
 @jwt.expired_token_loader
 def expired_token_callback(*args):
+    """Update token if expired"""
     response = make_response(redirect("/token/refresh"))
     unset_access_cookies(response)
     return response
@@ -84,6 +93,7 @@ def expired_token_callback(*args):
 
 @jwt.user_lookup_error_loader
 def user_lookup_callback(*args):
+    """Log in if current_user not found"""
     response = make_response(redirect("/login"))
     unset_jwt_cookies(response)
     return response

@@ -3,6 +3,7 @@ from ..models.users import User, OwnerGroup
 
 
 def create_owner_user():
+    """Create default owner user on database first initialization"""
     session = db_session.create_session()
 
     users = session.query(User).first()

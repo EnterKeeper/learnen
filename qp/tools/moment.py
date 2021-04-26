@@ -3,12 +3,13 @@ from jinja2 import Markup
 
 
 class MomentJs:
+    """Rendering datetime to HTML with moment.js"""
     def __init__(self, timestamp):
         self.timestamp = timestamp
 
     def render(self, format):
         script = f"""
-        var dt = moment.utc('{self.timestamp}');
+        var dt = moment.utc('{self.timestamp}').local();
         dt.locale('{get_locale().language}');
         var formatted = dt.{format};
         """

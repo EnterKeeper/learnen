@@ -9,6 +9,7 @@ __factory = None
 
 
 def global_init(db_file):
+    """Database init"""
     global __factory
 
     if __factory:

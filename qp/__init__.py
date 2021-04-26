@@ -14,6 +14,7 @@ babel = Babel()
 
 
 def create_app(config_class=Config):
+    """App creation"""
     app.config.from_object(config_class)
 
     db_session.global_init("qp/db/app.db")
@@ -32,10 +33,12 @@ def create_app(config_class=Config):
     from qp.api.handlers import users as api_users
     from qp.api.handlers import polls as api_polls
 
+    # Registering views blueprints
     app.register_blueprint(default.blueprint)
     app.register_blueprint(users.blueprint)
     app.register_blueprint(polls.blueprint)
 
+    # Registering API blueprints
     api_url_prefix = "/api"
     app.register_blueprint(api_errors.blueprint)
     app.register_blueprint(api_users.blueprint, url_prefix=api_url_prefix)

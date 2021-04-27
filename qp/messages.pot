@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-23 15:02+0300\n"
+"POT-Creation-Date: 2021-04-27 17:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -391,43 +391,44 @@ msgid "Unlimited points, so that nothing restricts you."
 msgstr ""
 
 #: templates/verification.html:16
-msgid ""
-"To send a request, write to the email address (currently unavailable) "
-"from the email address that the\n"
-"            account is linked to."
+msgid "To send a request, write to the"
 msgstr ""
 
-#: templates/verification.html:20
+#: templates/verification.html:18
+msgid "from the email address that the account is linked to."
+msgstr ""
+
+#: templates/verification.html:21
 msgid ""
 "Do not forget to specify links to resources and the purpose of using the "
 "service in your letter."
 msgstr ""
 
-#: templates/verification.html:22
+#: templates/verification.html:23
 msgid "We will be glad to see you among the verified users :)"
 msgstr ""
 
-#: tools/languages.py:11
+#: tools/languages.py:13
 msgid "User"
 msgstr ""
 
-#: tools/languages.py:12
+#: tools/languages.py:14
 msgid "Moderator"
 msgstr ""
 
-#: tools/languages.py:13
+#: tools/languages.py:15
 msgid "Admin"
 msgstr ""
 
-#: tools/languages.py:14
+#: tools/languages.py:16
 msgid "Owner"
 msgstr ""
 
-#: tools/languages.py:17
+#: tools/languages.py:20
 msgid "Internal error. Try again."
 msgstr ""
 
-#: tools/languages.py:18
+#: tools/languages.py:21
 msgid "You have no rights to do this."
 msgstr ""
 

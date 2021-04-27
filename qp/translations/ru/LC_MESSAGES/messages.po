@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-23 15:02+0300\n"
+"POT-Creation-Date: 2021-04-27 17:57+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -405,15 +405,14 @@ msgid "Unlimited points, so that nothing restricts you."
 msgstr "Неограниченное количество баллов, чтобы ничто не ограничивало вас."
 
 #: templates/verification.html:16
-msgid ""
-"To send a request, write to the email address (currently unavailable) "
-"from the email address that the\n"
-"            account is linked to."
-msgstr ""
-"Чтобы отправить запрос, напишите на электронную почту (в настоящее время "
-"недоступна) с электронной почты, к которой привязана учетная запись."
+msgid "To send a request, write to the"
+msgstr "Чтобы отправить запрос, напишите на"
 
-#: templates/verification.html:20
+#: templates/verification.html:18
+msgid "from the email address that the account is linked to."
+msgstr "с электронной почты, к которой привязана учетная запись."
+
+#: templates/verification.html:21
 msgid ""
 "Do not forget to specify links to resources and the purpose of using the "
 "service in your letter."
@@ -421,31 +420,31 @@ msgstr ""
 "В письме не забудьте указать ссылки на ресурсы и ваши цели использования "
 "сервиса."
 
-#: templates/verification.html:22
+#: templates/verification.html:23
 msgid "We will be glad to see you among the verified users :)"
 msgstr "Мы будем рады видеть вас среди верифицированных пользователей :)"
 
-#: tools/languages.py:11
+#: tools/languages.py:13
 msgid "User"
 msgstr "Пользователь"
 
-#: tools/languages.py:12
+#: tools/languages.py:14
 msgid "Moderator"
 msgstr "Модератор"
 
-#: tools/languages.py:13
+#: tools/languages.py:15
 msgid "Admin"
 msgstr "Администратор"
 
-#: tools/languages.py:14
+#: tools/languages.py:16
 msgid "Owner"
 msgstr "Владелец"
 
-#: tools/languages.py:17
+#: tools/languages.py:20
 msgid "Internal error. Try again."
 msgstr "Неизвестная ошибка. Попробуйте ещё раз."
 
-#: tools/languages.py:18
+#: tools/languages.py:21
 msgid "You have no rights to do this."
 msgstr "Вы не можете делать это."
 
@@ -589,4 +588,3 @@ msgstr "Изменить количество баллов."
 #: views/users.py:393
 msgid "User's points has been updated."
 msgstr "Количество баллов пользователя было обновлено."
-

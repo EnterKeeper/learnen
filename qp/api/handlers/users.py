@@ -73,7 +73,7 @@ class UserResource(Resource):
 
 
 class UsersListResource(Resource):
-    @admin_required()
+    @moderator_required()
     def get(self):
         session = db_session.create_session()
         users = session.query(User).order_by(User.created_at.desc()).all()

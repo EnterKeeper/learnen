@@ -71,7 +71,7 @@
                                      src="{{ current_user.avatar_filename | get_avatar }}">
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-dropdown">
-                                {% if groups["Admin"].is_belong(current_user["group"]) %}
+                                {% if groups["Moderator"].is_belong(current_user["group"]) %}
                                     <li>
                                         <a class="dropdown-item" href="{{ url_for("users.users_list") }}">
                                             {{ _("Manage users") }}

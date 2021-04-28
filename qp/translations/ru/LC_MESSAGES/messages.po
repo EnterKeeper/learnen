@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-27 17:57+0300\n"
+"POT-Creation-Date: 2021-04-28 20:56+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -73,12 +73,12 @@ msgstr "Пароль"
 msgid "Repeat password"
 msgstr "Повторите пароль"
 
-#: forms/user.py:17 templates/base.html:110 templates/register.html:5
+#: forms/user.py:17 templates/base.html:120 templates/register.html:5
 #: views/users.py:29
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
-#: forms/user.py:23 templates/base.html:108 templates/login.html:5
+#: forms/user.py:23 templates/base.html:118 templates/login.html:5
 msgid "Log in"
 msgstr "Войти"
 
@@ -122,7 +122,7 @@ msgstr "Добавить"
 msgid "Count"
 msgstr "Количество"
 
-#: templates/account_settings.html:9 templates/base.html:97
+#: templates/account_settings.html:9 templates/base.html:107
 msgid "Account settings"
 msgstr "Настройки аккаунта"
 
@@ -143,7 +143,7 @@ msgid "Verification"
 msgstr "Верификация"
 
 #: templates/base.html:44 templates/points.html:13 templates/user_info.html:82
-#: views/default.py:23
+#: templates/users_list.html:26 views/default.py:23
 msgid "Points"
 msgstr "Баллы"
 
@@ -155,20 +155,24 @@ msgstr "Язык"
 msgid "Your points"
 msgstr "Ваши баллы"
 
-#: templates/base.html:76 templates/poll_create.html:5 templates/polls.html:5
+#: templates/base.html:77
+msgid "Manage users"
+msgstr "Пользователи"
+
+#: templates/base.html:86 templates/poll_create.html:5 templates/polls.html:5
 #: views/polls.py:144
 msgid "Create poll"
 msgstr "Создать опрос"
 
-#: templates/base.html:82
+#: templates/base.html:92
 msgid "Manage my polls"
 msgstr "Управление опросами"
 
-#: templates/base.html:91
+#: templates/base.html:101
 msgid "My profile"
 msgstr "Мой профиль"
 
-#: templates/base.html:102
+#: templates/base.html:112
 msgid "Log out"
 msgstr "Выйти"
 
@@ -344,7 +348,7 @@ msgstr "Изменить количество баллов"
 msgid "Additional information"
 msgstr "Дополнительная информация"
 
-#: templates/user_info.html:81
+#: templates/user_info.html:81 templates/users_list.html:23
 msgid "Registered at"
 msgstr "Зарегистрирован"
 
@@ -588,3 +592,8 @@ msgstr "Изменить количество баллов."
 #: views/users.py:393
 msgid "User's points has been updated."
 msgstr "Количество баллов пользователя было обновлено."
+
+#: views/users.py:413
+msgid "Registered users"
+msgstr "Зарегистрированные пользователи"
+

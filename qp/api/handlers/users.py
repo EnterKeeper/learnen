@@ -76,7 +76,7 @@ class UsersListResource(Resource):
     @admin_required()
     def get(self):
         session = db_session.create_session()
-        users = session.query(User).all()
+        users = session.query(User).order_by(User.created_at.desc()).all()
         return jsonify({
             "users": UserSchema().dump(users, many=True)
         })

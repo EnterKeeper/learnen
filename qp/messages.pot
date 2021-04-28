@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-27 17:57+0300\n"
+"POT-Creation-Date: 2021-04-28 20:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,12 +71,12 @@ msgstr ""
 msgid "Repeat password"
 msgstr ""
 
-#: forms/user.py:17 templates/base.html:110 templates/register.html:5
+#: forms/user.py:17 templates/base.html:120 templates/register.html:5
 #: views/users.py:29
 msgid "Sign up"
 msgstr ""
 
-#: forms/user.py:23 templates/base.html:108 templates/login.html:5
+#: forms/user.py:23 templates/base.html:118 templates/login.html:5
 msgid "Log in"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: templates/account_settings.html:9 templates/base.html:97
+#: templates/account_settings.html:9 templates/base.html:107
 msgid "Account settings"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgid "Verification"
 msgstr ""
 
 #: templates/base.html:44 templates/points.html:13 templates/user_info.html:82
-#: views/default.py:23
+#: templates/users_list.html:26 views/default.py:23
 msgid "Points"
 msgstr ""
 
@@ -153,20 +153,24 @@ msgstr ""
 msgid "Your points"
 msgstr ""
 
-#: templates/base.html:76 templates/poll_create.html:5 templates/polls.html:5
+#: templates/base.html:77
+msgid "Manage users"
+msgstr ""
+
+#: templates/base.html:86 templates/poll_create.html:5 templates/polls.html:5
 #: views/polls.py:144
 msgid "Create poll"
 msgstr ""
 
-#: templates/base.html:82
+#: templates/base.html:92
 msgid "Manage my polls"
 msgstr ""
 
-#: templates/base.html:91
+#: templates/base.html:101
 msgid "My profile"
 msgstr ""
 
-#: templates/base.html:102
+#: templates/base.html:112
 msgid "Log out"
 msgstr ""
 
@@ -334,7 +338,7 @@ msgstr ""
 msgid "Additional information"
 msgstr ""
 
-#: templates/user_info.html:81
+#: templates/user_info.html:81 templates/users_list.html:23
 msgid "Registered at"
 msgstr ""
 
@@ -571,5 +575,9 @@ msgstr ""
 
 #: views/users.py:393
 msgid "User's points has been updated."
+msgstr ""
+
+#: views/users.py:413
+msgid "Registered users"
 msgstr ""
 

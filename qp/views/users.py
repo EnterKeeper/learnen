@@ -405,3 +405,14 @@ def user_change_points(username):
             flash(INTERNAL_ERROR_MSG, "danger")
 
     return render_template("user_change_points.html", title=title, form=form)
+
+
+@blueprint.route("/users")
+@jwt_required()
+def users_list():
+    title = _("Registered users")
+
+    users = ApiGet.make_request("users").json().get("users")
+    if not users:
+        return redirect("/")
+    return render_template("users_list.html", title=title, users=users)

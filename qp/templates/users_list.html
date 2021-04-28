@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="users-list">
+        {% for user in users %}
+            <div class="card p-2 mb-1">
+                <div class="row">
+                    <div class="col-1 pe-0">
+                        <img class="w-100 rounded-circle"
+                                {% set avatar = user["avatar_filename"] | get_avatar() %}
+                             src="{{ avatar }}" alt="User avatar">
+                    </div>
+                    <div class="col">
+                        <div>
+                            <a class="text-decoration-none"
+                               href="{{ url_for("users.user_info", username=user["username"]) }}">
+                                {{ user["username"] }}
+                            </a>
+                            {% if user["verified"] %}
+                                <i class="fas fa-badge-check verified-badge"></i>
+                            {% endif %}
+                        </div>
+                        <div><span class="text-muted">{{ _("Registered at") }}: </span>
+                            {{ moment(user["created_at"]).standard() }}
+                        </div>
+                        <div><span class="text-muted">{{ _("Points") }}: </span>{{ user["points"] }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

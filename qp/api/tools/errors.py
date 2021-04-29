@@ -134,3 +134,9 @@ class OptionNotFoundError(ApiError):
     status_code = 404
     sub_code = 120
     message = "Option not found."
+
+
+class CommentNotFoundError(ApiError):
+    status_code = 404
+    sub_code = 130
+    message = "Comment not found."

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card p-4">
+        <h2 class="text-center">{{ _("Update comment") }}</h2>
+        <form class="mb-3" method="post" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-field mb-2">
+                {% set field = form.text %}
+                {% set mark_field_class = "border-danger" if field.errors else "" %}
+                {{ field(class="form-control mb-0 " + mark_field_class) }}
+                <div id="textHelp" class="form-text mb-2 mt-0">{{ field.description }}</div>
+            </div>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+{% endblock %}

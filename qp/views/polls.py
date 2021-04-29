@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, current_user
 from qp.api.models.polls import Poll, Option, Comment
 from qp.api.models.users import ModeratorGroup
 from qp.api.tools import errors
-from qp.forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm
+from qp.forms.poll import CreatePollForm, EditPollForm, VoteForm, LeaveCommentForm, EditCommentForm
 from qp.tools.api_requests import ApiGet, ApiPost, ApiPut, ApiDelete
 from qp.tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG
 
@@ -207,3 +207,59 @@ def poll_resume(poll_id):
             flash(INTERNAL_ERROR_MSG, "danger")
 
     return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+
+@blueprint.route("/polls/<int:poll_id>/comments/<int:comment_id>/delete", methods=["GET", "POST"])
+@jwt_required()
+def comment_delete(poll_id, comment_id):
+    resp = ApiDelete.make_request("comments", comment_id)
+    if resp.status_code == 200:
+        flash(_("Comment has been deleted."), "success")
+    else:
+        error = resp.json()["error"]
+        code = error["code"]
+        if errors.AccessDeniedError.sub_code_match(code):
+            flash(NO_RIGHTS_ERROR_MSG, "danger")
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+
+    return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+
+@blueprint.route("/polls/<int:poll_id>/comments/<int:comment_id>/edit", methods=['GET', 'POST'])
+@jwt_required()
+def comment_edit(poll_id, comment_id):
+    comment = ApiGet.make_request("comments", comment_id).json().get("comment")
+    if current_user.id != comment["user"]["id"]:
+        flash(NO_RIGHTS_ERROR_MSG, "danger")
+        return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+    title = _("Edit comment")
+
+    form = EditCommentForm()
+    form.text.description = _("Length cannot be longer than ") + str(Comment.max_text_length)
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        response = ApiPut.make_request("comments", comment_id, json=form_data)
+        if response.status_code == 200:
+            flash(_("Comment has been updated."), "success")
+            return redirect(url_for("polls.poll_info", poll_id=poll_id))
+
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+
+    if comment:
+        form.text.data = comment["text"]
+
+    return render_template("comment_edit.html", title=title, form=form, comment=comment)

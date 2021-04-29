@@ -84,7 +84,7 @@
                                  src="{{ avatar }}" alt="User avatar">
                         </div>
                         <div class="col">
-                            <div>
+                            <div class="position-relative">
                                 <a class="text-decoration-none"
                                    href="{{ url_for("users.user_info", username=comment["user"]["username"]) }}">
                                     {{ comment["user"]["username"] }}
@@ -92,6 +92,19 @@
                                 {% if comment["user"]["verified"] %}
                                     <i class="fas fa-badge-check verified-badge"></i>{% endif %}
                                 <div class="d-inline-block text-muted">{{ moment(comment["created_at"]).from_now() }}</div>
+                                <div class="position-absolute top-0 end-0">
+                                    {% if comment["user"]["id"] == current_user.id %}
+                                        <a class="btn p-0 text-muted"
+                                           href="{{ url_for("polls.comment_edit", poll_id=poll["id"],
+                                           comment_id=comment["id"]) }}"><i class="fas fa-pen"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if groups["Moderator"].is_belong(current_user["group"]) or comment["user_id"] == current_user.id %}
+                                        <a class="btn p-0 text-muted ms-1"
+                                           href="{{ url_for("polls.comment_delete", poll_id=poll["id"],
+                                           comment_id=comment["id"]) }}"><i class="fas fa-times"></i></a>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div>{{ comment["text"] }}</div>
                         </div>

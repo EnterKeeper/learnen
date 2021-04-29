@@ -169,7 +169,7 @@ class PollResumeResource(Resource):
         return make_success_message()
 
 
-class CommentResource(Resource):
+class CommentListResource(Resource):
     @user_required()
     def post(self, poll_id):
         data = request.get_json()
@@ -192,9 +192,60 @@ class CommentResource(Resource):
         return make_success_message()
 
 
+class CommentResource(Resource):
+    def get(self, comment_id):
+        session = db_session.create_session()
+
+        comment = session.query(Comment).get(comment_id)
+        if not comment:
+            raise errors.CommentNotFoundError
+
+        data = CommentSchema().dump(comment)
+        return jsonify({"comment": data})
+
+    @user_required()
+    def put(self, comment_id):
+        data = request.get_json()
+        try:
+            CommentSchema().load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        session = db_session.create_session()
+
+        comment = session.query(Comment).get(comment_id)
+        if not comment:
+            raise errors.CommentNotFoundError
+
+        if comment.user_id != current_user.id:
+            raise errors.AccessDeniedError
+
+        session.query(Comment).filter(Comment.id == comment_id).update(data)
+        session.commit()
+
+        return make_success_message()
+
+    @user_required()
+    def delete(self, comment_id):
+        session = db_session.create_session()
+
+        comment = session.query(Comment).get(comment_id)
+        if not comment:
+            raise errors.CommentNotFoundError
+
+        if comment.user_id != current_user.id and not ModeratorGroup.is_belong(current_user.group):
+            raise errors.AccessDeniedError
+
+        session.delete(comment)
+        session.commit()
+
+        return make_success_message()
+
+
 api.add_resource(PollResource, "/polls/<int:poll_id>")
 api.add_resource(PollListResource, "/polls")
 api.add_resource(PollVoteResource, "/polls/vote/<int:option_id>")
 api.add_resource(PollCompleteResource, "/polls/<int:poll_id>/complete")
 api.add_resource(PollResumeResource, "/polls/<int:poll_id>/resume")
-api.add_resource(CommentResource, "/polls/<int:poll_id>/comment")
+api.add_resource(CommentListResource, "/polls/<int:poll_id>/comment")
+api.add_resource(CommentResource, "/comments/<int:comment_id>")

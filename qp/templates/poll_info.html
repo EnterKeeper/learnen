@@ -106,7 +106,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div>{{ comment["text"] }}</div>
+                            <div>{% autoescape false %} {{ comment["text"] | replace("\n", "<br>") }} {% endautoescape %}</div>
                         </div>
                     </div>
                 {% endfor %}

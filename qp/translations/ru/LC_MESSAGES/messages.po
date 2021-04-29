@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-28 20:56+0300\n"
+"POT-Creation-Date: 2021-04-29 22:19+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -35,8 +35,8 @@ msgstr "Приватный (доступен только по ссылке)"
 msgid "Create"
 msgstr "Создать"
 
-#: forms/poll.py:22 forms/user.py:31 forms/user.py:36 forms/user.py:44
-#: forms/user.py:49 forms/user.py:56
+#: forms/poll.py:22 forms/poll.py:37 forms/user.py:31 forms/user.py:36
+#: forms/user.py:44 forms/user.py:49 forms/user.py:56
 msgid "Update"
 msgstr "Обновить"
 
@@ -48,7 +48,7 @@ msgstr "Варианты ответа"
 msgid "Vote"
 msgstr "Проголосовать"
 
-#: forms/poll.py:31
+#: forms/poll.py:31 forms/poll.py:36
 msgid "Comment"
 msgstr "Комментарий"
 
@@ -175,6 +175,10 @@ msgstr "Мой профиль"
 #: templates/base.html:112
 msgid "Log out"
 msgstr "Выйти"
+
+#: templates/comment_edit.html:5 views/polls.py:237
+msgid "Edit comment"
+msgstr "Редактировать комментарий"
 
 #: templates/index.html:6
 msgid "Vote Create Analyze"
@@ -461,7 +465,7 @@ msgid "Poll"
 msgstr "Опрос"
 
 #: views/polls.py:37 views/polls.py:85 views/polls.py:86 views/polls.py:146
-#: views/polls.py:147 views/users.py:134
+#: views/polls.py:147 views/polls.py:240 views/users.py:134
 msgid "Length cannot be longer than "
 msgstr "Длина не должна превышать "
 
@@ -500,6 +504,14 @@ msgstr "Опрос был успешно завершен."
 #: views/polls.py:200
 msgid "Poll has been resumed."
 msgstr "Опрос был возобновлен."
+
+#: views/polls.py:217
+msgid "Comment has been deleted."
+msgstr "Комментарий был удален."
+
+#: views/polls.py:248
+msgid "Comment has been updated."
+msgstr "Комментарий был успешно обновлен."
 
 #: views/users.py:27 views/users.py:132
 msgid "Length must be between "

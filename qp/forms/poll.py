@@ -34,4 +34,4 @@ class LeaveCommentForm(FlaskForm):
 
 class EditCommentForm(FlaskForm):
     text = TextAreaField(lazy_gettext("Comment"), validators=[DataRequired(), Length(max=Comment.max_text_length)])
-    submit = SubmitField(lazy_gettext("Update comment"))
+    submit = SubmitField(lazy_gettext("Update"))

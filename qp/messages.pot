@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-28 20:56+0300\n"
+"POT-Creation-Date: 2021-04-29 22:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,8 +33,8 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: forms/poll.py:22 forms/user.py:31 forms/user.py:36 forms/user.py:44
-#: forms/user.py:49 forms/user.py:56
+#: forms/poll.py:22 forms/poll.py:37 forms/user.py:31 forms/user.py:36
+#: forms/user.py:44 forms/user.py:49 forms/user.py:56
 msgid "Update"
 msgstr ""
 
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Vote"
 msgstr ""
 
-#: forms/poll.py:31
+#: forms/poll.py:31 forms/poll.py:36
 msgid "Comment"
 msgstr ""
 
@@ -172,6 +172,10 @@ msgstr ""
 
 #: templates/base.html:112
 msgid "Log out"
+msgstr ""
+
+#: templates/comment_edit.html:5 views/polls.py:237
+msgid "Edit comment"
 msgstr ""
 
 #: templates/index.html:6
@@ -445,7 +449,7 @@ msgid "Poll"
 msgstr ""
 
 #: views/polls.py:37 views/polls.py:85 views/polls.py:86 views/polls.py:146
-#: views/polls.py:147 views/users.py:134
+#: views/polls.py:147 views/polls.py:240 views/users.py:134
 msgid "Length cannot be longer than "
 msgstr ""
 
@@ -483,6 +487,14 @@ msgstr ""
 
 #: views/polls.py:200
 msgid "Poll has been resumed."
+msgstr ""
+
+#: views/polls.py:217
+msgid "Comment has been deleted."
+msgstr ""
+
+#: views/polls.py:248
+msgid "Comment has been updated."
 msgstr ""
 
 #: views/users.py:27 views/users.py:132

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-29 22:19+0300\n"
+"POT-Creation-Date: 2021-05-13 16:41+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -73,12 +73,12 @@ msgstr "Пароль"
 msgid "Repeat password"
 msgstr "Повторите пароль"
 
-#: forms/user.py:17 templates/base.html:120 templates/register.html:5
+#: forms/user.py:17 templates/base.html:129 templates/register.html:5
 #: views/users.py:29
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
-#: forms/user.py:23 templates/base.html:118 templates/login.html:5
+#: forms/user.py:23 templates/base.html:127 templates/login.html:5
 msgid "Log in"
 msgstr "Войти"
 
@@ -122,7 +122,7 @@ msgstr "Добавить"
 msgid "Count"
 msgstr "Количество"
 
-#: templates/account_settings.html:9 templates/base.html:107
+#: templates/account_settings.html:9 templates/base.html:116
 msgid "Account settings"
 msgstr "Настройки аккаунта"
 
@@ -134,45 +134,45 @@ msgstr "Профиль"
 msgid "Security"
 msgstr "Безопасность"
 
-#: templates/base.html:37 views/polls.py:21
+#: templates/base.html:46 views/polls.py:21
 msgid "Polls"
 msgstr "Опросы"
 
-#: templates/base.html:41 views/default.py:30
+#: templates/base.html:50 views/default.py:30
 msgid "Verification"
 msgstr "Верификация"
 
-#: templates/base.html:44 templates/points.html:13 templates/user_info.html:82
+#: templates/base.html:53 templates/points.html:13 templates/user_info.html:82
 #: templates/users_list.html:26 views/default.py:23
 msgid "Points"
 msgstr "Баллы"
 
-#: templates/base.html:52
+#: templates/base.html:61
 msgid "Language"
 msgstr "Язык"
 
-#: templates/base.html:64
+#: templates/base.html:73
 msgid "Your points"
 msgstr "Ваши баллы"
 
-#: templates/base.html:77
+#: templates/base.html:86
 msgid "Manage users"
 msgstr "Пользователи"
 
-#: templates/base.html:86 templates/poll_create.html:5 templates/polls.html:5
+#: templates/base.html:95 templates/poll_create.html:5 templates/polls.html:5
 #: views/polls.py:144
 msgid "Create poll"
 msgstr "Создать опрос"
 
-#: templates/base.html:92
+#: templates/base.html:101
 msgid "Manage my polls"
 msgstr "Управление опросами"
 
-#: templates/base.html:101
+#: templates/base.html:110
 msgid "My profile"
 msgstr "Мой профиль"
 
-#: templates/base.html:112
+#: templates/base.html:121
 msgid "Log out"
 msgstr "Выйти"
 
@@ -455,6 +455,10 @@ msgstr "Неизвестная ошибка. Попробуйте ещё раз.
 #: tools/languages.py:21
 msgid "You have no rights to do this."
 msgstr "Вы не можете делать это."
+
+#: tools/settings.py:32
+msgid "You were banned."
+msgstr "Вы были забанены."
 
 #: views/default.py:16
 msgid "Quick Polls"

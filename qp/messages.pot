@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-29 22:19+0300\n"
+"POT-Creation-Date: 2021-05-13 16:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,12 +71,12 @@ msgstr ""
 msgid "Repeat password"
 msgstr ""
 
-#: forms/user.py:17 templates/base.html:120 templates/register.html:5
+#: forms/user.py:17 templates/base.html:129 templates/register.html:5
 #: views/users.py:29
 msgid "Sign up"
 msgstr ""
 
-#: forms/user.py:23 templates/base.html:118 templates/login.html:5
+#: forms/user.py:23 templates/base.html:127 templates/login.html:5
 msgid "Log in"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: templates/account_settings.html:9 templates/base.html:107
+#: templates/account_settings.html:9 templates/base.html:116
 msgid "Account settings"
 msgstr ""
 
@@ -132,45 +132,45 @@ msgstr ""
 msgid "Security"
 msgstr ""
 
-#: templates/base.html:37 views/polls.py:21
+#: templates/base.html:46 views/polls.py:21
 msgid "Polls"
 msgstr ""
 
-#: templates/base.html:41 views/default.py:30
+#: templates/base.html:50 views/default.py:30
 msgid "Verification"
 msgstr ""
 
-#: templates/base.html:44 templates/points.html:13 templates/user_info.html:82
+#: templates/base.html:53 templates/points.html:13 templates/user_info.html:82
 #: templates/users_list.html:26 views/default.py:23
 msgid "Points"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:61
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:64
+#: templates/base.html:73
 msgid "Your points"
 msgstr ""
 
-#: templates/base.html:77
+#: templates/base.html:86
 msgid "Manage users"
 msgstr ""
 
-#: templates/base.html:86 templates/poll_create.html:5 templates/polls.html:5
+#: templates/base.html:95 templates/poll_create.html:5 templates/polls.html:5
 #: views/polls.py:144
 msgid "Create poll"
 msgstr ""
 
-#: templates/base.html:92
+#: templates/base.html:101
 msgid "Manage my polls"
 msgstr ""
 
-#: templates/base.html:101
+#: templates/base.html:110
 msgid "My profile"
 msgstr ""
 
-#: templates/base.html:112
+#: templates/base.html:121
 msgid "Log out"
 msgstr ""
 
@@ -438,6 +438,10 @@ msgstr ""
 
 #: tools/languages.py:21
 msgid "You have no rights to do this."
+msgstr ""
+
+#: tools/settings.py:32
+msgid "You were banned."
 msgstr ""
 
 #: views/default.py:16

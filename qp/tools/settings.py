@@ -1,6 +1,7 @@
 import os
 
 from flask import redirect, make_response, url_for, flash, request
+from flask_babel import _
 from flask_jwt_extended import current_user, unset_jwt_cookies, unset_access_cookies, jwt_required
 
 from qp import babel, jwt, app
@@ -28,7 +29,7 @@ def logout_if_banned():
     if current_user and current_user.banned:
         resp = make_response(redirect("/"))
         unset_jwt_cookies(resp)
-        flash("You were banned.", "danger")
+        flash(_("You were banned."), "danger")
         return resp
 
 

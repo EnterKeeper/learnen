@@ -76,10 +76,18 @@
                             aria-controls="user-additional-info">{{ _("Additional information") }}
                     </button>
                     <div id="user-additional-info" class="collapse">
-                        <div class="mt-1">{{ _("Group") }}: {{ groups_translations[get_group(id=user["group"])] }}</div>
-                        <div class="mt-1">{{ _("Email") }}: {{ user["email"] }}</div>
-                        <div class="mt-1">{{ _("Registered at") }}: {{ moment(user["created_at"]).standard() }}</div>
-                        <div class="mt-1">{{ _("Points") }}: {{ user["points"] }}</div>
+                        <div class="mt-1"><span class="text-muted">{{ _("Group") }}:</span>
+                            {{ groups_translations[get_group(id=user["group"])] }}</div>
+                        <div class="mt-1"><span class="text-muted">{{ _("Email") }}:</span>
+                            {{ user["email"] }}
+                            {% if not user["email_confirmed"] %}
+                                <span class="text-danger">({{ _("Not confirmed")}})</span>
+                            {% endif %}
+                        </div>
+                        <div class="mt-1"><span class="text-muted">{{ _("Registered at") }}:</span>
+                            {{ moment(user["created_at"]).standard() }}</div>
+                        <div class="mt-1"><span class="text-muted">{{ _("Points") }}:</span>
+                            {{ user["points"] }}</div>
                     </div>
                 {% endif %}
             {% endif %}

@@ -51,13 +51,13 @@ class User(SqlAlchemyBase):
         return check_password_hash(self.hashed_password, password)
 
     @staticmethod
-    def get_reset_token(user_id, expires=1800):
-        s = TimedSerializer(current_app.secret_key, "user_id")
+    def get_reset_token(user_id):
+        s = TimedSerializer(current_app.secret_key, "user_id_reset")
         return s.dumps(user_id)
 
     @staticmethod
-    def get_reset_token_info(token, max_age=900):
-        s = TimedSerializer(current_app.secret_key, 'user_id')
+    def get_reset_token_info(token, max_age=1800):
+        s = TimedSerializer(current_app.secret_key, "user_id_reset")
         try:
             return s.loads(token, max_age=max_age)
         except Exception as e:

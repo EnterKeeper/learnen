@@ -1,5 +1,6 @@
 import requests
 from flask import request
+from flask_babel import get_locale
 
 
 class ApiRequest:
@@ -15,8 +16,8 @@ class ApiRequest:
         access_token = request.cookies.get("access_token_cookie")
         if access_token:
             headers = {"Authorization": f"Bearer {access_token}"}
-        language = request.cookies.get("language")
-        return cls.request_function(url, headers=headers, cookies={"language": language}, **kwargs)
+        lang = get_locale().language
+        return cls.request_function(url, headers=headers, cookies={"language": lang}, **kwargs)
 
 
 class ApiGet(ApiRequest):

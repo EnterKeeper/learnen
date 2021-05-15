@@ -532,4 +532,6 @@ def confirm_email(token):
             flash(_("Invalid link."), "danger")
         else:
             flash(INTERNAL_ERROR_MSG, "danger")
-    return redirect(url_for("users.email_settings", username=current_user.username))
+    target = url_for("users.email_settings", username=current_user.username) if current_user \
+        else url_for("default.index")
+    return redirect(target)

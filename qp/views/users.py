@@ -6,7 +6,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 from qp.api.models.users import User, groups, ModeratorGroup, AdminGroup
 from qp.api.tools import errors
 from qp.forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, \
-    UserChangeGroupForm, UserChangePointsForm
+    UserChangeGroupForm, UserChangePointsForm, SendResetPasswordEmailForm, ResetPasswordForm
 from qp.tools.api_requests import ApiGet, ApiPost, ApiPut
 from qp.tools.images import save_image
 from qp.tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG, GROUPS
@@ -416,3 +416,78 @@ def users_list():
     if not users:
         return redirect("/")
     return render_template("users_list.html", title=title, users=users)
+
+
+@blueprint.route("/reset_password", methods=['GET', 'POST'])
+@jwt_required(optional=True)
+def send_reset_password_email():
+    if current_user:
+        return redirect("/")
+
+    title = _("Reset password")
+
+    form = SendResetPasswordEmailForm()
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        response = ApiPost.make_request("send_reset_password_email", json=form_data)
+        if response.status_code == 200:
+            flash(_("An email with instructions has been sent. Check your mailbox."), "success")
+            return redirect(url_for("users.login"))
+
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserNotFoundError.sub_code_match(code):
+            flash(_("User not found."), "danger")
+        elif errors.SendingEmailError.sub_code_match(code):
+            flash(_("Failed sending email."), "danger")
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+
+    return render_template("send_reset_password_email.html", title=title, form=form)
+
+
+@blueprint.route("/reset_password/<token>", methods=['GET', 'POST'])
+@jwt_required(optional=True)
+def reset_password(token):
+    if current_user:
+        return redirect("/")
+
+    title = _("Reset password")
+
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        form_data["token"] = token
+        for field in ("submit", "csrf_token", "new_password_again"):
+            form_data.pop(field)
+
+        response = ApiPost.make_request("reset_password", json=form_data)
+        if response.status_code == 200:
+            flash(_("Your password has been updated."), "success")
+            return redirect(url_for("users.login"))
+
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.UserNotFoundError.sub_code_match(code):
+            flash(_("User not found."), "danger")
+        elif errors.InvalidResetPasswordTokenError.sub_code_match(code):
+            flash(_("Invalid link."), "danger")
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+
+    return render_template("reset_password.html", title=title, form=form)

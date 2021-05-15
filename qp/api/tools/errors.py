@@ -70,6 +70,18 @@ class NoAuthError(ApiError):
     message = "You are not authorized."
 
 
+class InvalidResetPasswordTokenError(ApiError):
+    status_code = 404
+    sub_code = 98
+    message = "Invalid token."
+
+
+class SendingEmailError(ApiError):
+    status_code = 400
+    sub_code = 99
+    message = "Failed sending email."
+
+
 class UserNotFoundError(ApiError):
     status_code = 404
     sub_code = 100

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-13 16:41+0300\n"
+"POT-Creation-Date: 2021-05-15 12:12+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -18,6 +18,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
+
+#: api/tools/mail.py:11 templates/reset_password.html:5
+#: templates/send_reset_password_email.html:5 views/users.py:427
+#: views/users.py:464
+msgid "Reset password"
+msgstr "Восстановление пароля"
 
 #: forms/poll.py:10 forms/poll.py:19
 msgid "Title"
@@ -35,8 +41,8 @@ msgstr "Приватный (доступен только по ссылке)"
 msgid "Create"
 msgstr "Создать"
 
-#: forms/poll.py:22 forms/poll.py:37 forms/user.py:31 forms/user.py:36
-#: forms/user.py:44 forms/user.py:49 forms/user.py:56
+#: forms/poll.py:22 forms/poll.py:37 forms/user.py:43 forms/user.py:48
+#: forms/user.py:56 forms/user.py:61 forms/user.py:68
 msgid "Update"
 msgstr "Обновить"
 
@@ -56,12 +62,12 @@ msgstr "Комментарий"
 msgid "Leave comment"
 msgstr "Прокоммментировать"
 
-#: forms/user.py:12 forms/user.py:21 forms/user.py:35
+#: forms/user.py:12 forms/user.py:21 forms/user.py:27 forms/user.py:47
 #: templates/account_settings.html:18 templates/user_info.html:80
 msgid "Email"
 msgstr ""
 
-#: forms/user.py:13 forms/user.py:27
+#: forms/user.py:13 forms/user.py:39
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -82,43 +88,47 @@ msgstr "Зарегистрироваться"
 msgid "Log in"
 msgstr "Войти"
 
-#: forms/user.py:29
-msgid "Avatar"
-msgstr "Аватар"
+#: forms/user.py:28 forms/user.py:35
+msgid "Submit"
+msgstr "Подтвердить"
 
-#: forms/user.py:30
-msgid "Bio"
-msgstr "Информация о себе"
-
-#: forms/user.py:40
-msgid "Old password"
-msgstr "Старый пароль"
-
-#: forms/user.py:41
+#: forms/user.py:32 forms/user.py:53
 msgid "New password"
 msgstr "Новый пароль"
 
-#: forms/user.py:42
+#: forms/user.py:33 forms/user.py:54
 msgid "Repeat new password"
 msgstr "Повторите новый пароль"
 
-#: forms/user.py:48 templates/user_info.html:79
+#: forms/user.py:41
+msgid "Avatar"
+msgstr "Аватар"
+
+#: forms/user.py:42
+msgid "Bio"
+msgstr "Информация о себе"
+
+#: forms/user.py:52
+msgid "Old password"
+msgstr "Старый пароль"
+
+#: forms/user.py:60 templates/user_info.html:79
 msgid "Group"
 msgstr "Группа"
 
-#: forms/user.py:53 templates/points.html:12
+#: forms/user.py:65 templates/points.html:12
 msgid "Action"
 msgstr "Действие"
 
-#: forms/user.py:54
+#: forms/user.py:66
 msgid "Deduct"
 msgstr "Вычесть"
 
-#: forms/user.py:54
+#: forms/user.py:66
 msgid "Add"
 msgstr "Добавить"
 
-#: forms/user.py:55
+#: forms/user.py:67
 msgid "Count"
 msgstr "Количество"
 
@@ -201,6 +211,10 @@ msgstr ""
 #: templates/index.html:10
 msgid "or vote and get rewards."
 msgstr "или голосовать и получать награды"
+
+#: templates/login.html:17
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
 
 #: templates/points.html:6
 msgid ""
@@ -432,6 +446,25 @@ msgstr ""
 msgid "We will be glad to see you among the verified users :)"
 msgstr "Мы будем рады видеть вас среди верифицированных пользователей :)"
 
+#: templates/mail/reset_password.html:5
+msgid "Hi, "
+msgstr "Здравствуйте, "
+
+#: templates/mail/reset_password.html:8
+msgid ""
+"There was recently a request to change the password on your account. If "
+"you requested this password change,\n"
+"        please click the link below to set a new password within 30 "
+"minutes"
+msgstr ""
+"Вы можете сбросить пароль учетной записи, перейдя по ссылке ниже в "
+"течение 30 минут. Если вы не запрашивали новый пароль, пожалуйста, "
+"проигнорируйте это письмо"
+
+#: templates/mail/reset_password.html:14
+msgid "Click here to change your password"
+msgstr "Кликните для изменения пароля"
+
 #: tools/languages.py:13
 msgid "User"
 msgstr "Пользователь"
@@ -537,7 +570,7 @@ msgstr "Пользователь уже существует."
 msgid "Login"
 msgstr "Войти"
 
-#: views/users.py:86
+#: views/users.py:86 views/users.py:449 views/users.py:487
 msgid "User not found."
 msgstr "Пользователь не найден."
 
@@ -573,7 +606,7 @@ msgstr "Адрес электронной почты был успешно об�
 msgid "Security settings"
 msgstr "Настройки безопасности"
 
-#: views/users.py:233
+#: views/users.py:233 views/users.py:475
 msgid "Your password has been updated."
 msgstr "Пароль был успешно обновлен."
 
@@ -612,4 +645,16 @@ msgstr "Количество баллов пользователя было об
 #: views/users.py:413
 msgid "Registered users"
 msgstr "Зарегистрированные пользователи"
+
+#: views/users.py:437
+msgid "An email with instructions has been sent. Check your mailbox."
+msgstr "Письмо с инструкциями отправлено. Проверьте почтовый ящик."
+
+#: views/users.py:451
+msgid "Failed sending email."
+msgstr "Не удалось отправить письмо."
+
+#: views/users.py:489
+msgid "Invalid link."
+msgstr "Срок действия ссылки истек."
 

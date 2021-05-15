@@ -23,6 +23,18 @@ class LoginForm(FlaskForm):
     submit = SubmitField(lazy_gettext("Log in"))
 
 
+class SendResetPasswordEmailForm(FlaskForm):
+    email = EmailField(lazy_gettext("Email"), validators=[DataRequired(), Email()])
+    submit = SubmitField(lazy_gettext("Submit"))
+
+
+class ResetPasswordForm(FlaskForm):
+    new_password = PasswordField(lazy_gettext("New password"), validators=[DataRequired()])
+    new_password_again = PasswordField(lazy_gettext("Repeat new password"),
+                                       validators=[DataRequired(), EqualTo("new_password")])
+    submit = SubmitField(lazy_gettext("Submit"))
+
+
 class UserProfileForm(FlaskForm):
     username = StringField(lazy_gettext("Username"), validators=[DataRequired(), Length(min=User.min_username_length,
                                                                                         max=User.max_username_length)])

@@ -1,8 +1,10 @@
 from datetime import datetime
 
+from flask import current_app
 import sqlalchemy
 from sqlalchemy import orm
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import TimedSerializer
 
 from ..database.db_session import SqlAlchemyBase
 
@@ -47,6 +49,19 @@ class User(SqlAlchemyBase):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+    @staticmethod
+    def get_reset_token(user_id, expires=1800):
+        s = TimedSerializer(current_app.secret_key, "user_id")
+        return s.dumps(user_id)
+
+    @staticmethod
+    def get_reset_token_info(token, max_age=900):
+        s = TimedSerializer(current_app.secret_key, 'user_id')
+        try:
+            return s.loads(token, max_age=max_age)
+        except Exception as e:
+            return None
 
     def __repr__(self):
         return f"<User> {self.id} {self.username}"

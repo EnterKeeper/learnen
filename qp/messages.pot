@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-13 16:41+0300\n"
+"POT-Creation-Date: 2021-05-15 12:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
+
+#: api/tools/mail.py:11 templates/reset_password.html:5
+#: templates/send_reset_password_email.html:5 views/users.py:427
+#: views/users.py:464
+msgid "Reset password"
+msgstr ""
 
 #: forms/poll.py:10 forms/poll.py:19
 msgid "Title"
@@ -33,8 +39,8 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: forms/poll.py:22 forms/poll.py:37 forms/user.py:31 forms/user.py:36
-#: forms/user.py:44 forms/user.py:49 forms/user.py:56
+#: forms/poll.py:22 forms/poll.py:37 forms/user.py:43 forms/user.py:48
+#: forms/user.py:56 forms/user.py:61 forms/user.py:68
 msgid "Update"
 msgstr ""
 
@@ -54,12 +60,12 @@ msgstr ""
 msgid "Leave comment"
 msgstr ""
 
-#: forms/user.py:12 forms/user.py:21 forms/user.py:35
+#: forms/user.py:12 forms/user.py:21 forms/user.py:27 forms/user.py:47
 #: templates/account_settings.html:18 templates/user_info.html:80
 msgid "Email"
 msgstr ""
 
-#: forms/user.py:13 forms/user.py:27
+#: forms/user.py:13 forms/user.py:39
 msgid "Username"
 msgstr ""
 
@@ -80,43 +86,47 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: forms/user.py:29
-msgid "Avatar"
+#: forms/user.py:28 forms/user.py:35
+msgid "Submit"
 msgstr ""
 
-#: forms/user.py:30
-msgid "Bio"
-msgstr ""
-
-#: forms/user.py:40
-msgid "Old password"
-msgstr ""
-
-#: forms/user.py:41
+#: forms/user.py:32 forms/user.py:53
 msgid "New password"
 msgstr ""
 
-#: forms/user.py:42
+#: forms/user.py:33 forms/user.py:54
 msgid "Repeat new password"
 msgstr ""
 
-#: forms/user.py:48 templates/user_info.html:79
+#: forms/user.py:41
+msgid "Avatar"
+msgstr ""
+
+#: forms/user.py:42
+msgid "Bio"
+msgstr ""
+
+#: forms/user.py:52
+msgid "Old password"
+msgstr ""
+
+#: forms/user.py:60 templates/user_info.html:79
 msgid "Group"
 msgstr ""
 
-#: forms/user.py:53 templates/points.html:12
+#: forms/user.py:65 templates/points.html:12
 msgid "Action"
 msgstr ""
 
-#: forms/user.py:54
+#: forms/user.py:66
 msgid "Deduct"
 msgstr ""
 
-#: forms/user.py:54
+#: forms/user.py:66
 msgid "Add"
 msgstr ""
 
-#: forms/user.py:55
+#: forms/user.py:67
 msgid "Count"
 msgstr ""
 
@@ -194,6 +204,10 @@ msgstr ""
 
 #: templates/index.html:10
 msgid "or vote and get rewards."
+msgstr ""
+
+#: templates/login.html:17
+msgid "Forgot password?"
 msgstr ""
 
 #: templates/points.html:6
@@ -416,6 +430,22 @@ msgstr ""
 msgid "We will be glad to see you among the verified users :)"
 msgstr ""
 
+#: templates/mail/reset_password.html:5
+msgid "Hi, "
+msgstr ""
+
+#: templates/mail/reset_password.html:8
+msgid ""
+"There was recently a request to change the password on your account. If "
+"you requested this password change,\n"
+"        please click the link below to set a new password within 30 "
+"minutes"
+msgstr ""
+
+#: templates/mail/reset_password.html:14
+msgid "Click here to change your password"
+msgstr ""
+
 #: tools/languages.py:13
 msgid "User"
 msgstr ""
@@ -521,7 +551,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: views/users.py:86
+#: views/users.py:86 views/users.py:449 views/users.py:487
 msgid "User not found."
 msgstr ""
 
@@ -557,7 +587,7 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-#: views/users.py:233
+#: views/users.py:233 views/users.py:475
 msgid "Your password has been updated."
 msgstr ""
 
@@ -595,5 +625,17 @@ msgstr ""
 
 #: views/users.py:413
 msgid "Registered users"
+msgstr ""
+
+#: views/users.py:437
+msgid "An email with instructions has been sent. Check your mailbox."
+msgstr ""
+
+#: views/users.py:451
+msgid "Failed sending email."
+msgstr ""
+
+#: views/users.py:489
+msgid "Invalid link."
 msgstr ""
 

@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_babel import Babel
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 
 from qp.api.database import db_session
 from qp.api.tools.database import create_owner_user
@@ -11,17 +12,19 @@ from .config import Config
 app = Flask(__name__)
 jwt = JWTManager()
 babel = Babel()
+mail = Mail()
 
 
-def create_app(config_class=Config):
+def create_app():
     """App creation"""
-    app.config.from_object(config_class)
+    app.config.from_object(Config)
 
     db_session.global_init("qp/db/app.db")
     create_owner_user()
 
     jwt.init_app(app)
     babel.init_app(app)
+    mail.init_app(app)
 
     from qp.tools import settings
 

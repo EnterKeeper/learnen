@@ -1,9 +1,10 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from flask_jwt_extended import create_access_token, create_refresh_token, current_user
 from flask_restful import Api, Resource
 from marshmallow.exceptions import ValidationError
 from sqlalchemy import desc
 
+from qp import mail
 from ..database import db_session
 from ..models.polls import Poll
 from ..models.users import User, generate_password, ModeratorGroup, get_group
@@ -12,6 +13,7 @@ from ..schemas.users import UserSchema, UserChangePasswordSchema, UserChangePoin
 from ..tools import errors
 from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
 from ..tools.response import make_success_message
+from ..tools.mail import MessageGenerator
 
 blueprint = Blueprint(
     "users_resource",
@@ -159,7 +161,7 @@ class UserChangePasswordResource(Resource):
 
         data = request.get_json()
         try:
-            UserChangePasswordSchema().load(data)
+            UserChangePasswordSchema(exclude=("token",)).load(data)
         except ValidationError as e:
             raise errors.InvalidRequestError(e.messages)
 
@@ -354,6 +356,51 @@ class UserLoginResource(Resource):
         return jsonify(get_user_tokens(user.id))
 
 
+class UserSendResetPasswordEmailResource(Resource):
+    def post(self):
+        data = request.get_json()
+        try:
+            UserSchema(only=("email",)).load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.email == data["email"]).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        token = User.get_reset_token(user.id)
+        try:
+            mail.send(MessageGenerator(user.email).reset_password(user, token))
+        except Exception as e:
+            raise errors.SendingEmailError
+
+        return make_success_message()
+
+
+class UserResetPasswordResource(Resource):
+    def post(self):
+        data = request.get_json()
+        try:
+            UserChangePasswordSchema(exclude=("old_password",)).load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        user_id = User.get_reset_token_info(data["token"])
+        if not user_id:
+            raise errors.InvalidResetPasswordTokenError
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.id == user_id).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        user.set_password(data["new_password"])
+        session.commit()
+
+        return make_success_message()
+
+
 api.add_resource(UserResource, "/users/<username>")
 api.add_resource(UsersListResource, "/users")
 api.add_resource(UserProfileResource, "/users/<username>/profile")
@@ -368,3 +415,5 @@ api.add_resource(UserChangePointsResource, "/users/<username>/change_points")
 api.add_resource(UserPollsResource, "/users/<username>/polls")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")
+api.add_resource(UserSendResetPasswordEmailResource, "/send_reset_password_email")
+api.add_resource(UserResetPasswordResource, "/reset_password")

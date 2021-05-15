@@ -20,6 +20,7 @@ class UserSchema(SQLAlchemyAutoSchema):
 
 
 class UserChangePasswordSchema(marshmallow.Schema):
+    token = marshmallow.fields.String(required=True)
     old_password = marshmallow.fields.String(required=True)
     new_password = marshmallow.fields.String(required=True)
 

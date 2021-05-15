@@ -15,7 +15,8 @@ class ApiRequest:
         access_token = request.cookies.get("access_token_cookie")
         if access_token:
             headers = {"Authorization": f"Bearer {access_token}"}
-        return cls.request_function(url, headers=headers, **kwargs)
+        language = request.cookies.get("language")
+        return cls.request_function(url, headers=headers, cookies={"language": language}, **kwargs)
 
 
 class ApiGet(ApiRequest):

@@ -1,0 +1,21 @@
+{% extends "mail/base.html" %}
+
+{% block content %}
+    <p>
+        {{ _("Hi, ") + user.username }}
+    </p>
+    <p>
+        {{ _("Welcome to QuickPolls") }}!
+    </p>
+    <p>
+        {{ _("First you need to confirm your email. To do that click the link below within 30 minutes") }}:
+    </p>
+    <a href="{{ url_for("users.confirm_email", token=token, _external=True) }}"
+       style="display: inline-block; text-decoration: none; padding: 8px; color: white; background-color: #1e9a59;
+       border-radius: 6px">
+        {{ _("Click here to confirm email") }}
+    </a>
+    <p>
+        {{ _("If you have any questions or comments write to") }} support@quick-polls.xyz!
+    </p>
+{% endblock %}

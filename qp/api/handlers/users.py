@@ -336,6 +336,12 @@ class UserRegisterResource(Resource):
         session.add(user)
         session.commit()
 
+        token = User.get_email_confirmation_token(user.id)
+        try:
+            mail.send(MessageGenerator(user.email).welcome(user, token))
+        except Exception as e:
+            pass
+
         return make_success_message()
 
 

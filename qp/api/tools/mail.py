@@ -20,3 +20,10 @@ class MessageGenerator:
                       html=render_template("mail/confirm_email.html", token=token, user=user)
                       )
         return msg
+
+    def welcome(self, user, token):
+        msg = Message(subject=_("Welcome to QuickPolls"),
+                      recipients=self.emails,
+                      html=render_template("mail/welcome.html", token=token, user=user)
+                      )
+        return msg

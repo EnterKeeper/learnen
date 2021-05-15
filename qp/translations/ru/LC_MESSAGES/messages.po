@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-15 19:13+0300\n"
+"POT-Creation-Date: 2021-05-16 01:39+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -27,7 +27,11 @@ msgstr "Восстановление пароля"
 
 #: api/tools/mail.py:18
 msgid "Confirm email"
-msgstr ""
+msgstr "Подтверждение электронной почты"
+
+#: api/tools/mail.py:25 templates/mail/welcome.html:8
+msgid "Welcome to QuickPolls"
+msgstr "Добро пожаловать на QuickPolls"
 
 #: forms/poll.py:10 forms/poll.py:19
 msgid "Title"
@@ -463,14 +467,17 @@ msgid "We will be glad to see you among the verified users :)"
 msgstr "Мы будем рады видеть вас среди верифицированных пользователей :)"
 
 #: templates/mail/confirm_email.html:5 templates/mail/reset_password.html:5
+#: templates/mail/welcome.html:5
 msgid "Hi, "
 msgstr "Здравствуйте, "
 
 #: templates/mail/confirm_email.html:8
 msgid "To confirm your email click the link below within 30 minutes"
-msgstr "Чтобы подтвердить адрес электронной почты, перейдите по ссылке ниже в течение 30 минут"
+msgstr ""
+"Чтобы подтвердить адрес электронной почты, перейдите по ссылке ниже в "
+"течение 30 минут"
 
-#: templates/mail/confirm_email.html:13
+#: templates/mail/confirm_email.html:13 templates/mail/welcome.html:16
 msgid "Click here to confirm email"
 msgstr "Кликните для подтверждения"
 
@@ -488,6 +495,18 @@ msgstr ""
 #: templates/mail/reset_password.html:14
 msgid "Click here to change your password"
 msgstr "Кликните для изменения пароля"
+
+#: templates/mail/welcome.html:11
+msgid ""
+"First you need to confirm your email. To do that click the link below "
+"within 30 minutes"
+msgstr ""
+"Для начала необходимо подтвердить ваш адрес электронной почты. Для этого "
+"перейдите по ссылке ниже в течение 30 минут"
+
+#: templates/mail/welcome.html:19
+msgid "If you have any questions or comments write to"
+msgstr "Если у вас есть вопросы или предложения, пишите на"
 
 #: tools/languages.py:13
 msgid "User"

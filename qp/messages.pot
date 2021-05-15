@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-15 12:12+0300\n"
+"POT-Creation-Date: 2021-05-15 19:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,10 @@ msgstr ""
 #: templates/send_reset_password_email.html:5 views/users.py:427
 #: views/users.py:464
 msgid "Reset password"
+msgstr ""
+
+#: api/tools/mail.py:18
+msgid "Confirm email"
 msgstr ""
 
 #: forms/poll.py:10 forms/poll.py:19
@@ -312,6 +316,18 @@ msgstr ""
 msgid "Change user's points"
 msgstr ""
 
+#: templates/user_email_edit.html:7
+msgid "Your email is not confirmed."
+msgstr ""
+
+#: templates/user_email_edit.html:8
+msgid "Confirm it."
+msgstr ""
+
+#: templates/user_email_edit.html:11
+msgid "Your email is confirmed."
+msgstr ""
+
 #: templates/user_info.html:5
 msgid "User not found"
 msgstr ""
@@ -430,8 +446,16 @@ msgstr ""
 msgid "We will be glad to see you among the verified users :)"
 msgstr ""
 
-#: templates/mail/reset_password.html:5
+#: templates/mail/confirm_email.html:5 templates/mail/reset_password.html:5
 msgid "Hi, "
+msgstr ""
+
+#: templates/mail/confirm_email.html:8
+msgid "To confirm your email click the link below within 30 minutes"
+msgstr ""
+
+#: templates/mail/confirm_email.html:13
+msgid "Click here to confirm email"
 msgstr ""
 
 #: templates/mail/reset_password.html:8
@@ -551,7 +575,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: views/users.py:86 views/users.py:449 views/users.py:487
+#: views/users.py:86 views/users.py:449 views/users.py:487 views/users.py:528
 msgid "User not found."
 msgstr ""
 
@@ -627,15 +651,23 @@ msgstr ""
 msgid "Registered users"
 msgstr ""
 
-#: views/users.py:437
+#: views/users.py:437 views/users.py:503
 msgid "An email with instructions has been sent. Check your mailbox."
 msgstr ""
 
-#: views/users.py:451
+#: views/users.py:451 views/users.py:489 views/users.py:511 views/users.py:530
 msgid "Failed sending email."
 msgstr ""
 
-#: views/users.py:489
+#: views/users.py:491 views/users.py:532
 msgid "Invalid link."
+msgstr ""
+
+#: views/users.py:509
+msgid "Email already confirmed."
+msgstr ""
+
+#: views/users.py:522
+msgid "Email has been confirmed."
 msgstr ""
 

@@ -70,6 +70,12 @@ class NoAuthError(ApiError):
     message = "You are not authorized."
 
 
+class EmailAlreadyConfirmedError(ApiError):
+    status_code = 404
+    sub_code = 97
+    message = "Email already confirmed."
+
+
 class InvalidResetPasswordTokenError(ApiError):
     status_code = 404
     sub_code = 98

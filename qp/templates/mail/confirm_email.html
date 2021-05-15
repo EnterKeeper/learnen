@@ -1,0 +1,15 @@
+{% extends "mail/base.html" %}
+
+{% block content %}
+    <p>
+        {{ _("Hi, ") + user.username }}
+    </p>
+    <p>
+        {{ _("To confirm your email click the link below within 30 minutes") }}:
+    </p>
+    <a href="{{ url_for("users.confirm_email", token=token, _external=True) }}"
+       style="display: inline-block; text-decoration: none; padding: 8px; color: white; background-color: #1e9a59;
+       border-radius: 6px">
+        {{ _("Click here to confirm email") }}
+    </a>
+{% endblock %}

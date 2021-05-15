@@ -207,10 +207,10 @@ def email_settings(username):
     user_data = ApiGet.make_request("users", username).json()
     if "user" not in user_data or "email" not in user_data["user"]:
         return redirect("/")
-    email = user_data["user"]["email"]
-    form.email.data = email
+    user_data = user_data["user"]
+    form.email.data = user_data["email"]
 
-    return render_template("user_email_edit.html", title=title, **template_vars)
+    return render_template("user_email_edit.html", title=title, user=user_data, **template_vars)
 
 
 @blueprint.route("/user/<username>/security_settings", methods=['GET', 'POST'])
@@ -485,9 +485,51 @@ def reset_password(token):
                     form[field].errors += fields[field]
         elif errors.UserNotFoundError.sub_code_match(code):
             flash(_("User not found."), "danger")
+        elif errors.SendingEmailError.sub_code_match(code):
+            flash(_("Failed sending email."), "danger")
         elif errors.InvalidResetPasswordTokenError.sub_code_match(code):
             flash(_("Invalid link."), "danger")
         else:
             flash(INTERNAL_ERROR_MSG, "danger")
 
     return render_template("reset_password.html", title=title, form=form)
+
+
+@blueprint.route("/confirm_email", methods=['GET', 'POST'])
+@jwt_required()
+def send_confirmation_email():
+    response = ApiPost.make_request("send_confirmation_email")
+    if response.status_code == 200:
+        flash(_("An email with instructions has been sent. Check your mailbox."), "success")
+    else:
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.EmailAlreadyConfirmedError.sub_code_match(code):
+            flash(_("Email already confirmed."), "danger")
+        elif errors.SendingEmailError.sub_code_match(code):
+            flash(_("Failed sending email."), "danger")
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+    return redirect(url_for("users.email_settings", username=current_user.username))
+
+
+@blueprint.route("/confirm_email/<token>", methods=['GET', 'POST'])
+@jwt_required(optional=True)
+def confirm_email(token):
+    response = ApiPost.make_request("confirm_email", json=dict(token=token))
+    if response.status_code == 200:
+        flash(_("Email has been confirmed."), "success")
+    else:
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.UserNotFoundError.sub_code_match(code):
+            flash(_("User not found."), "danger")
+        elif errors.SendingEmailError.sub_code_match(code):
+            flash(_("Failed sending email."), "danger")
+        elif errors.InvalidResetPasswordTokenError.sub_code_match(code):
+            flash(_("Invalid link."), "danger")
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+    return redirect(url_for("users.email_settings", username=current_user.username))

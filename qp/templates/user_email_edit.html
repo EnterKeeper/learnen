@@ -3,6 +3,13 @@
 {% block tab %}
     <div class="card p-4">
         <h2 class="text-center">{{ title }}</h2>
+        {% if not user["email_confirmed"] %}
+            <p class="text-danger my-1">{{ _("Your email is not confirmed.") }}
+                <a href="{{ url_for("users.send_confirmation_email") }}">{{ _("Confirm it.") }}</a>
+            </p>
+        {% else %}
+            <p class="text-success my-1">{{ _("Your email is confirmed.") }}</p>
+        {% endif %}
         <form method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}
             {% for field in form if field.name not in ("csrf_token", "submit") %}

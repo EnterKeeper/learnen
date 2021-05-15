@@ -13,3 +13,10 @@ class MessageGenerator:
                       html=render_template("mail/reset_password.html", token=token, user=user)
                       )
         return msg
+
+    def confirm_email(self, user, token):
+        msg = Message(subject=_("Confirm email"),
+                      recipients=self.emails,
+                      html=render_template("mail/confirm_email.html", token=token, user=user)
+                      )
+        return msg

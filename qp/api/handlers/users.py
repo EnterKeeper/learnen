@@ -148,6 +148,7 @@ class UserEmailResource(Resource):
         if not user:
             raise errors.UserNotFoundError
 
+        data["email_confirmed"] = False
         session.query(User).filter(User.username == username).update(data)
         session.commit()
         return make_success_message()
@@ -386,7 +387,7 @@ class UserResetPasswordResource(Resource):
         except ValidationError as e:
             raise errors.InvalidRequestError(e.messages)
 
-        user_id = User.get_reset_token_info(data["token"])
+        user_id = User.get_reset_token_info(data.get("token", None))
         if not user_id:
             raise errors.InvalidResetPasswordTokenError
 
@@ -396,6 +397,41 @@ class UserResetPasswordResource(Resource):
             raise errors.UserNotFoundError
 
         user.set_password(data["new_password"])
+        session.commit()
+
+        return make_success_message()
+
+
+class UserSendConfirmationEmailResource(Resource):
+    @user_required()
+    def post(self):
+        user = current_user
+        if user.email_confirmed:
+            raise errors.EmailAlreadyConfirmedError
+
+        token = User.get_email_confirmation_token(user.id)
+        try:
+            mail.send(MessageGenerator(user.email).confirm_email(user, token))
+        except Exception as e:
+            raise errors.SendingEmailError
+
+        return make_success_message()
+
+
+class UserConfirmEmailResource(Resource):
+    def post(self):
+        data = request.get_json()
+
+        user_id = User.get_email_confirmation_token_info(data.get("token", None))
+        if not user_id:
+            raise errors.InvalidResetPasswordTokenError
+
+        session = db_session.create_session()
+        user = session.query(User).filter(User.id == user_id).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        user.email_confirmed = True
         session.commit()
 
         return make_success_message()
@@ -417,3 +453,5 @@ api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")
 api.add_resource(UserSendResetPasswordEmailResource, "/send_reset_password_email")
 api.add_resource(UserResetPasswordResource, "/reset_password")
+api.add_resource(UserSendConfirmationEmailResource, "/send_confirmation_email")
+api.add_resource(UserConfirmEmailResource, "/confirm_email")

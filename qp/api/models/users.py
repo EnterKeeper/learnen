@@ -37,6 +37,7 @@ class User(SqlAlchemyBase):
     verified = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     banned = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     points = sqlalchemy.Column(sqlalchemy.Integer, default=Points.register)
+    email_confirmed = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
 
     polls = orm.relation("Poll", back_populates="author", order_by="desc(Poll.created_at)", passive_deletes=True)
 
@@ -58,6 +59,19 @@ class User(SqlAlchemyBase):
     @staticmethod
     def get_reset_token_info(token, max_age=1800):
         s = TimedSerializer(current_app.secret_key, "user_id_reset")
+        try:
+            return s.loads(token, max_age=max_age)
+        except Exception as e:
+            return None
+
+    @staticmethod
+    def get_email_confirmation_token(user_id):
+        s = TimedSerializer(current_app.secret_key, "user_id_email_confirm")
+        return s.dumps(user_id)
+
+    @staticmethod
+    def get_email_confirmation_token_info(token, max_age=1800):
+        s = TimedSerializer(current_app.secret_key, "user_id_email_confirm")
         try:
             return s.loads(token, max_age=max_age)
         except Exception as e:

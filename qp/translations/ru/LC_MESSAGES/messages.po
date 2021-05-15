@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-15 12:12+0300\n"
+"POT-Creation-Date: 2021-05-15 19:13+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -24,6 +24,10 @@ msgstr ""
 #: views/users.py:464
 msgid "Reset password"
 msgstr "Восстановление пароля"
+
+#: api/tools/mail.py:18
+msgid "Confirm email"
+msgstr ""
 
 #: forms/poll.py:10 forms/poll.py:19
 msgid "Title"
@@ -322,6 +326,18 @@ msgstr "Сменить группу пользователя"
 msgid "Change user's points"
 msgstr "Изменить количество баллов пользователя"
 
+#: templates/user_email_edit.html:7
+msgid "Your email is not confirmed."
+msgstr "Адрес электронной почты не подтвержден."
+
+#: templates/user_email_edit.html:8
+msgid "Confirm it."
+msgstr "Подтвердите его."
+
+#: templates/user_email_edit.html:11
+msgid "Your email is confirmed."
+msgstr "Адрес электронной почты подтвержден."
+
 #: templates/user_info.html:5
 msgid "User not found"
 msgstr "Пользователь не найден"
@@ -446,9 +462,17 @@ msgstr ""
 msgid "We will be glad to see you among the verified users :)"
 msgstr "Мы будем рады видеть вас среди верифицированных пользователей :)"
 
-#: templates/mail/reset_password.html:5
+#: templates/mail/confirm_email.html:5 templates/mail/reset_password.html:5
 msgid "Hi, "
 msgstr "Здравствуйте, "
+
+#: templates/mail/confirm_email.html:8
+msgid "To confirm your email click the link below within 30 minutes"
+msgstr "Чтобы подтвердить адрес электронной почты, перейдите по ссылке ниже в течение 30 минут"
+
+#: templates/mail/confirm_email.html:13
+msgid "Click here to confirm email"
+msgstr "Кликните для подтверждения"
 
 #: templates/mail/reset_password.html:8
 msgid ""
@@ -458,7 +482,7 @@ msgid ""
 "minutes"
 msgstr ""
 "Вы можете сбросить пароль учетной записи, перейдя по ссылке ниже в "
-"течение 30 минут. Если вы не запрашивали новый пароль, пожалуйста, "
+"течение 30 минут. Если вы не запрашивали изменение пароля, пожалуйста, "
 "проигнорируйте это письмо"
 
 #: templates/mail/reset_password.html:14
@@ -570,7 +594,7 @@ msgstr "Пользователь уже существует."
 msgid "Login"
 msgstr "Войти"
 
-#: views/users.py:86 views/users.py:449 views/users.py:487
+#: views/users.py:86 views/users.py:449 views/users.py:487 views/users.py:528
 msgid "User not found."
 msgstr "Пользователь не найден."
 
@@ -646,15 +670,23 @@ msgstr "Количество баллов пользователя было об
 msgid "Registered users"
 msgstr "Зарегистрированные пользователи"
 
-#: views/users.py:437
+#: views/users.py:437 views/users.py:503
 msgid "An email with instructions has been sent. Check your mailbox."
 msgstr "Письмо с инструкциями отправлено. Проверьте почтовый ящик."
 
-#: views/users.py:451
+#: views/users.py:451 views/users.py:489 views/users.py:511 views/users.py:530
 msgid "Failed sending email."
 msgstr "Не удалось отправить письмо."
 
-#: views/users.py:489
+#: views/users.py:491 views/users.py:532
 msgid "Invalid link."
 msgstr "Срок действия ссылки истек."
+
+#: views/users.py:509
+msgid "Email already confirmed."
+msgstr "Адрес электронной почты уже подтвержден."
+
+#: views/users.py:522
+msgid "Email has been confirmed."
+msgstr "Адрес электронной почты был подтвержден."
 

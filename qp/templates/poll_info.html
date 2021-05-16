@@ -42,7 +42,7 @@
                         {% if user_voted or current_user and (current_user.id == poll["author"]["id"]
                         or groups["Moderator"].is_belong(current_user["group"])) %}
                             {% set poll_option = poll["options"][loop.index0] %}
-                            <div class="d-inline-block">
+                            <div class="d-inline-block text-muted">
                                 - {{ poll_option["users_count"] }} ({{ poll_option["percent"] }}%)
                             </div>
                             <div class="progress mb-2">

@@ -2,7 +2,8 @@ import os
 
 from flask import redirect, make_response, url_for, flash, request
 from flask_babel import _
-from flask_jwt_extended import current_user, unset_jwt_cookies, unset_access_cookies, jwt_required
+from flask_jwt_extended import current_user, unset_jwt_cookies, \
+    unset_access_cookies, unset_refresh_cookies, jwt_required
 
 from qp import babel, jwt, app
 from qp.api.database import db_session
@@ -87,8 +88,10 @@ def invalid_token_callback(*args):
 @jwt.expired_token_loader
 def expired_token_callback(*args):
     """Update token if expired"""
-    response = make_response(redirect("/token/refresh"))
+    response = make_response(redirect(f"/token/refresh?redirect={request.url}"))
     unset_access_cookies(response)
+    if args[1]["type"] == "refresh":
+        unset_refresh_cookies(response)
     return response
 
 

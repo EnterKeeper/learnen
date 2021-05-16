@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, redirect, make_response, url_for, flash
+from flask import Blueprint, render_template, redirect, make_response, url_for, flash, request
 from flask_babel import _
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, jwt_required, \
-    get_jwt_identity, create_access_token, current_user
+    get_jwt_identity, create_access_token, create_refresh_token, current_user
 
 from qp.api.models.users import User, groups, ModeratorGroup, AdminGroup
 from qp.api.tools import errors
@@ -105,8 +105,12 @@ def logout():
 def refresh():
     identity = get_jwt_identity()
     access_token = create_access_token(identity=identity)
-    resp = make_response(redirect("/"))
+    refresh_token = create_refresh_token(identity=identity)
+
+    url = request.args["redirect"] if (request.args and "redirect" in request.args) else "/"
+    resp = make_response(redirect(url))
     set_access_cookies(resp, access_token)
+    set_refresh_cookies(resp, refresh_token)
     return resp
 
 

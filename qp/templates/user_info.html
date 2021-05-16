@@ -33,18 +33,6 @@
                             {{ _("Actions") }}
                         </button>
                         <ul class="dropdown-menu w-100">
-                            {% if not user["verified"] %}
-                                <li><a class="dropdown-item"
-                                       href="{{ url_for("users.user_verify", username=user["username"]) }}">{{ _("Verify") }}</a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">
-                                        {{ _("Cancel verification") }}
-                                    </a>
-                                </li>
-                            {% endif %}
                             {% if not user["banned"] and current_user.group > user["group"] %}
                                 <li>
                                     <a class="dropdown-item"
@@ -53,8 +41,20 @@
                                     </a>
                                 </li>
                             {% endif %}
-                            {% if current_user.group > user["group"] %}
-                                {% if groups["Admin"].is_belong(current_user["group"]) %}
+                            {% if groups["Admin"].is_belong(current_user["group"]) %}
+                                {% if not user["verified"] %}
+                                    <li><a class="dropdown-item"
+                                           href="{{ url_for("users.user_verify", username=user["username"]) }}">{{ _("Verify") }}</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{{ url_for("users.user_cancel_verification", username=user["username"]) }}">
+                                            {{ _("Cancel verification") }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if current_user.group > user["group"] %}
                                     <li>
                                         <a class="dropdown-item"
                                            href="{{ url_for("users.user_change_group", username=user["username"]) }}">
@@ -81,7 +81,7 @@
                         <div class="mt-1"><span class="text-muted">{{ _("Email") }}:</span>
                             {{ user["email"] }}
                             {% if not user["email_confirmed"] %}
-                                <span class="text-danger">({{ _("Not confirmed")}})</span>
+                                <span class="text-danger">({{ _("Not confirmed") }})</span>
                             {% endif %}
                         </div>
                         <div class="mt-1"><span class="text-muted">{{ _("Registered at") }}:</span>

@@ -181,7 +181,7 @@ class UserChangePasswordResource(Resource):
 
 
 class UserVerifyResource(Resource):
-    @moderator_required()
+    @admin_required()
     def put(self, username):
         session = db_session.create_session()
 
@@ -196,7 +196,7 @@ class UserVerifyResource(Resource):
 
 
 class UserCancelVerificationResource(Resource):
-    @moderator_required()
+    @admin_required()
     def put(self, username):
         session = db_session.create_session()
 

@@ -28,3 +28,8 @@ class UserChangePasswordSchema(marshmallow.Schema):
 class UserChangePointsSchema(marshmallow.Schema):
     action = marshmallow.fields.Integer(required=True)
     count = marshmallow.fields.Integer(required=True)
+
+
+class CustomEmailSchema(marshmallow.Schema):
+    subject = marshmallow.fields.String(required=True)
+    text = marshmallow.fields.String(required=True)

@@ -6,7 +6,7 @@ from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jw
 from qp.api.models.users import User, groups, ModeratorGroup, AdminGroup
 from qp.api.tools import errors
 from qp.forms.user import RegisterForm, LoginForm, UserProfileForm, UserEmailForm, UserChangePasswordForm, \
-    UserChangeGroupForm, UserChangePointsForm, SendResetPasswordEmailForm, ResetPasswordForm
+    UserChangeGroupForm, UserChangePointsForm, SendResetPasswordEmailForm, ResetPasswordForm, UserSendCustomEmailForm
 from qp.tools.api_requests import ApiGet, ApiPost, ApiPut
 from qp.tools.images import save_image
 from qp.tools.languages import INTERNAL_ERROR_MSG, NO_RIGHTS_ERROR_MSG, GROUPS
@@ -416,6 +416,38 @@ def users_list():
     if not users:
         return redirect("/")
     return render_template("users_list.html", title=title, users=users)
+
+
+@blueprint.route("/user/<username>/send_email", methods=['GET', 'POST'])
+@jwt_required()
+def send_custom_email(username):
+    title = _("Send email")
+
+    form = UserSendCustomEmailForm()
+    if form.validate_on_submit():
+        form_data = form.data.copy()
+        for field in ("submit", "csrf_token"):
+            form_data.pop(field)
+
+        response = ApiPost.make_request("users", username, "send_email", json=form_data)
+        if response.status_code == 200:
+            flash(_("Email has been sent."), "success")
+            return redirect(url_for("users.user_info", username=username))
+
+        error = response.json()["error"]
+        code = error["code"]
+
+        if errors.InvalidRequestError.sub_code_match(code):
+            fields = error["fields"]
+            for field in fields:
+                if field in form:
+                    form[field].errors += fields[field]
+        elif errors.SendingEmailError.sub_code_match(code):
+            flash(_("Failed sending email."), "danger")
+        else:
+            flash(INTERNAL_ERROR_MSG, "danger")
+
+    return render_template("user_send_custom_email.html", title=title, form=form)
 
 
 @blueprint.route("/reset_password", methods=['GET', 'POST'])

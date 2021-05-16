@@ -27,3 +27,10 @@ class MessageGenerator:
                       html=render_template("mail/welcome.html", token=token, user=user)
                       )
         return msg
+
+    def custom(self, subject, text):
+        msg = Message(subject=subject,
+                      recipients=self.emails,
+                      html=render_template("mail/custom.html", text=text)
+                      )
+        return msg

@@ -9,7 +9,7 @@ from ..database import db_session
 from ..models.polls import Poll
 from ..models.users import User, generate_password, ModeratorGroup, get_group
 from ..schemas.polls import PollSchema
-from ..schemas.users import UserSchema, UserChangePasswordSchema, UserChangePointsSchema
+from ..schemas.users import UserSchema, UserChangePasswordSchema, UserChangePointsSchema, CustomEmailSchema
 from ..tools import errors
 from ..tools.decorators import guest_required, user_required, moderator_required, admin_required
 from ..tools.response import make_success_message
@@ -316,6 +316,29 @@ class UserPollsResource(Resource):
         })
 
 
+class SendCustomEmailResource(Resource):
+    @admin_required()
+    def post(self, username):
+        data = request.get_json()
+        try:
+            CustomEmailSchema().load(data)
+        except ValidationError as e:
+            raise errors.InvalidRequestError(e.messages)
+
+        session = db_session.create_session()
+
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            raise errors.UserNotFoundError
+
+        try:
+            mail.send(MessageGenerator(user.email).custom(**data))
+        except Exception as e:
+            raise errors.SendingEmailError
+
+        return make_success_message()
+
+
 class UserRegisterResource(Resource):
     def post(self):
         data = request.get_json()
@@ -455,6 +478,7 @@ api.add_resource(UserUnbanResource, "/users/<username>/unban")
 api.add_resource(UserChangeGroupResource, "/users/<username>/change_group")
 api.add_resource(UserChangePointsResource, "/users/<username>/change_points")
 api.add_resource(UserPollsResource, "/users/<username>/polls")
+api.add_resource(SendCustomEmailResource, "/users/<username>/send_email")
 api.add_resource(UserRegisterResource, "/register")
 api.add_resource(UserLoginResource, "/login")
 api.add_resource(UserSendResetPasswordEmailResource, "/send_reset_password_email")

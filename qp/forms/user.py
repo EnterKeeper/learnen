@@ -43,6 +43,12 @@ class UserProfileForm(FlaskForm):
     submit = SubmitField(lazy_gettext("Update"))
 
 
+class UserSendCustomEmailForm(FlaskForm):
+    subject = StringField(lazy_gettext("Subject"), validators=[DataRequired()])
+    text = TextAreaField(lazy_gettext("Text"), validators=[DataRequired()])
+    submit = SubmitField(lazy_gettext("Send email"))
+
+
 class UserEmailForm(FlaskForm):
     email = EmailField(lazy_gettext("Email"), validators=[DataRequired(), Email()])
     submit = SubmitField(lazy_gettext("Update"))

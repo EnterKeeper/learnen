@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 02:50+0300\n"
+"POT-Creation-Date: 2021-05-16 03:39+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -20,8 +20,8 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 
 #: api/tools/mail.py:11 templates/reset_password.html:5
-#: templates/send_reset_password_email.html:5 views/users.py:427
-#: views/users.py:464
+#: templates/send_reset_password_email.html:5 views/users.py:459
+#: views/users.py:496
 msgid "Reset password"
 msgstr "Восстановление пароля"
 
@@ -49,8 +49,8 @@ msgstr "Приватный (доступен только по ссылке)"
 msgid "Create"
 msgstr "Создать"
 
-#: forms/poll.py:22 forms/poll.py:37 forms/user.py:43 forms/user.py:48
-#: forms/user.py:56 forms/user.py:61 forms/user.py:68
+#: forms/poll.py:22 forms/poll.py:37 forms/user.py:43 forms/user.py:54
+#: forms/user.py:62 forms/user.py:67 forms/user.py:74
 msgid "Update"
 msgstr "Обновить"
 
@@ -70,8 +70,8 @@ msgstr "Комментарий"
 msgid "Leave comment"
 msgstr "Прокоммментировать"
 
-#: forms/user.py:12 forms/user.py:21 forms/user.py:27 forms/user.py:47
-#: templates/account_settings.html:18 templates/user_info.html:81
+#: forms/user.py:12 forms/user.py:21 forms/user.py:27 forms/user.py:53
+#: templates/account_settings.html:18 templates/user_info.html:84
 msgid "Email"
 msgstr ""
 
@@ -100,11 +100,11 @@ msgstr "Войти"
 msgid "Submit"
 msgstr "Подтвердить"
 
-#: forms/user.py:32 forms/user.py:53
+#: forms/user.py:32 forms/user.py:59
 msgid "New password"
 msgstr "Новый пароль"
 
-#: forms/user.py:33 forms/user.py:54
+#: forms/user.py:33 forms/user.py:60
 msgid "Repeat new password"
 msgstr "Повторите новый пароль"
 
@@ -116,27 +116,40 @@ msgstr "Аватар"
 msgid "Bio"
 msgstr "Информация о себе"
 
-#: forms/user.py:52
+#: forms/user.py:47
+msgid "Subject"
+msgstr "Тема"
+
+#: forms/user.py:48
+msgid "Text"
+msgstr "Текст"
+
+#: forms/user.py:49 templates/user_info.html:46
+#: templates/user_send_custom_email.html:5 views/users.py:424
+msgid "Send email"
+msgstr "Отправить письмо"
+
+#: forms/user.py:58
 msgid "Old password"
 msgstr "Старый пароль"
 
-#: forms/user.py:60 templates/user_info.html:79
+#: forms/user.py:66 templates/user_info.html:82
 msgid "Group"
 msgstr "Группа"
 
-#: forms/user.py:65 templates/points.html:12
+#: forms/user.py:71 templates/points.html:12
 msgid "Action"
 msgstr "Действие"
 
-#: forms/user.py:66
+#: forms/user.py:72
 msgid "Deduct"
 msgstr "Вычесть"
 
-#: forms/user.py:66
+#: forms/user.py:72
 msgid "Add"
 msgstr "Добавить"
 
-#: forms/user.py:67
+#: forms/user.py:73
 msgid "Count"
 msgstr "Количество"
 
@@ -160,7 +173,7 @@ msgstr "Опросы"
 msgid "Verification"
 msgstr "Верификация"
 
-#: templates/base.html:53 templates/points.html:13 templates/user_info.html:89
+#: templates/base.html:53 templates/points.html:13 templates/user_info.html:92
 #: templates/users_list.html:26 views/default.py:23
 msgid "Points"
 msgstr "Баллы"
@@ -310,7 +323,7 @@ msgstr " "
 msgid "There are no comments here yet. Be the first."
 msgstr "Здесь пока нет комментариев. Будьте первыми."
 
-#: templates/polls.html:8 templates/user_info.html:100
+#: templates/polls.html:8 templates/user_info.html:103
 msgid "There are no polls"
 msgstr "Опросов еще нет"
 
@@ -362,43 +375,43 @@ msgstr "Редактировать профиль"
 msgid "Actions"
 msgstr "Действия"
 
-#: templates/user_info.html:38
-msgid "Verify"
-msgstr "Верифицировать"
-
-#: templates/user_info.html:44
-msgid "Cancel verification"
-msgstr "Отменить верификацию"
-
-#: templates/user_info.html:52
+#: templates/user_info.html:40
 msgid "Ban"
 msgstr "Забанить"
 
-#: templates/user_info.html:61 views/users.py:328
+#: templates/user_info.html:50
+msgid "Verify"
+msgstr "Верифицировать"
+
+#: templates/user_info.html:56
+msgid "Cancel verification"
+msgstr "Отменить верификацию"
+
+#: templates/user_info.html:64 views/users.py:328
 msgid "Change group"
 msgstr "Сменить группу"
 
-#: templates/user_info.html:69
+#: templates/user_info.html:72
 msgid "Change points count"
 msgstr "Изменить количество баллов"
 
-#: templates/user_info.html:76
+#: templates/user_info.html:79
 msgid "Additional information"
 msgstr "Дополнительная информация"
 
-#: templates/user_info.html:84
+#: templates/user_info.html:87
 msgid "Not confirmed"
 msgstr "Не подтвержден"
 
-#: templates/user_info.html:87 templates/users_list.html:23
+#: templates/user_info.html:90 templates/users_list.html:23
 msgid "Registered at"
 msgstr "Зарегистрирован"
 
-#: templates/user_info.html:98 views/users.py:366
+#: templates/user_info.html:101 views/users.py:366
 msgid "User's polls"
 msgstr "Опросы пользователя"
 
-#: templates/user_info.html:109 templates/user_manage_polls.html:21
+#: templates/user_info.html:112 templates/user_manage_polls.html:21
 msgid "Completed"
 msgstr "Завершен"
 
@@ -617,7 +630,7 @@ msgstr "Пользователь уже существует."
 msgid "Login"
 msgstr "Войти"
 
-#: views/users.py:86 views/users.py:449 views/users.py:487 views/users.py:528
+#: views/users.py:86 views/users.py:481 views/users.py:519 views/users.py:560
 msgid "User not found."
 msgstr "Пользователь не найден."
 
@@ -653,7 +666,7 @@ msgstr "Адрес электронной почты был успешно об�
 msgid "Security settings"
 msgstr "Настройки безопасности"
 
-#: views/users.py:233 views/users.py:475
+#: views/users.py:233 views/users.py:507
 msgid "Your password has been updated."
 msgstr "Пароль был успешно обновлен."
 
@@ -693,23 +706,28 @@ msgstr "Количество баллов пользователя было об
 msgid "Registered users"
 msgstr "Зарегистрированные пользователи"
 
-#: views/users.py:437 views/users.py:503
-msgid "An email with instructions has been sent. Check your mailbox."
-msgstr "Письмо с инструкциями отправлено. Проверьте почтовый ящик."
+#: views/users.py:434
+msgid "Email has been sent."
+msgstr "Письмо было успешно отправлено."
 
-#: views/users.py:451 views/users.py:489 views/users.py:511 views/users.py:530
+#: views/users.py:446 views/users.py:483 views/users.py:521 views/users.py:543
+#: views/users.py:562
 msgid "Failed sending email."
 msgstr "Не удалось отправить письмо."
 
-#: views/users.py:491 views/users.py:532
+#: views/users.py:469 views/users.py:535
+msgid "An email with instructions has been sent. Check your mailbox."
+msgstr "Письмо с инструкциями отправлено. Проверьте почтовый ящик."
+
+#: views/users.py:523 views/users.py:564
 msgid "Invalid link."
 msgstr "Срок действия ссылки истек."
 
-#: views/users.py:509
+#: views/users.py:541
 msgid "Email already confirmed."
 msgstr "Адрес электронной почты уже подтвержден."
 
-#: views/users.py:522
+#: views/users.py:554
 msgid "Email has been confirmed."
-msgstr "Адрес электронной почты был подтвержден."
+msgstr "Адрес электронной почты был успешно подтвержден."
 

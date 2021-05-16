@@ -42,6 +42,9 @@
                                 </li>
                             {% endif %}
                             {% if groups["Admin"].is_belong(current_user["group"]) %}
+                                <li><a class="dropdown-item"
+                                           href="{{ url_for("users.send_custom_email", username=user["username"]) }}">{{ _("Send email") }}</a>
+                                    </li>
                                 {% if not user["verified"] %}
                                     <li><a class="dropdown-item"
                                            href="{{ url_for("users.user_verify", username=user["username"]) }}">{{ _("Verify") }}</a>

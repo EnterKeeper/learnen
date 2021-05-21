@@ -2,6 +2,8 @@
 
 {% block content %}
     <div class="card p-4">
+        <a class="btn btn-secondary position-absolute"
+           href="{{ url_for("users.user_info", username=username) }}">{{ _("To profile") }}</a>
         <h2 class="text-center">{{ _("Change user's group") }}</h2>
         <form method="post" enctype="multipart/form-data" novalidate>
             {{ form.hidden_tag() }}

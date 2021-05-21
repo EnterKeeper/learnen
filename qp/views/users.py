@@ -358,7 +358,7 @@ def user_change_group(username):
         form.group.default = user["group"]
         form.process()
 
-    return render_template("user_change_group.html", title=title, form=form, user=user)
+    return render_template("user_change_group.html", title=title, form=form, user=user, username=username)
 
 
 @blueprint.route("/user/<username>/manage_polls")
@@ -406,7 +406,7 @@ def user_change_points(username):
         else:
             flash(INTERNAL_ERROR_MSG, "danger")
 
-    return render_template("user_change_points.html", title=title, form=form)
+    return render_template("user_change_points.html", title=title, form=form, username=username)
 
 
 @blueprint.route("/users")
@@ -449,7 +449,7 @@ def send_custom_email(username):
         else:
             flash(INTERNAL_ERROR_MSG, "danger")
 
-    return render_template("user_send_custom_email.html", title=title, form=form)
+    return render_template("user_send_custom_email.html", title=title, form=form, username=username)
 
 
 @blueprint.route("/reset_password", methods=['GET', 'POST'])

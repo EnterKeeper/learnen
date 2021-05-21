@@ -262,4 +262,4 @@ def comment_edit(poll_id, comment_id):
     if comment:
         form.text.data = comment["text"]
 
-    return render_template("comment_edit.html", title=title, form=form, comment=comment)
+    return render_template("comment_edit.html", title=title, form=form, comment=comment, poll_id=poll_id)

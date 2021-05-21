@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 03:39+0300\n"
+"POT-Creation-Date: 2021-05-21 21:33+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -20,8 +20,8 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 
 #: api/tools/mail.py:11 templates/reset_password.html:5
-#: templates/send_reset_password_email.html:5 views/users.py:459
-#: views/users.py:496
+#: templates/send_reset_password_email.html:5 views/users.py:461
+#: views/users.py:498
 msgid "Reset password"
 msgstr "Восстановление пароля"
 
@@ -71,7 +71,7 @@ msgid "Leave comment"
 msgstr "Прокоммментировать"
 
 #: forms/user.py:12 forms/user.py:21 forms/user.py:27 forms/user.py:53
-#: templates/account_settings.html:18 templates/user_info.html:84
+#: templates/account_settings.html:21 templates/user_info.html:84
 msgid "Email"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgid "Text"
 msgstr "Текст"
 
 #: forms/user.py:49 templates/user_info.html:46
-#: templates/user_send_custom_email.html:5 views/users.py:424
+#: templates/user_send_custom_email.html:7 views/users.py:426
 msgid "Send email"
 msgstr "Отправить письмо"
 
@@ -153,15 +153,20 @@ msgstr "Добавить"
 msgid "Count"
 msgstr "Количество"
 
-#: templates/account_settings.html:9 templates/base.html:116
+#: templates/account_settings.html:7 templates/user_change_group.html:6
+#: templates/user_change_points.html:6 templates/user_send_custom_email.html:6
+msgid "To profile"
+msgstr "К профилю"
+
+#: templates/account_settings.html:12 templates/base.html:116
 msgid "Account settings"
 msgstr "Настройки аккаунта"
 
-#: templates/account_settings.html:13
+#: templates/account_settings.html:16
 msgid "Profile "
 msgstr "Профиль"
 
-#: templates/account_settings.html:22
+#: templates/account_settings.html:25
 msgid "Security"
 msgstr "Безопасность"
 
@@ -207,7 +212,11 @@ msgstr "Мой профиль"
 msgid "Log out"
 msgstr "Выйти"
 
-#: templates/comment_edit.html:5 views/polls.py:237
+#: templates/comment_edit.html:6 templates/poll_edit.html:9
+msgid "Return to the poll"
+msgstr "Вернуться к опросу"
+
+#: templates/comment_edit.html:7 views/polls.py:237
 msgid "Edit comment"
 msgstr "Редактировать комментарий"
 
@@ -283,10 +292,6 @@ msgstr "Добавить вариант ответа"
 msgid "Poll not found"
 msgstr "Опрос не найден"
 
-#: templates/poll_edit.html:9
-msgid "Return to the poll"
-msgstr "Вернуться к опросу"
-
 #: templates/poll_edit.html:10
 msgid "Poll settings"
 msgstr "Настройки опроса"
@@ -335,11 +340,11 @@ msgstr "от"
 msgid "completed"
 msgstr "завершен"
 
-#: templates/user_change_group.html:5
+#: templates/user_change_group.html:7
 msgid "Change user's group"
 msgstr "Сменить группу пользователя"
 
-#: templates/user_change_points.html:5
+#: templates/user_change_points.html:7
 msgid "Change user's points"
 msgstr "Изменить количество баллов пользователя"
 
@@ -387,7 +392,7 @@ msgstr "Верифицировать"
 msgid "Cancel verification"
 msgstr "Отменить верификацию"
 
-#: templates/user_info.html:64 views/users.py:328
+#: templates/user_info.html:64 views/users.py:332
 msgid "Change group"
 msgstr "Сменить группу"
 
@@ -407,7 +412,7 @@ msgstr "Не подтвержден"
 msgid "Registered at"
 msgstr "Зарегистрирован"
 
-#: templates/user_info.html:101 views/users.py:366
+#: templates/user_info.html:101 views/users.py:370
 msgid "User's polls"
 msgstr "Опросы пользователя"
 
@@ -549,7 +554,7 @@ msgstr "Неизвестная ошибка. Попробуйте ещё раз.
 msgid "You have no rights to do this."
 msgstr "Вы не можете делать это."
 
-#: tools/settings.py:32
+#: tools/settings.py:33
 msgid "You were banned."
 msgstr "Вы были забанены."
 
@@ -562,7 +567,7 @@ msgid "Poll"
 msgstr "Опрос"
 
 #: views/polls.py:37 views/polls.py:85 views/polls.py:86 views/polls.py:146
-#: views/polls.py:147 views/polls.py:240 views/users.py:134
+#: views/polls.py:147 views/polls.py:240 views/users.py:138
 msgid "Length cannot be longer than "
 msgstr "Длина не должна превышать "
 
@@ -610,11 +615,11 @@ msgstr "Комментарий был удален."
 msgid "Comment has been updated."
 msgstr "Комментарий был успешно обновлен."
 
-#: views/users.py:27 views/users.py:132
+#: views/users.py:27 views/users.py:136
 msgid "Length must be between "
 msgstr "Длина должна быть между "
 
-#: views/users.py:28 views/users.py:133
+#: views/users.py:28 views/users.py:137
 msgid " and "
 msgstr " и "
 
@@ -630,7 +635,7 @@ msgstr "Пользователь уже существует."
 msgid "Login"
 msgstr "Войти"
 
-#: views/users.py:86 views/users.py:481 views/users.py:519 views/users.py:560
+#: views/users.py:86 views/users.py:483 views/users.py:521 views/users.py:562
 msgid "User not found."
 msgstr "Пользователь не найден."
 
@@ -642,92 +647,92 @@ msgstr "Неверный пароль."
 msgid "You have been logged out."
 msgstr "Вы вышли из аккаунта."
 
-#: views/users.py:117
+#: views/users.py:121
 msgid "User information"
 msgstr "Информация о пользователе."
 
-#: views/users.py:129
+#: views/users.py:133
 msgid "Profile settings"
 msgstr "Настройки профиля"
 
-#: views/users.py:149
+#: views/users.py:153
 msgid "Profile settings have been updated."
 msgstr "Профиль был успешно обновлен."
 
-#: views/users.py:182
+#: views/users.py:186
 msgid "Change email"
 msgstr "Сменить адрес электронной почты"
 
-#: views/users.py:193
+#: views/users.py:197
 msgid "Email has been updated."
 msgstr "Адрес электронной почты был успешно обновлен."
 
-#: views/users.py:222
+#: views/users.py:226
 msgid "Security settings"
 msgstr "Настройки безопасности"
 
-#: views/users.py:233 views/users.py:507
+#: views/users.py:237 views/users.py:509
 msgid "Your password has been updated."
 msgstr "Пароль был успешно обновлен."
 
-#: views/users.py:245
+#: views/users.py:249
 msgid "Old password is wrong."
 msgstr "Старый пароль неверный."
 
-#: views/users.py:257
+#: views/users.py:261
 msgid "User has been verified."
 msgstr "Пользователь был верифицирован."
 
-#: views/users.py:274
+#: views/users.py:278
 msgid "User's verification has been canceled."
 msgstr "Верификация пользователя была отменена."
 
-#: views/users.py:291
+#: views/users.py:295
 msgid "User has been banned."
 msgstr "Пользователь был забанен."
 
-#: views/users.py:308
+#: views/users.py:312
 msgid "User has been unbanned."
 msgstr "Пользователь был разбанен."
 
-#: views/users.py:338
+#: views/users.py:342
 msgid "User's group has been updated."
 msgstr "Группа пользователя была обновлена."
 
-#: views/users.py:383
+#: views/users.py:385
 msgid "Change points"
 msgstr "Изменить количество баллов."
 
-#: views/users.py:393
+#: views/users.py:395
 msgid "User's points has been updated."
 msgstr "Количество баллов пользователя было обновлено."
 
-#: views/users.py:413
+#: views/users.py:415
 msgid "Registered users"
 msgstr "Зарегистрированные пользователи"
 
-#: views/users.py:434
+#: views/users.py:436
 msgid "Email has been sent."
 msgstr "Письмо было успешно отправлено."
 
-#: views/users.py:446 views/users.py:483 views/users.py:521 views/users.py:543
-#: views/users.py:562
+#: views/users.py:448 views/users.py:485 views/users.py:523 views/users.py:545
+#: views/users.py:564
 msgid "Failed sending email."
 msgstr "Не удалось отправить письмо."
 
-#: views/users.py:469 views/users.py:535
+#: views/users.py:471 views/users.py:537
 msgid "An email with instructions has been sent. Check your mailbox."
 msgstr "Письмо с инструкциями отправлено. Проверьте почтовый ящик."
 
-#: views/users.py:523 views/users.py:564
+#: views/users.py:525 views/users.py:566
 msgid "Invalid link."
 msgstr "Срок действия ссылки истек."
 
-#: views/users.py:541
+#: views/users.py:543
 msgid "Email already confirmed."
 msgstr "Адрес электронной почты уже подтвержден."
 
-#: views/users.py:554
+#: views/users.py:556
 msgid "Email has been confirmed."
 msgstr "Адрес электронной почты был успешно подтвержден."
 

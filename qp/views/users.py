@@ -370,8 +370,6 @@ def user_manage_polls(username):
     title = _("User's polls")
 
     polls = ApiGet.make_request("users", username, "polls").json().get("polls")
-    if not polls:
-        return redirect(url_for("users.user_info", username=username))
     for poll in polls:
         poll["participants"] = sum([len(option["users"]) for option in poll["options"]])
     return render_template("user_manage_polls.html", title=title, polls=polls)

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, make_response, redirect
+from flask import Blueprint, render_template, make_response, redirect, url_for
 from flask_babel import _
 from flask_jwt_extended import jwt_required
 
@@ -13,8 +13,7 @@ blueprint = Blueprint(
 @blueprint.route("/")
 @jwt_required(optional=True)
 def index():
-    title = _("Quick Polls")
-    return render_template("index.html", title=title)
+    return redirect(url_for("polls.polls_list"))
 
 
 @blueprint.route("/points")

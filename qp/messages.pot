@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-21 21:33+0300\n"
+"POT-Creation-Date: 2021-05-24 21:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,12 +172,12 @@ msgstr ""
 msgid "Polls"
 msgstr ""
 
-#: templates/base.html:50 views/default.py:30
+#: templates/base.html:50 views/default.py:29
 msgid "Verification"
 msgstr ""
 
 #: templates/base.html:53 templates/points.html:13 templates/user_info.html:92
-#: templates/users_list.html:26 views/default.py:23
+#: templates/users_list.html:26 views/default.py:22
 msgid "Points"
 msgstr ""
 
@@ -216,24 +216,6 @@ msgstr ""
 
 #: templates/comment_edit.html:7 views/polls.py:237
 msgid "Edit comment"
-msgstr ""
-
-#: templates/index.html:6
-msgid "Vote Create Analyze"
-msgstr ""
-
-#: templates/index.html:7
-msgid ""
-"Whether you are a research organization\n"
-"            or just an inquisitive user, this service is right for you."
-msgstr ""
-
-#: templates/index.html:9
-msgid "Here you can easily and quickly create polls that will involve real users"
-msgstr ""
-
-#: templates/index.html:10
-msgid "or vote and get rewards."
 msgstr ""
 
 #: templates/login.html:17
@@ -533,10 +515,6 @@ msgstr ""
 
 #: tools/settings.py:33
 msgid "You were banned."
-msgstr ""
-
-#: views/default.py:16
-msgid "Quick Polls"
 msgstr ""
 
 #: views/polls.py:33

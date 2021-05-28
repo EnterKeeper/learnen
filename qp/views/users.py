@@ -364,7 +364,7 @@ def user_change_group(username):
 @blueprint.route("/user/<username>/manage_polls")
 @jwt_required()
 def user_manage_polls(username):
-    if not (current_user.username == username and ModeratorGroup.is_belong(current_user.group)):
+    if not (current_user.username == username or ModeratorGroup.is_belong(current_user.group)):
         return redirect(url_for("users.user_info", username=username))
 
     title = _("User's polls")

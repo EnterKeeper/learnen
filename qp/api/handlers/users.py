@@ -301,7 +301,7 @@ class UserChangePointsResource(Resource):
 class UserPollsResource(Resource):
     @user_required()
     def get(self, username):
-        if not (current_user.username == username and ModeratorGroup.is_belong(current_user.group)):
+        if not (current_user.username == username or ModeratorGroup.is_belong(current_user.group)):
             raise errors.AccessDeniedError
 
         session = db_session.create_session()

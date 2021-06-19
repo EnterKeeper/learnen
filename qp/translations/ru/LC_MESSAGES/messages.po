@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-24 21:58+0300\n"
+"POT-Creation-Date: 2021-06-19 10:19+0300\n"
 "PO-Revision-Date: 2021-04-21 18:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -20,8 +20,8 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 
 #: api/tools/mail.py:11 templates/reset_password.html:5
-#: templates/send_reset_password_email.html:5 views/users.py:461
-#: views/users.py:498
+#: templates/send_reset_password_email.html:5 views/users.py:462
+#: views/users.py:499
 msgid "Reset password"
 msgstr "Восстановление пароля"
 
@@ -125,7 +125,7 @@ msgid "Text"
 msgstr "Текст"
 
 #: forms/user.py:49 templates/user_info.html:46
-#: templates/user_send_custom_email.html:7 views/users.py:426
+#: templates/user_send_custom_email.html:7 views/users.py:427
 msgid "Send email"
 msgstr "Отправить письмо"
 
@@ -278,31 +278,35 @@ msgstr "Настройки опроса"
 msgid "Delete"
 msgstr "Удалить"
 
-#: templates/poll_info.html:10
+#: templates/poll_info.html:7
+msgid "Poll has been deleted"
+msgstr "Опрос был удален"
+
+#: templates/poll_info.html:12
 msgid "Poll is completed"
 msgstr "Опрос завершен"
 
-#: templates/poll_info.html:15
+#: templates/poll_info.html:17
 msgid "Edit"
 msgstr "Редактировать"
 
-#: templates/poll_info.html:18
+#: templates/poll_info.html:20
 msgid "Complete"
 msgstr "Завершить"
 
-#: templates/poll_info.html:21
+#: templates/poll_info.html:23
 msgid "Resume"
 msgstr "Возобновить"
 
-#: templates/poll_info.html:26
+#: templates/poll_info.html:28
 msgid "Created by"
 msgstr "Создал"
 
-#: templates/poll_info.html:32
+#: templates/poll_info.html:34
 msgid "at"
 msgstr " "
 
-#: templates/poll_info.html:74
+#: templates/poll_info.html:76
 msgid "There are no comments here yet. Be the first."
 msgstr "Здесь пока нет комментариев. Будьте первыми."
 
@@ -609,7 +613,7 @@ msgstr "Пользователь уже существует."
 msgid "Login"
 msgstr "Войти"
 
-#: views/users.py:86 views/users.py:483 views/users.py:521 views/users.py:562
+#: views/users.py:86 views/users.py:484 views/users.py:522 views/users.py:563
 msgid "User not found."
 msgstr "Пользователь не найден."
 
@@ -645,7 +649,7 @@ msgstr "Адрес электронной почты был успешно об�
 msgid "Security settings"
 msgstr "Настройки безопасности"
 
-#: views/users.py:237 views/users.py:509
+#: views/users.py:237 views/users.py:510
 msgid "Your password has been updated."
 msgstr "Пароль был успешно обновлен."
 
@@ -673,40 +677,40 @@ msgstr "Пользователь был разбанен."
 msgid "User's group has been updated."
 msgstr "Группа пользователя была обновлена."
 
-#: views/users.py:385
+#: views/users.py:386
 msgid "Change points"
 msgstr "Изменить количество баллов."
 
-#: views/users.py:395
+#: views/users.py:396
 msgid "User's points has been updated."
 msgstr "Количество баллов пользователя было обновлено."
 
-#: views/users.py:415
+#: views/users.py:416
 msgid "Registered users"
 msgstr "Зарегистрированные пользователи"
 
-#: views/users.py:436
+#: views/users.py:437
 msgid "Email has been sent."
 msgstr "Письмо было успешно отправлено."
 
-#: views/users.py:448 views/users.py:485 views/users.py:523 views/users.py:545
-#: views/users.py:564
+#: views/users.py:449 views/users.py:486 views/users.py:524 views/users.py:546
+#: views/users.py:565
 msgid "Failed sending email."
 msgstr "Не удалось отправить письмо."
 
-#: views/users.py:471 views/users.py:537
+#: views/users.py:472 views/users.py:538
 msgid "An email with instructions has been sent. Check your mailbox."
 msgstr "Письмо с инструкциями отправлено. Проверьте почтовый ящик."
 
-#: views/users.py:525 views/users.py:566
+#: views/users.py:526 views/users.py:567
 msgid "Invalid link."
 msgstr "Срок действия ссылки истек."
 
-#: views/users.py:543
+#: views/users.py:544
 msgid "Email already confirmed."
 msgstr "Адрес электронной почты уже подтвержден."
 
-#: views/users.py:556
+#: views/users.py:557
 msgid "Email has been confirmed."
 msgstr "Адрес электронной почты был успешно подтвержден."
 

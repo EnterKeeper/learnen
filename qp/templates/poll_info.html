@@ -3,6 +3,8 @@
 {% block content %}
 {% if not poll %}
 <div class="empty">{{ _("Poll not found") }}</div>
+{% elif poll["deleted"] %}
+<div class="empty">{{ _("Poll has been deleted") }}</div>
 {% else %}
 <div class="card p-4">
     <div class="position-relative">

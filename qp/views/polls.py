@@ -21,7 +21,7 @@ def polls_list():
     title = _("Polls")
     polls = ApiGet.make_request("polls").json().get("polls")
     if polls:
-        polls = list(filter(lambda poll: not poll["private"], polls))
+        polls = list(filter(lambda poll: not poll["private"] and not poll["deleted"], polls))
         for poll in polls:
             poll["participants"] = sum([len(option["users"]) for option in poll["options"]])
     return render_template("polls.html", title=title, polls=polls)

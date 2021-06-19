@@ -120,7 +120,7 @@ def user_info(username):
     data = ApiGet.make_request("users", username).json().get("user")
     title = _("User information")
     if data:
-        data["polls"] = list(filter(lambda poll: not poll["private"], data["polls"]))
+        data["polls"] = list(filter(lambda poll: not poll["private"] and not poll["deleted"], data["polls"]))
     return render_template("user_info.html", title=title, user=data)
 
 
@@ -370,6 +370,7 @@ def user_manage_polls(username):
     title = _("User's polls")
 
     polls = ApiGet.make_request("users", username, "polls").json().get("polls")
+    polls = list(filter(lambda poll: not poll["deleted"], polls))
     for poll in polls:
         poll["participants"] = sum([len(option["users"]) for option in poll["options"]])
     return render_template("user_manage_polls.html", title=title, polls=polls)

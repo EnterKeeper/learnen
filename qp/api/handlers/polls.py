@@ -63,7 +63,7 @@ class PollResource(Resource):
         if poll.author_id != user.id and not ModeratorGroup.is_belong(user.group):
             raise errors.AccessDeniedError
 
-        session.delete(poll)
+        poll.deleted = True
         session.commit()
 
         return make_success_message()
